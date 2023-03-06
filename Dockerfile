@@ -7,6 +7,9 @@ WORKDIR /client
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json /client/
 
+# copy yarn lock
+COPY yarn.lock /client/
+
 # copy project files and folders to the current working directory (i.e. 'client' folder)
 COPY . /client/
 
