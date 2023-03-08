@@ -87,7 +87,6 @@ const LineItem: React.FC<{
         grade_id: 0,
         tag_size: '',
         grade: id,
-        qty: 0,
         pieces_per_pack: 0,
         pack_per_bundle: 0,
         stock: 0,
