@@ -1,3 +1,4 @@
+import { getOrdersExport } from '../pages/Orders/api/order';
 import { getRawMatUsedExport } from '../pages/Rawmaterialsused/api/rawmaterialsused';
 import {
   getFinishedInventoryReport,
@@ -257,7 +258,14 @@ export const ArchiveLinks = [
     href: '/archive/exportorders',
     key: 'export_orders',
     icon: 'receipticon',
-    text: 'Export Orders',
+    text: 'Export Invoiced Active Orders',
+    onClick: getOrdersExport,
+  },
+  {
+    href: '/archive/exportarchivedorders',
+    key: 'export_orders',
+    icon: 'receipticon',
+    text: 'Export Archived Orders',
   },
   {
     href: '/archive/rawmaterialsused',

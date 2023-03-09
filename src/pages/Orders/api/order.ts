@@ -204,9 +204,33 @@ export const getIdFromTrackingNumber = async (tracking: number) => {
 };
 
 // export orders to csv
-export const getOrdersExport = async (beginDate: string, endDate: string) => {
+export const getOrdersExport = async () => {
   try {
-    const response = await orderAPI.get(`/export/${beginDate}/${endDate}`);
+    const response = await orderAPI.get(`/export`);
+    const file = new Blob([response.data.csv], { type: 'text/csv' });
+    const today = new Date();
+    //Build a URL from the file
+    const fileURL = URL.createObjectURL(file);
+    //download the file
+    const link = document.createElement('a');
+    link.href = fileURL;
+    link.setAttribute('download', `orders_${today.getTime()}.csv`);
+    link.click();
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+// export orders to csv
+export const getOrdersArchivedExport = async (
+  beginDate: string,
+  endDate: string
+) => {
+  try {
+    const response = await orderAPI.get(
+      `/archivedexport/${beginDate}/${endDate}`
+    );
     const file = new Blob([response.data.csv], { type: 'text/csv' });
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);
