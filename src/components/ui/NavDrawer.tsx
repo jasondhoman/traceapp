@@ -92,6 +92,15 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   const theme = useTheme();
   const mixins = theme.mixins.toolbar;
   const { classes, cx } = useStyles({ drawerWidth, mixins });
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const title =
+    import.meta.env.VITE_STAGING === 'true'
+      ? 'Trace Industries Staging'
+      : 'Trace Industries';
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const staging = import.meta.env.VITE_STAGING === 'true' ?? false;
 
   const { authenticated, isAdmin, links, user } = useContext(
     AuthContext
@@ -135,7 +144,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        color="primary"
+        color={!staging ? 'primary' : 'secondary'}
         elevation={0}
         className={cx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -185,7 +194,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
             alignItems="center"
           >
             <Typography variant="h6" noWrap>
-              Trace Industries
+              {title}
             </Typography>
           </Grid>
 
