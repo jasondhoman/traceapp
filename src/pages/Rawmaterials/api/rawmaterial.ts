@@ -2,21 +2,13 @@ import axios, { AxiosError } from 'axios';
 import { IRawMaterialFormData, IResponse } from '../../../@types/tracetypes';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const rawMaterialAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/rawmaterial'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/rawmaterial',
+  baseURL: config.VITE_API_ROOT + '/rawmaterial',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

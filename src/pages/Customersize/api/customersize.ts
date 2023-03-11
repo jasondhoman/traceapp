@@ -3,20 +3,12 @@ import { ICustomerSize, IResponse } from '../../../@types/tracetypes';
 import { GetAuthTokens, urlEncoded } from '../../../utils/Helpers';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
+import { config } from '../../../utils/config';
 
 const tokens = GetAuthTokens();
 
 const customersizeAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/customersize'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/customersize',
+  baseURL: config.VITE_API_ROOT + '/customersize',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

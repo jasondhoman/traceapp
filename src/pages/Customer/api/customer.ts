@@ -8,21 +8,13 @@ import DeleteResponse, {
 } from '../../../@types/tracetypes';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const customerAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/customer'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/customer',
+  baseURL: config.VITE_API_ROOT + '/customer',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

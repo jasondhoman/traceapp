@@ -5,21 +5,13 @@ import {
 } from '../../../@types/tracetypes';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const rawMaterialUsedAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/rawmaterialused'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/rawmaterialused',
+  baseURL: config.VITE_API_ROOT + '/rawmaterialused',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

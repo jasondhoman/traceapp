@@ -1,19 +1,11 @@
 import axios, { AxiosError } from 'axios';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 export const reportingAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/reporting'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/reporting',
+  baseURL: config.VITE_API_ROOT + '/reporting',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

@@ -1,21 +1,14 @@
 import axios, { AxiosError } from 'axios';
 
 import { LogMessage } from '../../../@types/tracetypes';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const adminAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/',
+  timeout: 5000,
+  baseURL: config.VITE_API_ROOT + '/',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },
@@ -23,16 +16,7 @@ const adminAPI = axios.create({
 
 const loginAPI = axios.create({
   timeout: 5000,
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/',
+  baseURL: config.VITE_API_ROOT + '/',
 });
 
 export async function getLogs(date: string): Promise<LogMessage[] | undefined> {

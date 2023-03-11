@@ -2,21 +2,13 @@ import axios, { AxiosError } from 'axios';
 import { ICreditMemoFormData, IResponse } from '../../../@types/tracetypes';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
+import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const creditMemoAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/creditmemo'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/creditmemo',
+  baseURL: config.VITE_API_ROOT + '/creditmemo',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },

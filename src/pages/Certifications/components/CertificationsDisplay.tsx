@@ -23,7 +23,6 @@ import { ReducerActionType } from '../../../utils/reducers';
 
 const CertificationDisplay: React.FC<IDisplay> = ({ reducer }) => {
   const { setViewing } = useContext(StateContext) as StateContextType;
-
   const { isLoading, data: certificatons } = useQuery(
     'certifications',
     getCertificates
