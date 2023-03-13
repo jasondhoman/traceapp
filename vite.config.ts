@@ -1,10 +1,12 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint';
+import mkcert from 'vite-plugin-mkcert';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    https: true,
     port: 3000,
   },
   preview: {
@@ -13,5 +15,5 @@ export default defineConfig({
   build: {
     outDir: 'build',
   },
-  plugins: [eslint(), react()],
+  plugins: [eslint(), react(), mkcert()],
 });
