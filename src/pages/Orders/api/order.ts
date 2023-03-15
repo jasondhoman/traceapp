@@ -121,8 +121,13 @@ export const updateProductionInfo = async (body: any) => {
   return response;
 };
 
-export const getOrderTrackingIds = async () => {
+export const getOrderTrackingIdsForWeight = async () => {
   const response = await orderAPI.get('/trackingids');
+  return response.data;
+};
+
+export const getOrderTrackingIds = async () => {
+  const response = await orderAPI.get('/ordertrackingids');
   return response.data;
 };
 

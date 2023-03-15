@@ -9,7 +9,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { formatShortDate, maskDate } from '../../../utils/Helpers';
 import {
   getOrderInfoByTracking,
-  getOrderTrackingIds,
+  getOrderTrackingIdsForWeight,
 } from '../../Orders/api/order';
 import { addWeight, updateWeight } from '../api/weightstoship';
 
@@ -88,7 +88,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
 
   const getTrackingids = useCallback(async () => {
     setLoading(true);
-    const data = await getOrderTrackingIds();
+    const data = await getOrderTrackingIdsForWeight();
 
     if (data) {
       data.unshift({
