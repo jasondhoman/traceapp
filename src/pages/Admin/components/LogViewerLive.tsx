@@ -85,7 +85,7 @@ const LogViewerLive = () => {
     },
     {
       field: 'end_point',
-      headerName: 'End_point',
+      headerName: 'End Point',
       sortable: true,
       hide: true,
       width: 300,
@@ -96,7 +96,6 @@ const LogViewerLive = () => {
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
       <GridDisplay
-        hideToolbar={false}
         className={classes.root}
         density="compact"
         columns={columns}

@@ -133,7 +133,7 @@ const LogViewer = () => {
     },
     {
       field: 'end_point',
-      headerName: 'End_point',
+      headerName: 'End Point',
       sortable: true,
       hide: true,
       width: 300,
@@ -142,8 +142,13 @@ const LogViewer = () => {
   ];
 
   return (
-    <Grid container direction="row" justifyContent="center" alignItems="center">
-      <FormControl fullWidth variant="outlined" className="m-0">
+    <Grid container direction="row" justifyContent="start" alignItems="center">
+      <FormControl
+        fullWidth
+        variant="outlined"
+        className="m-0"
+        style={{ width: '30%' }}
+      >
         <InputLabel id="dateSelect">Log Date</InputLabel>
         <Select
           id="logSelect"
@@ -164,10 +169,10 @@ const LogViewer = () => {
         </Select>
       </FormControl>
       <GridDisplay
-        density="compact"
         columns={columns}
         rows={logs ?? []}
         isloading={isLoading}
+        density="compact"
       />
     </Grid>
   );
