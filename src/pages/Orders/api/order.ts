@@ -7,7 +7,7 @@ import {
 
 import { GridRowId } from '@mui/x-data-grid-pro';
 import { config } from '../../../utils/config';
-import { GetAuthTokens } from '../../../utils/Helpers';
+import { GetAuthTokens, urlEncoded } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
@@ -169,6 +169,17 @@ export const archiveOrders = async (ids: Set<GridRowId>) => {
     return response;
   } catch (error) {
     console.error(error);
+    return error;
+  }
+};
+
+// archive orders
+export const bulkArchiveOrdersByDate = async (enddate: string) => {
+  try {
+    const response = await orderAPI.get(`/bulkarchive/${urlEncoded(enddate)}`);
+    return response;
+  } catch (error) {
+    console.log(error);
     return error;
   }
 };

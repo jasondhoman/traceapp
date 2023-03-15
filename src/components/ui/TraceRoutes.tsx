@@ -83,6 +83,9 @@ const ErrorDisplay = lazy(
 const OrdersExport = lazy(
   () => import('../../pages/Reports/components/OrdersExport')
 );
+const BulkArchiveOrders = lazy(
+  () => import('../../pages/Reports/components/BulkArchiveOrders')
+);
 
 const TraceRoutes = () => {
   return (
@@ -368,6 +371,15 @@ const TraceRoutes = () => {
             <PrivateRoute
               component={DeleteByTracking}
               name="Delete By Tracking"
+            />
+          }
+        />
+        <Route
+          path="bulkarchive"
+          element={
+            <PrivateRoute
+              component={BulkArchiveOrders}
+              name="Archive By Ship Date"
             />
           }
         />

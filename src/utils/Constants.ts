@@ -274,6 +274,12 @@ export const ArchiveLinks = [
     text: 'Export Raw Materials Used',
     onClick: getRawMatUsedExport,
   },
+  {
+    href: '/archive/bulkarchive',
+    key: 'export_orders',
+    icon: 'receipticon',
+    text: 'Archived Orders by Ship Date',
+  },
 ];
 export const DashboardLinks = [
   {

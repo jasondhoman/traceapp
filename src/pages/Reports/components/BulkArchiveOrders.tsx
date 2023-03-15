@@ -1,54 +1,40 @@
 import { Container, Grid, Paper } from '@mui/material';
 import React, { useState } from 'react';
-import { formatShortDate, maskDate } from '../../../utils/Helpers';
+import { maskDate } from '../../../utils/Helpers';
 
+import { useSnackbar } from 'notistack';
 import validator from 'validator';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
-import { getOrdersArchivedExport } from '../../Orders/api/order';
+import { bulkArchiveOrdersByDate } from '../../Orders/api/order';
 
-const OrdersArchiveExport: React.FC = () => {
-  const [enddate] = useState(formatShortDate(new Date()));
+const BulkArchiveOrders: React.FC = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [reportDates, setReportDates] = useState({
-    begin_date: {
-      error: false,
-      helperText: '',
-      value: '',
-    },
-    end_date: { error: false, helperText: '', value: enddate },
+    end_date: { error: false, helperText: '', value: '' },
   });
   const clearForm = () => {
     setReportDates({
-      begin_date: {
-        error: false,
-        helperText: '',
-        value: '',
-      },
-      end_date: { error: false, helperText: '', value: enddate },
+      end_date: { error: false, helperText: '', value: '' },
     });
   };
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const beginDateString = reportDates.begin_date.value.split('T')[0];
     const endDateString = reportDates.end_date.value.split('T')[0];
-    getOrdersArchivedExport(beginDateString, endDateString);
+    const response = await bulkArchiveOrdersByDate(endDateString);
+    console.log(response);
+    if (response) {
+      enqueueSnackbar(response.data.message, { variant: 'success' });
+    } else {
+      enqueueSnackbar('Error archiving orders', { variant: 'error' });
+    }
   };
 
   const handleDateChange = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     const newOrderDate = reportDates;
 
-    if (target.name === 'begin_date') {
-      newOrderDate.begin_date.value = maskDate(target.value);
-      if (newOrderDate.begin_date.value !== '') {
-        newOrderDate.begin_date.error = !validator.isDate(target.value, {
-          format: 'MM-DD-YYYY',
-        });
-      } else {
-        newOrderDate.begin_date.error = false;
-      }
-    }
     if (target.name === 'end_date') {
       newOrderDate.end_date.value = maskDate(target.value);
       if (newOrderDate.end_date.value !== '') {
@@ -91,7 +77,7 @@ const OrdersArchiveExport: React.FC = () => {
               <TitleFragment
                 size="h3"
                 firstDivider={false}
-                title="Orders Archive Export"
+                title="Archive Orders"
               />
               <Grid
                 container
@@ -103,23 +89,7 @@ const OrdersArchiveExport: React.FC = () => {
                 rowSpacing={1}
                 columns={16}
               >
-                <GridField
-                  size="auto"
-                  error={reportDates.begin_date.error}
-                  helperText={
-                    reportDates.begin_date.error ? 'Enter a valid date' : ' '
-                  }
-                  placeholder="MM-DD-YYYY"
-                  id="begin_date"
-                  name="begin_date"
-                  margin="normal"
-                  label="Begin Date"
-                  inputProps={{
-                    maxLength: 10,
-                  }}
-                  onChange={handleDateChange}
-                  value={reportDates.begin_date.value}
-                />
+                <Grid item>Archive Orders from Ship Date</Grid>
                 <GridField
                   size="auto"
                   error={reportDates.end_date.error}
@@ -151,4 +121,4 @@ const OrdersArchiveExport: React.FC = () => {
   );
 };
 
-export default OrdersArchiveExport;
+export default BulkArchiveOrders;
