@@ -18,6 +18,7 @@ import { AuthContextType } from '../../@types/authcontext';
 import { StateContextType } from '../../@types/statecontext';
 import { AuthContext } from '../../context/AuthContext';
 import { StateContext } from '../../context/StateContext';
+import { config } from '../../utils/config';
 import GridLoading from './GridLoading';
 import { Icon } from './Icon';
 import NavAccordian from './NavAccordian';
@@ -94,10 +95,9 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { classes, cx } = useStyles({ drawerWidth, mixins });
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const title =
-    import.meta.env.VITE_STAGING === 'true'
-      ? 'Trace Industries Staging'
-      : 'Trace Industries';
+  const title = config.VITE_STAGING
+    ? 'Trace Industries Staging'
+    : 'Trace Industries';
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const staging = import.meta.env.VITE_STAGING === 'true' ?? false;
