@@ -6,7 +6,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -70,7 +70,7 @@ main {
   text-align: right !important;
 }
 
-input[type="number"] {
+input[type='number'] {
   text-align: right;
 }
 

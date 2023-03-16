@@ -51,7 +51,8 @@
     "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "prettify": "prettier --write ."
   },
   "proxy": "http://localhost:8000",
   "eslintConfig": {
