@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import {
   IPage,
   IResponse,
@@ -46,53 +46,59 @@ const Salespersons: React.FC<IPage> = ({ name }) => {
     });
   };
 
-  const getSalespersons = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
+  const getSalespersons = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
+      }
 
-    try {
-      await queryClient.fetchQuery(
-        'salesperson',
-        async () => {
-          const res: IResponse<ISalesPersonFormData> = await getSalesperson(id);
-          if (res.status === 200) {
-            dispatch({
-              type: ReducerActionType.SET_DATA,
-              payload: {
-                tab_id: 2,
-                tablabel: 'Update',
-                disabled: true,
-                data: res.data,
-              },
-            });
-            return res.data;
-          } else {
-            enqueueSnackbar(`${res.message}`, { variant: 'error' });
-            setLoading(false);
-            dispatch({
-              type: ReducerActionType.SET_ERROR,
-              payload: {
-                data: null,
-                tab_id: 1,
-                tablabel: 'Add New',
-                disabled: false,
-                id: null,
-              },
-            });
+      try {
+        await queryClient.fetchQuery(
+          'salesperson',
+          async () => {
+            const res: IResponse<ISalesPersonFormData> = await getSalesperson(
+              id
+            );
+            if (res.status === 200) {
+              dispatch({
+                type: ReducerActionType.SET_DATA,
+                payload: {
+                  tab_id: 2,
+                  tablabel: 'Update',
+                  disabled: true,
+                  data: res.data,
+                },
+              });
+              return res.data;
+            } else {
+              enqueueSnackbar(`${res.message}`, { variant: 'error' });
+              setLoading(false);
+              dispatch({
+                type: ReducerActionType.SET_ERROR,
+                payload: {
+                  data: null,
+                  tab_id: 1,
+                  tablabel: 'Add New',
+                  disabled: false,
+                  id: null,
+                },
+              });
+            }
+            return null;
+          },
+          {
+            staleTime: 30000,
           }
-          return null;
-        },
-        {
-          staleTime: 30000,
-        }
-      );
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+        );
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading, queryClient]
+  );
+
   useEffect(() => {
     queryClient.removeQueries('salesperson');
     setLoading(true);
@@ -122,7 +128,17 @@ const Salespersons: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    getSalespersons,
+    name,
+    queryClient,
+    route_id,
+    setLoading,
+    setModuleName,
+    setViewing,
+    state.id,
+  ]);
 
   return (
     <LandingPage

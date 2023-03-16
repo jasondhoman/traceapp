@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { IGradeMix, IPage, IResponse } from '../../../@types/tracetypes';
 import {
   initial_page_state,
@@ -39,44 +39,48 @@ const GradeMix: React.FC<IPage> = ({ name }) => {
     });
   };
 
-  const getGradeMixData = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const res: IResponse<IGradeMix> = await getGradeMix(id);
-      if (res.status === 200) {
-        dispatch({
-          type: ReducerActionType.SET_DATA,
-          payload: {
-            tab_id: 2,
-            tablabel: 'Update',
-            disabled: true,
-            data: res.data,
-          },
-        });
-      } else {
-        enqueueSnackbar(`${res.message}`, { variant: 'error' });
-        setLoading(false);
-        dispatch({
-          type: ReducerActionType.SET_ERROR,
-          payload: {
-            data: null,
-            tab_id: 1,
-            tablabel: 'Add New',
-            disabled: false,
-            id: null,
-          },
-        });
+  const getGradeMixData = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+      setLoading(true);
+
+      try {
+        const res: IResponse<IGradeMix> = await getGradeMix(id);
+        if (res.status === 200) {
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: res.data,
+            },
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          setLoading(false);
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading]
+  );
+
   useEffect(() => {
     setLoading(true);
     if (name) {
@@ -104,7 +108,15 @@ const GradeMix: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    getGradeMixData,
+    name,
+    route_id,
+    setLoading,
+    setModuleName,
+    state.id,
+  ]);
 
   return (
     <LandingPage

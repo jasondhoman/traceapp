@@ -161,7 +161,7 @@ const RawMaterialForm: React.FC<IRawMaterialsForm> = ({
     }
     setLoading(false);
     getCurrentRawmaterials();
-  }, [id]);
+  }, [id, prop_raw_material, setLoading]);
 
   return (
     <Paper

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import {
   IPage,
   IResponse,
@@ -50,47 +50,51 @@ const WeightsPage: React.FC<IPage> = ({ name }) => {
     });
   };
 
-  const getWeightData = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const res: IResponse<IWeightsToShipOut> = await getWeight(id);
-
-      if (res.status === 200) {
-        dispatch({
-          type: ReducerActionType.SET_DATA,
-          payload: {
-            tab_id: 2,
-            tablabel: 'Update',
-            disabled: true,
-            data: res.data,
-            id: res.data?.tracking,
-          },
-        });
-        return res.data;
-      } else {
-        enqueueSnackbar(`${res.message}`, { variant: 'error' });
-        setLoading(false);
-        dispatch({
-          type: ReducerActionType.SET_ERROR,
-          payload: {
-            data: null,
-            tab_id: 1,
-            tablabel: 'Add New',
-            disabled: false,
-            id: null,
-          },
-        });
+  const getWeightData = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+      setLoading(true);
+
+      try {
+        const res: IResponse<IWeightsToShipOut> = await getWeight(id);
+
+        if (res.status === 200) {
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: res.data,
+              id: res.data?.tracking,
+            },
+          });
+          return res.data;
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          setLoading(false);
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading]
+  );
+
   useEffect(() => {
     queryClient.removeQueries('weight');
     setLoading(true);
@@ -115,7 +119,14 @@ const WeightsPage: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    getWeightData,
+    queryClient,
+    route_id,
+    setLoading,
+    state.id,
+  ]);
 
   return (
     <LandingPage

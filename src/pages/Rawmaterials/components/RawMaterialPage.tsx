@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import {
   IPage,
   IRawMaterialFormData,
@@ -45,45 +45,48 @@ const RawMaterial: React.FC<IPage> = ({ name }) => {
       },
     });
   };
-  const getRawMaterials = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const res: IResponse<IRawMaterialFormData> = await getRawMaterial(id);
-      if (res.status === 200) {
-        dispatch({
-          type: ReducerActionType.SET_DATA,
-          payload: {
-            tab_id: 2,
-            tablabel: 'Update',
-            disabled: true,
-            data: res.data,
-          },
-        });
-      } else {
-        enqueueSnackbar(`${res.message}`, { variant: 'error' });
-        dispatch({
-          type: ReducerActionType.SET_ERROR,
-          payload: {
-            data: null,
-            tab_id: 1,
-            tablabel: 'Add New',
-            disabled: false,
-            id: null,
-          },
-        });
+  const getRawMaterials = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
       }
-    } catch (err) {
-      enqueueSnackbar('Error Retrieving Data' + err, { variant: 'error' });
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      setLoading(true);
+
+      try {
+        const res: IResponse<IRawMaterialFormData> = await getRawMaterial(id);
+        if (res.status === 200) {
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: res.data,
+            },
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+      } catch (err) {
+        enqueueSnackbar('Error Retrieving Data' + err, { variant: 'error' });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [enqueueSnackbar, setLoading]
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -113,7 +116,16 @@ const RawMaterial: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    getRawMaterials,
+    name,
+    queryClient,
+    route_id,
+    setLoading,
+    setModuleName,
+    state.id,
+  ]);
 
   return (
     <LandingPage

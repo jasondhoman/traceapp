@@ -100,7 +100,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
       setSelected(data[0].label);
     }
     setLoading(false);
-  }, []);
+  }, [setLoading]);
 
   const populateArray = useCallback((qty: number) => {
     const w: number[] = [];
@@ -232,7 +232,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
     }
 
     setLoading(false);
-  }, [prop_ship]);
+  }, [getTrackingids, prop_ship, setLoading]);
 
   return (
     <Paper

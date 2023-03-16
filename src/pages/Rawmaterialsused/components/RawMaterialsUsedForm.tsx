@@ -139,7 +139,11 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
         return { ...prev, cost: 0 };
       });
     }
-  }, [rawmaterialused.qty]);
+  }, [
+    rawmaterialused.average_weight,
+    rawmaterialused.price,
+    rawmaterialused.qty,
+  ]);
 
   const handleChangeDescription = (id: number) => {
     // const target = e.target as HTMLSelectElement;
@@ -164,7 +168,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
     }
   };
 
-  const getRawMaterialsData = async () => {
+  const getRawMaterialsData = useCallback(async () => {
     const data = await queryClient.fetchQuery<IRawMaterials[]>(
       `raw_mats`,
       getRawMaterials
@@ -172,7 +176,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
     if (data) {
       setRawMaterials(data);
     }
-  };
+  }, [queryClient]);
 
   const ClearForm = () => {
     setRawMaterialUsed(default_schema);
@@ -215,7 +219,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
       setInit(false);
     }
     setLoading(false);
-  }, []);
+  }, [data, getRawMaterialsData, init, setLoading]);
 
   return (
     <Paper

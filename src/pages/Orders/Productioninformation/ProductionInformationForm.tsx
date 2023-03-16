@@ -77,7 +77,7 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
       setSelected(data[0].label);
     }
     setLoading(false);
-  }, []);
+  }, [setLoading]);
 
   const updateProdInfoMutation = useQueryMutation({
     mutator: updateProductionInfo,
@@ -187,12 +187,15 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
       };
     });
   }, [
-    productiondata.pieces_per_pack,
-    productiondata.qty,
-    productiondata.pack_per_bundle,
-    productiondata.price_per_piece,
-    productiondata.price_per_pound,
     productiondata.weight,
+    productiondata.price_per_pound,
+    productiondata.qty,
+    productiondata.pieces_per_pack,
+    productiondata.pack_per_bundle,
+    productiondata?.run_weight,
+    productiondata?.use_weight_for_total,
+    productiondata.price_per_piece,
+    productiondata.total_weight,
   ]);
 
   const handleTrackingChange = async (id: number) => {
@@ -201,34 +204,6 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
     if (orderID) {
       await getOrder(orderID.id);
     }
-    // if (data) {
-    //   setWeightToShip({
-    //     ...data,
-    //     company_name: data.company_name ?? '',
-    //     grade: data.grade ?? '',
-    //     tag_size: data.tag_size ?? '',
-    //     ship_date: data.ship_date
-    //       ? new Date(data.ship_date ?? '').toISOString().split('T')[0]
-    //       : '',
-    //     weights: [],
-    //     min: data.min_weight,
-    //     max: data.max_weight,
-    //   });
-    //   // format usa data from datetime
-    //   setShipDate({
-    //     error: false,
-    //     helperText: '',
-    //     value: data.ship_date
-    //       ? new Date(data.ship_date ?? '')
-    //           .toLocaleDateString('en-US')
-    //           .replace(/\//g, '-')
-    //       : '',
-    //   });
-    // }
-
-    // if (data?.qty) {
-    //   populateArray(data?.qty);
-    // }
   };
 
   useEffect(() => {
@@ -258,7 +233,7 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
         setSelected(prop_order.tracking);
       }
     });
-  }, [prop_order]);
+  }, [getTrackingids, prop_order]);
 
   return (
     <Paper
