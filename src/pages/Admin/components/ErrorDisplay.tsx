@@ -35,7 +35,7 @@ const ErrorDisplay = () => {
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [navigate, user]);
 
   const columns = [
     {

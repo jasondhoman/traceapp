@@ -124,7 +124,7 @@ const GradeMixForm: React.FC<IGradeMixForm> = ({ reducer, prop_grade_mix }) => {
       setDetails(details!.filter((detail, index) => index !== a.index));
     },
 
-    [details]
+    [details, initialLoad]
   );
 
   const addRow = () => {
@@ -168,7 +168,7 @@ const GradeMixForm: React.FC<IGradeMixForm> = ({ reducer, prop_grade_mix }) => {
       setInit(false);
     }
     setLoading(false);
-  }, [details, init, total_rows]);
+  }, [details, init, initialLoad, prop_grade_mix, setLoading, total_rows]);
 
   return (
     <Paper

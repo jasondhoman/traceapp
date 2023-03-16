@@ -1,6 +1,7 @@
 import React, {
   lazy,
   Suspense,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -53,45 +54,49 @@ const CustomerPage: React.FC<IPage> = ({ name }) => {
     });
   };
 
-  const setCustomer = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
-
-    try {
-      const res: IResponse<ICustomerFormData> = await getCustomer(id);
-      if (res.status === 200) {
-        dispatch({
-          type: ReducerActionType.SET_DATA,
-          payload: {
-            tab_id: 2,
-            tablabel: 'Update',
-            disabled: true,
-            data: id,
-          },
-        });
-        return res.data;
-      } else {
-        enqueueSnackbar(`${res.message}`, { variant: 'error' });
-        setLoading(false);
-        dispatch({
-          type: ReducerActionType.SET_ERROR,
-          payload: {
-            data: null,
-            tab_id: 1,
-            tablabel: 'Add New',
-            disabled: false,
-            id: null,
-          },
-        });
+  const setCustomer = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
       }
-      return null;
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+
+      try {
+        const res: IResponse<ICustomerFormData> = await getCustomer(id);
+        if (res.status === 200) {
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: id,
+            },
+          });
+          return res.data;
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          setLoading(false);
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+        return null;
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading]
+  );
+
   useEffect(() => {
     if (name) {
       setModuleName(name);
@@ -120,7 +125,16 @@ const CustomerPage: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    name,
+    route_id,
+    setCustomer,
+    setLoading,
+    setModuleName,
+    setViewing,
+    state.id,
+  ]);
 
   return (
     <LandingPage

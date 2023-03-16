@@ -55,7 +55,7 @@ const ErrorView: React.FC = () => {
           console.log(err);
         });
     }
-  }, [id]);
+  }, [id, navigate, user]);
 
   return (
     <Paper

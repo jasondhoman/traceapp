@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ICustomerSize, IPage, IResponse } from '../../../@types/tracetypes';
 import {
   initial_page_state,
@@ -42,53 +42,56 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
     });
   };
 
-  const getCustomersizeRecord = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
+  const getCustomersizeRecord = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
+      }
 
-    try {
-      await queryClient.fetchQuery(
-        'customersize',
-        async () => {
-          const res: IResponse<ICustomerSize> = await getCustomerSize(id);
-          if (res.status === 200) {
-            dispatch({
-              type: ReducerActionType.SET_DATA,
-              payload: {
-                tab_id: 2,
-                tablabel: 'Update',
-                disabled: true,
-                data: res.data,
-              },
-            });
-            return res.data;
-          } else {
-            enqueueSnackbar(`${res.message}`, { variant: 'error' });
-            setLoading(false);
-            dispatch({
-              type: ReducerActionType.SET_ERROR,
-              payload: {
-                data: null,
-                tab_id: 1,
-                tablabel: 'Add New',
-                disabled: false,
-                id: null,
-              },
-            });
+      try {
+        await queryClient.fetchQuery(
+          'customersize',
+          async () => {
+            const res: IResponse<ICustomerSize> = await getCustomerSize(id);
+            if (res.status === 200) {
+              dispatch({
+                type: ReducerActionType.SET_DATA,
+                payload: {
+                  tab_id: 2,
+                  tablabel: 'Update',
+                  disabled: true,
+                  data: res.data,
+                },
+              });
+              return res.data;
+            } else {
+              enqueueSnackbar(`${res.message}`, { variant: 'error' });
+              setLoading(false);
+              dispatch({
+                type: ReducerActionType.SET_ERROR,
+                payload: {
+                  data: null,
+                  tab_id: 1,
+                  tablabel: 'Add New',
+                  disabled: false,
+                  id: null,
+                },
+              });
+            }
+            return null;
+          },
+          {
+            staleTime: 30000,
           }
-          return null;
-        },
-        {
-          staleTime: 30000,
-        }
-      );
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+        );
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading, queryClient]
+  );
   useEffect(() => {
     setLoading(true);
     if (name) {
@@ -117,7 +120,16 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    enqueueSnackbar,
+    getCustomersizeRecord,
+    name,
+    queryClient,
+    route_id,
+    setLoading,
+    setModuleName,
+    state.id,
+  ]);
 
   return (
     <LandingPage

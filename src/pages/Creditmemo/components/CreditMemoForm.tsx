@@ -135,7 +135,7 @@ const CreditMemoForm: React.FC<ICreditMemoForm> = ({
       setCustomerID(data.customer_id);
     }
     setLoading(false);
-  }, []);
+  }, [data, setLoading]);
 
   return (
     <Paper
