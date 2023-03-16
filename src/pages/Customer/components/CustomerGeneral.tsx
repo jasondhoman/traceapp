@@ -27,7 +27,7 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
   reducer,
   id,
 }) => {
-  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [disableSubmit, setDisableSubmit] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const { setLoading, handleSelectChange, setStaticValue } = useContext(
     StateContext
