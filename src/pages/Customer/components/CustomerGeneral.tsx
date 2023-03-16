@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { addCustomer, getCustomer, updateCustomer } from '../api/customer';
+import { addCustomer, updateCustomer } from '../api/customer';
 
 import { SelectChangeEvent } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AxiosResponse } from 'axios';
 import { useSnackbar } from 'notistack';
 import { AuthContextType } from '../../../@types/authcontext';
-import { CustomerContextType } from '../../../@types/customercontext';
 import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerForm } from '../../../@types/tracetypes';
 import CertificateSelect from '../../../components/form/CertificateSelect';
@@ -20,14 +19,13 @@ import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_customer } from '../../../utils/Constants';
-import { CustomerContext } from '../context/Customer.Context';
+import { useCustomerContext } from '../context/Customer.Context';
 
 const CustomerGeneral: React.FC<ICustomerForm> = ({
   setTabState,
   setValue,
-  id,
   reducer,
-  prop_customer,
+  id,
 }) => {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
@@ -42,9 +40,12 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
     setIsUpdate,
     setCustomerID,
     setContextCustomer,
-  } = useContext(CustomerContext) as CustomerContextType;
+    resetCustomerContext,
+  } = useCustomerContext();
 
-  const [customer, setCustomer] = useState(default_customer);
+  const [customer, setCustomer] = useState(
+    context_customer ?? default_customer
+  );
 
   const handleChangeText = (e: React.SyntheticEvent) => {
     setDisableSubmit(false);
@@ -127,6 +128,10 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
     } catch (error) {
       console.log(error);
       enqueueSnackbar('Error: ' + error, { variant: 'error' });
+    } finally {
+      setContextCustomer((prev) => {
+        return { ...prev, ...customer };
+      });
     }
     setLoading(false);
   };
@@ -139,22 +144,16 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
     setLoading(true);
     if (id) {
       setIsUpdate(true);
-      getCustomer(id)
-        .then((res) => {
-          if (res.data) {
-            const customerData = {
-              ...default_customer,
-              ...res.data,
-            };
-            setContextCustomer(customerData);
-            setCustomer(customerData);
-          }
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
+      setCustomerID(id);
     }
-  }, [id]);
+    setLoading(false);
+  }, [id, setCustomerID, setIsUpdate, setContextCustomer, setLoading]);
+
+  useEffect(() => {
+    if (context_customer) {
+      setCustomer(context_customer);
+    }
+  }, [context_customer]);
 
   return (
     <Grid
@@ -346,6 +345,7 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
         isUpdate={isUpdate}
         reducer={reducer}
         clear={ClearForm}
+        cancelEditClean={resetCustomerContext}
         disableSubmit={disableSubmit}
       />
     </Grid>

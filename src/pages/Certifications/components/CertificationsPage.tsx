@@ -1,6 +1,7 @@
 import React, {
   lazy,
   Suspense,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -53,43 +54,47 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
       });
   };
 
-  const GetCertification = async (id: number) => {
-    if (Number.isNaN(id)) {
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-      return;
-    }
-
-    try {
-      const res: IResponse<ICertification> = await getCertificate(id);
-      if (res.status === 200) {
-        dispatch({
-          type: ReducerActionType.SET_DATA,
-          payload: {
-            tab_id: 2,
-            tablabel: 'Update',
-            disabled: true,
-            data: res.data,
-          },
-        });
-      } else {
-        enqueueSnackbar(`${res.message}`, { variant: 'error' });
-        setLoading(false);
-        dispatch({
-          type: ReducerActionType.SET_ERROR,
-          payload: {
-            data: null,
-            tab_id: 1,
-            tablabel: 'Add New',
-            disabled: false,
-            id: null,
-          },
-        });
+  const GetCertification = useCallback(
+    async (id: number) => {
+      if (Number.isNaN(id)) {
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
-    }
-  };
+
+      try {
+        const res: IResponse<ICertification> = await getCertificate(id);
+        if (res.status === 200) {
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: res.data,
+            },
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          setLoading(false);
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
+      }
+    },
+    [enqueueSnackbar, setLoading]
+  );
+
   useEffect(() => {
     setLoading(true);
     if (name) {
@@ -118,7 +123,16 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
       });
     }
     setLoading(false);
-  }, [state.id]);
+  }, [
+    GetCertification,
+    enqueueSnackbar,
+    name,
+    route_id,
+    setLoading,
+    setModuleName,
+    setViewing,
+    state.id,
+  ]);
 
   return (
     <LandingPage

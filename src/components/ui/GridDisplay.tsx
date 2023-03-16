@@ -92,6 +92,7 @@ const GridDisplay: React.FC<IGridDisplay> = ({
       return [
         GRID_CHECKBOX_SELECTION_COL_DEF.field,
         ...columns
+          // eslint-disable-next-line array-callback-return
           .filter((c: any) => {
             if (c.pinned === 'left') {
               return c;
@@ -106,6 +107,7 @@ const GridDisplay: React.FC<IGridDisplay> = ({
     if (columns) {
       const rightArr = [
         ...columns
+          // eslint-disable-next-line array-callback-return
           .filter((c: any) => {
             if (c.pinned === 'right' && c.field !== 'actions') {
               return c;

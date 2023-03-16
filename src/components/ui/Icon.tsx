@@ -84,6 +84,6 @@ export const Icon: React.FC<IIcoString> = ({ ico_string }) => {
       default:
         setIco(<HomeIcon />);
     }
-  }, []);
+  }, [ico_string]);
   return <>{ico}</>;
 };

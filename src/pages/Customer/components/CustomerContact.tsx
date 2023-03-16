@@ -4,7 +4,6 @@ import { addContact, updateContact } from '../api/customer';
 import Grid from '@mui/material/Grid';
 import { AxiosResponse } from 'axios';
 import { AuthContextType } from '../../../@types/authcontext';
-import { CustomerContextType } from '../../../@types/customercontext';
 import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerForm } from '../../../@types/tracetypes';
 import ContactForm from '../../../components/form/ContactForm';
@@ -14,14 +13,12 @@ import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_contact } from '../../../utils/Constants';
-import { CustomerContext } from '../context/Customer.Context';
+import { useCustomerContext } from '../context/Customer.Context';
 
 const CustomerContact: React.FC<ICustomerForm> = ({
   setTabState,
   setValue,
-  id,
   reducer,
-  prop_customer,
 }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   const { setLoading } = useContext(StateContext) as StateContextType;
@@ -31,8 +28,8 @@ const CustomerContact: React.FC<ICustomerForm> = ({
     isUpdate,
     context_customer,
     setContextCustomer,
-    setIsUpdate,
-  } = useContext(CustomerContext) as CustomerContextType;
+    resetCustomerContext,
+  } = useCustomerContext();
 
   const [apContactAddress, setAPContactAddress] = useState(default_contact);
   const [shippingAddress, setShippingAddress] = useState(default_contact);
@@ -95,7 +92,6 @@ const CustomerContact: React.FC<ICustomerForm> = ({
 
   useEffect(() => {
     if (context_customer.shipping_contact || context_customer.ap_contact) {
-      setIsUpdate(true);
       if (context_customer.shipping_contact_data) {
         setShippingAddress({ ...context_customer.shipping_contact_data });
       }
@@ -103,8 +99,6 @@ const CustomerContact: React.FC<ICustomerForm> = ({
       if (context_customer.ap_contact_data) {
         setAPContactAddress({ ...context_customer.ap_contact_data });
       }
-    } else {
-      setIsUpdate(false);
     }
   }, [customer_id, context_customer]);
   return (
@@ -160,7 +154,12 @@ const CustomerContact: React.FC<ICustomerForm> = ({
           />
         </Grid>
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        cancelEditClean={resetCustomerContext}
+      />
     </Grid>
   );
 };

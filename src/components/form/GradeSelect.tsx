@@ -38,7 +38,7 @@ const GradeSelect: React.FC<IStateSelect> = ({
         changeState(s.id);
       }
     },
-    [state, changeState]
+    [grades, changeState]
   );
 
   useEffect(() => {

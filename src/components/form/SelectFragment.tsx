@@ -50,7 +50,7 @@ const SelectFragment: React.FC<ISelectFragment> = ({
         }
       });
     }
-  }, []);
+  }, [descColumn, selectOptions, state, valColumn]);
 
   return viewing ? (
     <GridField

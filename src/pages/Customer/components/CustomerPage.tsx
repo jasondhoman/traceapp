@@ -135,7 +135,7 @@ const CustomerPage: React.FC<IPage> = ({ name }) => {
         {state.tab_id === 1 ? (
           <CustomerDisplay reducer={dispatch} />
         ) : (
-          <CustomerProvider key={null} type={''} props={undefined}>
+          <CustomerProvider>
             <Customer customer={state.data} reducer={dispatch} id={state.id} />
           </CustomerProvider>
         )}

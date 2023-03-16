@@ -54,7 +54,8 @@ const CustomerSizeSelect: React.FC<ICustomerSizeSelectType> = ({
         }
       });
     }
-  }, []);
+  }, [customer_id, state]);
+
   return (
     <Grid item xs={size}>
       <AutocompleteFragment

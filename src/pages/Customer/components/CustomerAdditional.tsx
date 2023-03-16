@@ -22,14 +22,14 @@ interface ICustomerNew {
   prop_customer?: ICustomerFormData | null;
 }
 
-const CustomerNew: React.FC<ICustomerNew> = ({ reducer, prop_customer }) => {
+const CustomerNew: React.FC<ICustomerNew> = ({ reducer }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   const { setLoading } = useContext(StateContext) as StateContextType;
   const {
     customer_id,
     isUpdate,
     context_customer,
-    setIsUpdate,
+    resetCustomerContext,
     setContextCustomer,
   } = useContext(CustomerContext) as CustomerContextType;
 
@@ -127,35 +127,31 @@ const CustomerNew: React.FC<ICustomerNew> = ({ reducer, prop_customer }) => {
   };
 
   useEffect(() => {
-    if (
-      context_customer.purchasing_agent &&
-      context_customer.additional_contact1 &&
-      context_customer.additional_contact2 &&
-      context_customer.additional_contact3
-    ) {
-      setIsUpdate(true);
-      if (context_customer.purchasing_agent_data) {
-        setPurchasingAgent({ ...context_customer.purchasing_agent_data });
-      }
-      if (context_customer.additional_contact1_data) {
-        setAdditionalContactOne({
-          ...context_customer.additional_contact1_data,
-        });
-      }
-      if (context_customer.additional_contact2_data) {
-        setAdditionalContactTwo({
-          ...context_customer.additional_contact2_data,
-        });
-      }
-      if (context_customer.additional_contact3_data) {
-        setAdditionalContactThree({
-          ...context_customer.additional_contact3_data,
-        });
-      }
-    } else {
-      setIsUpdate(false);
+    if (context_customer.purchasing_agent_data) {
+      setPurchasingAgent({ ...context_customer.purchasing_agent_data });
     }
-  }, [customer_id]);
+    if (context_customer.additional_contact1_data) {
+      setAdditionalContactOne({
+        ...context_customer.additional_contact1_data,
+      });
+    }
+    if (context_customer.additional_contact2_data) {
+      setAdditionalContactTwo({
+        ...context_customer.additional_contact2_data,
+      });
+    }
+    if (context_customer.additional_contact3_data) {
+      setAdditionalContactThree({
+        ...context_customer.additional_contact3_data,
+      });
+    }
+  }, [
+    context_customer.additional_contact1_data,
+    context_customer.additional_contact2_data,
+    context_customer.additional_contact3_data,
+    context_customer.purchasing_agent_data,
+    customer_id,
+  ]);
   return (
     <Grid
       container
@@ -257,7 +253,12 @@ const CustomerNew: React.FC<ICustomerNew> = ({ reducer, prop_customer }) => {
           />
         </Grid>
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        cancelEditClean={resetCustomerContext}
+      />
     </Grid>
   );
 };

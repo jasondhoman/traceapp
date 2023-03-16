@@ -6,4 +6,5 @@ export const Certification = z.object({
   description: z.string().nullable(),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type Certification = z.infer<typeof Certification>;

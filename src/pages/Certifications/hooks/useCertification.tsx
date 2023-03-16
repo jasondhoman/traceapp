@@ -14,7 +14,7 @@ const useCertificate = (id?: number) => {
     return null;
   });
 
-  if (status == 'loading') {
+  if (status === 'loading') {
     return { loading: true };
   }
 

@@ -7,4 +7,5 @@ export type CustomerContextType = {
   setCustomerID: React.Dispatch<React.SetStateAction<number>>;
   isUpdate: boolean;
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  resetCustomerContext: () => void;
 };

@@ -4,7 +4,6 @@ import { addShippingBilling, updateShippingBilling } from '../api/customer';
 import Grid from '@mui/material/Grid';
 import { AxiosResponse } from 'axios';
 import { AuthContextType } from '../../../@types/authcontext';
-import { CustomerContextType } from '../../../@types/customercontext';
 import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerForm } from '../../../@types/tracetypes';
 import ContactForm from '../../../components/form/ContactForm';
@@ -14,14 +13,12 @@ import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_contact } from '../../../utils/Constants';
-import { CustomerContext } from '../context/Customer.Context';
+import { useCustomerContext } from '../context/Customer.Context';
 
 const CustomerAddresses: React.FC<ICustomerForm> = ({
   setTabState,
   setValue,
-  id,
   reducer,
-  prop_customer,
 }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   const { setLoading } = useContext(StateContext) as StateContextType;
@@ -30,8 +27,8 @@ const CustomerAddresses: React.FC<ICustomerForm> = ({
     setContextCustomer,
     customer_id,
     isUpdate,
-    setIsUpdate,
-  } = useContext(CustomerContext) as CustomerContextType;
+    resetCustomerContext,
+  } = useCustomerContext();
 
   const [billingAddress, setBillingAddress] = useState(default_contact);
   const [shippingAddress, setShippingAddress] = useState(default_contact);
@@ -91,15 +88,11 @@ const CustomerAddresses: React.FC<ICustomerForm> = ({
   };
 
   useEffect(() => {
-    if (context_customer.billing_address && context_customer.shipping_address) {
-      if (context_customer.shipping_address_data) {
-        setShippingAddress({ ...context_customer.shipping_address_data });
-      }
-      if (context_customer.billing_address_data) {
-        setBillingAddress({ ...context_customer.billing_address_data });
-      }
-    } else {
-      setIsUpdate(false);
+    if (context_customer.shipping_address_data) {
+      setShippingAddress({ ...context_customer.shipping_address_data });
+    }
+    if (context_customer.billing_address_data) {
+      setBillingAddress({ ...context_customer.billing_address_data });
     }
   }, [customer_id, context_customer]);
   return (
@@ -157,7 +150,12 @@ const CustomerAddresses: React.FC<ICustomerForm> = ({
           />
         </Grid>
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        cancelEditClean={resetCustomerContext}
+      />
     </Grid>
   );
 };

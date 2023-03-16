@@ -1,5 +1,5 @@
 import { Grid, Tooltip, useTheme } from '@mui/material';
-import React, { Suspense, useContext } from 'react';
+import React, { Suspense, useCallback, useContext } from 'react';
 import { AdminLinks, ArchiveLinks, ReportLinks } from '../../utils/Constants';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -111,18 +111,15 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   } = useContext(StateContext) as StateContextType;
   const [open, setOpen] = React.useState(navOpen);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = useCallback(() => {
     setNavDrawerState(true);
     setOpen(true);
-    // setInterval(() => {
-    //   setNavLoaded(true);
-    // }, 112000);
-  };
+  }, [setNavDrawerState]);
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = useCallback(() => {
     setNavDrawerState(false);
     setOpen(false);
-  };
+  }, [setNavDrawerState]);
 
   useEffect(() => {
     if (navOpen) {
@@ -131,7 +128,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
     } else {
       handleDrawerClose();
     }
-  }, [navOpen]);
+  }, [handleDrawerClose, handleDrawerOpen, navOpen, setNavLoaded]);
 
   return (
     <div className={classes.root}>

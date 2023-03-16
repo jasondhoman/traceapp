@@ -87,7 +87,7 @@ const AutocompleteFragment: React.FC<IAutocompleteFragment> = ({
         }
       });
     }
-  }, []);
+  }, [descColumn, selectOptions, state, valColumn]);
 
   return viewing ? (
     <GridField

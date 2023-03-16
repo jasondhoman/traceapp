@@ -242,7 +242,6 @@ export interface ICustomerForm {
   setValue: (event: React.SyntheticEvent | null, index: number) => void;
   id?: number | null;
   reducer: React.Dispatch<SetPageState>;
-  prop_customer?: ICustomerFormData | null;
 }
 
 interface ICustomerDisplay {
