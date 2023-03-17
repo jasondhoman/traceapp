@@ -17,7 +17,20 @@ const LoginPage = () => {
     AuthContext
   ) as AuthContextType;
   const { isLoading } = useContext(StateContext) as StateContextType;
+  const [user, setUser] = React.useState({
+    username: '',
+    password: '',
+  });
 
+  const handleChange = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    setUser({ ...user, [target.name]: target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginUser(e);
+  };
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
       <Container className="mt-2 mx-0 px-0" maxWidth="sm">
@@ -25,7 +38,7 @@ const LoginPage = () => {
           component="form"
           elevation={0}
           variant="outlined"
-          onSubmit={(e) => loginUser(e)}
+          onSubmit={handleSubmit}
           className="p-3 w-100"
         >
           <Grid item xs={16} className="py-2 my-0">
@@ -55,6 +68,8 @@ const LoginPage = () => {
               name="username"
               disabled={true}
               label="Username"
+              value={user.username}
+              onChange={handleChange}
             />
 
             <GridField
@@ -64,6 +79,8 @@ const LoginPage = () => {
               id="password"
               name="password"
               inputProps={{ type: 'password', require: true.toString() }}
+              value={user.password}
+              onChange={handleChange}
             />
 
             <Grid

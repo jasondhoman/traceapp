@@ -13,6 +13,8 @@ COPY yarn.lock /client/
 # copy project files and folders to the current working directory (i.e. 'client' folder)
 COPY . /client/
 
+CMD ["git checkout next-prev-feature"]
+
 # install project dependencies
 RUN yarn install
 
@@ -21,6 +23,7 @@ RUN yarn run build
 # test
 # EXPOSE 3000
 # CMD ["npm install -g serve", "serve -s build"]
+
 
 # Stage 2 - Build and Deploy Nginx Server
 FROM nginx
