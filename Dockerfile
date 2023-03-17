@@ -18,7 +18,7 @@ RUN yarn install
 
 # build client for production with minification
 RUN yarn run build
-
+# test
 # EXPOSE 3000
 # CMD ["npm install -g serve", "serve -s build"]
 
