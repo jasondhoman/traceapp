@@ -17,6 +17,9 @@ export default defineConfig(({ command, mode }) => {
     preview: {
       port: env.VITE_STAGING === 'false' ? 3001 : 4001,
     },
+    build: {
+      outDir: 'build',
+    },
     plugins: [eslint(), react()],
   };
 });
