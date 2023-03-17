@@ -367,6 +367,7 @@ export const setDateStringToCST = (date: string) => {
   dt.setHours(dt.getHours() - 6);
   const [dateCST, timeCST] = dt.toISOString().split('T');
   // dd-mm HH:MM:SS
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, m, d] = dateCST.split('-');
   // hours to 12 hour format
   const hours = Number(timeCST.split(':')[0]);

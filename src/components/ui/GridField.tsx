@@ -64,7 +64,7 @@ const GridField: React.FC<IGridField> = ({
   const { viewing, setStaticValue } = useContext(
     StateContext
   ) as StateContextType;
-  const [blankNumber, setNumberBlank] = useState(false);
+  const [blankNumber] = useState(false);
 
   const SetMask = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -131,7 +131,9 @@ const GridField: React.FC<IGridField> = ({
           placeholder={placeholder ?? ''}
           label={label}
           onChange={handleChange}
-          value={blankNumber ? '' : commas ? value.toLocaleString() : value}
+          value={
+            blankNumber ? '' : commas ? value.toLocaleString() : value ?? ''
+          }
           multiline={multiline ?? false}
           helperText={helperText ?? ''}
           variant={variant ? variant : viewing ? 'filled' : 'outlined'}

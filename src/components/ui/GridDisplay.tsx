@@ -68,7 +68,7 @@ const GridDisplay: React.FC<IGridDisplay> = ({
   columns,
   rows,
   isloading,
-  table = '',
+  table,
   deleteApi,
   archiveApi,
   updateColumns,
@@ -203,10 +203,6 @@ const GridDisplay: React.FC<IGridDisplay> = ({
 
     setOpen(false);
     if (archiveApi) {
-      interface IReturn {
-        in_use: number[];
-        message?: string;
-      }
       const res: AxiosResponse | undefined = await archiveApi(selectedIDs);
       if (res) {
         if (res.status === 200) {

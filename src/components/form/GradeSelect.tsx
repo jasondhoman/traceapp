@@ -13,6 +13,7 @@ interface IStateSelect {
   name?: string;
   helperText?: string;
   error?: boolean;
+  groupFirst?: string[];
 }
 
 const GradeSelect: React.FC<IStateSelect> = ({
@@ -22,12 +23,14 @@ const GradeSelect: React.FC<IStateSelect> = ({
   name,
   helperText,
   error,
+  groupFirst,
 }) => {
   //Select States
   const [grades, setGrades] = useState<AutoComplete[]>([]);
   const [selectedGrade, setSelectedGrade] = useState<AutoComplete>({
     id: 0,
     label: '',
+    group: '',
   });
 
   const updateSelected = useCallback(
@@ -46,16 +49,41 @@ const GradeSelect: React.FC<IStateSelect> = ({
       if (mixes) {
         const gradeAutocompletes: AutoComplete[] = mixes.map(
           (mix: IGradeMix) => {
+            const option = {
+              id: mix.id,
+              label: mix.grade,
+              group: '',
+            };
+            if (groupFirst) {
+              option.group = 'Other Grades';
+            }
             return {
               id: mix.id,
               label: mix.grade,
+              group:
+                groupFirst && groupFirst.includes(mix.grade)
+                  ? 'Customer Grades'
+                  : 'All Grades',
             };
           }
         );
         gradeAutocompletes.unshift({
           id: 0,
           label: '',
+          group: '',
         });
+
+        // filter 'Other Grades' to the bottom
+        gradeAutocompletes.sort((a, b) => {
+          if (a.group === 'All Grades') {
+            return 1;
+          }
+          if (b.group === 'All Grades') {
+            return -1;
+          }
+          return 0;
+        });
+
         const s = gradeAutocompletes.find((c) => c.id === state);
         if (s) {
           setSelectedGrade(s);
@@ -63,7 +91,7 @@ const GradeSelect: React.FC<IStateSelect> = ({
         setGrades(gradeAutocompletes);
       }
     });
-  }, [state]);
+  }, [groupFirst, state]);
 
   return (
     <Grid item xs={size} className="mt-2">

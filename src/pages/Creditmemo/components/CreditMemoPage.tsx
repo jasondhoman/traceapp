@@ -32,7 +32,6 @@ const CreditMemos: React.FC<ICreditMemosFC> = ({ name }) => {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const { route_id } = useParams();
-  const [tab_id, setTabId] = React.useState(1);
 
   const { setLoading, setModuleName } = useContext(
     StateContext

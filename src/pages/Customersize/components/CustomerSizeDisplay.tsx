@@ -4,37 +4,35 @@ import {
   GridColumnVisibilityModel,
 } from '@mui/x-data-grid';
 import React, { useContext, useState } from 'react';
-import { ICustomerSize, IDisplay } from '../../../@types/tracetypes';
 import {
   formatAsCurrency,
   formatShortDate,
   getLocaleStorageItem,
   setLocaleStorageItem,
 } from '../../../utils/Helpers';
-import { deleteCustomersizes, getCustomerSizes } from '../api/customersize';
+import { deleteCustomersizes } from '../api/customersize';
 
 import EditIcon from '@mui/icons-material/Edit';
 import PageviewIcon from '@mui/icons-material/Pageview';
 import { blue } from '@mui/material/colors';
-import { useQuery } from 'react-query';
 import { StateContextType } from '../../../@types/statecontext';
 import GridDisplay from '../../../components/ui/GridDisplay';
 import { StateContext } from '../../../context/StateContext';
 import { ReducerActionType } from '../../../utils/reducers';
+import { useCustomerSizeContext } from '../CustomerSizeContext';
 
-const CustomerSizeDisplay: React.FC<IDisplay> = ({ reducer }) => {
+const CustomerSizeDisplay = () => {
   const { setViewing } = useContext(StateContext) as StateContextType;
 
-  const { isLoading, data: customersizes } = useQuery<ICustomerSize[]>(
-    'customersizes',
-    getCustomerSizes
-  );
+  const { isLoading, customersizes, setGradeID, dispatch } =
+    useCustomerSizeContext();
 
   const MatEdit = (index: any) => {
     const handleEditClick = () => {
       setViewing(false);
-      if (reducer) {
-        reducer({
+      setGradeID(index.index);
+      if (dispatch) {
+        dispatch({
           type: ReducerActionType.SET_ID,
           payload: {
             id: index.index,
@@ -57,8 +55,9 @@ const CustomerSizeDisplay: React.FC<IDisplay> = ({ reducer }) => {
   const ViewItem = (index: any) => {
     const handleClick = () => {
       setViewing(true);
-      if (reducer) {
-        reducer({
+      setGradeID(index.index);
+      if (dispatch) {
+        dispatch({
           type: ReducerActionType.SET_ID,
           payload: {
             id: index.index,
@@ -346,7 +345,6 @@ const CustomerSizeDisplay: React.FC<IDisplay> = ({ reducer }) => {
     <GridDisplay
       columns={columns}
       rows={customersizes ?? []}
-      table="customersizes"
       isloading={isLoading}
       moduleName="Customer Size"
       deleteApi={deleteCustomersizes}

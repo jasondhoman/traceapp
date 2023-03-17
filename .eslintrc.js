@@ -27,23 +27,23 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
     'react-app',
-    'prettier', // Make sure this is always the last element in the array.
   ],
   plugins: ['react', 'react-hooks', 'simple-import-sort', 'prettier'],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {},
-      { usePrettierrc: true, endOfLine: 'auto' },
-    ],
+    // 'prettier/prettier': [
+    //   'error',
+    //   {},
+    //   { usePrettierrc: true, endOfLine: 'auto' },
+    // ],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     'no-restricted-syntax': [
       'warn',

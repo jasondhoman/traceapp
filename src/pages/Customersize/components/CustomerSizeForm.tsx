@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import { ReducerActionType, SetPageState } from '../../../utils/reducers';
+import { ReducerActionType } from '../../../utils/reducers';
 import {
   addCustomerSize,
   getCustomerSizeLookupByCustomer,
@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import { useQueryClient } from 'react-query';
 import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerSizeForm } from '../../../@types/tracetypes';
+import ComboBox from '../../../components/form/ComboBox';
 import CustomerSelect from '../../../components/form/CustomerSelect';
 import GradeSelect from '../../../components/form/GradeSelect';
 import FormButtons from '../../../components/ui/FormButtons';
@@ -20,16 +21,12 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_size } from '../../../utils/Constants';
+import { useCustomerSizeContext } from '../CustomerSizeContext';
 
-interface ICustomerSize {
-  prop_customer_size?: ICustomerSizeForm;
-  reducer: React.Dispatch<SetPageState>;
-}
+const CustomerSizeForm = () => {
+  const { dispatch, tagSizes, setSelectedCustomer, cancelEditCleanup, grades } =
+    useCustomerSizeContext();
 
-const CustomerSizeForm: React.FC<ICustomerSize> = ({
-  reducer,
-  prop_customer_size,
-}) => {
   const { enqueueSnackbar } = useSnackbar();
   const { setStaticValue, setLoading, handleChange } = useContext(
     StateContext
@@ -42,6 +39,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
   const [customersizes, setCustomerSizes] = useState<string[]>([]);
   const [gradeError, setGradeError] = useState(false);
   const [priceError, setPriceError] = useState(false);
+  const [selectedTagSize, setSelectedTagSize] = useState('');
 
   const addCustomerSizeMutation = useQueryMutation({
     mutator: addCustomerSize,
@@ -49,7 +47,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
     query: 'customersizes',
     errorClosure: (error: AxiosResponse<any, any>) => {
       if (error.status === 200 && !isUpdate) {
-        reducer({
+        dispatch({
           type: ReducerActionType.CANCEL,
           payload: {
             tablabel: 'Add New',
@@ -97,6 +95,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
     method: 'PUT',
     query: 'customersizes',
   });
+
   const submitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (gradeError) {
@@ -118,7 +117,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       return;
     }
 
-    const data = {
+    const body = {
       ...customersize,
       pack_per_bundle: parseInt(customersize.pack_per_bundle.toString()),
       customer_id: parseInt(customersize.customer_id.toString()),
@@ -137,19 +136,23 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       max_weight: parseFloat(
         customersize.max_weight ? customersize.max_weight.toString() : '0'
       ),
-      grade_id: isUpdate ? prop_customer_size?.id : null,
+      grade_id: isUpdate ? data?.id : null,
     };
 
     if (isUpdate) {
-      updateCustomerSizeMutation.mutate(data);
+      updateCustomerSizeMutation.mutate(body);
       queryClient.setQueryData('customersize', customersize);
     } else {
-      addCustomerSizeMutation.mutate(data);
+      addCustomerSizeMutation.mutate(body);
     }
   };
 
   const ClearForm = () => {
     setCustomerSize(default_size);
+    setGradeError(false);
+    setPriceError(false);
+    setSelectedTagSize('');
+    setSelectedCustomer(null);
   };
 
   const handleDateChange = (e: React.SyntheticEvent) => {
@@ -160,6 +163,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
 
   const handleSelectChange = async (id: number) => {
     if (!id) return;
+    setSelectedCustomer(id);
 
     const sizes = (await getCustomerSizeLookupByCustomer(id)) as {
       grade: string;
@@ -200,9 +204,12 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         ...data,
         price_date: new Date(data.price_date),
       });
+      setSelectedTagSize(data.tag_size);
+    } else {
+      setSelectedCustomer(null);
     }
     setLoading(false);
-  }, [data, setLoading]);
+  }, [data, selectedTagSize, setLoading, setSelectedCustomer]);
 
   return (
     <Paper
@@ -231,6 +238,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         <GradeSelect
           state={customersize.grade_mix_id}
           error={gradeError}
+          groupFirst={grades}
           helperText={
             gradeError ? 'Grade and Tag Size found for this customer' : ''
           }
@@ -244,8 +252,30 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             setCustomerSize((prev) => ({ ...prev, grade_mix_id: id }));
           }}
         />
-
-        <GridField
+        <Grid item xs={16} className="mt-2">
+          <ComboBox
+            id="tag_size"
+            label="Tag Size"
+            options={tagSizes}
+            onChange={(val) => {
+              setGradeError(() => {
+                if (customersizes.includes(customersize.grade_mix_id + val)) {
+                  return true;
+                }
+                return false;
+              });
+              setStaticValue('tag_size', val, setCustomerSize);
+            }}
+            value={selectedTagSize}
+            helperText={
+              gradeError ? 'Grade and Tag Size found for this customer' : ''
+            }
+            name="tag_size"
+            error={gradeError}
+            inputProps={{ maxLength: 150 }}
+          />
+        </Grid>
+        {/* <GridField
           size={16}
           fullWidth
           error={gradeError}
@@ -271,7 +301,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           }}
           value={customersize.tag_size}
           inputProps={{ maxLength: 150 }}
-        />
+        /> */}
         <GridField
           size={16}
           fullWidth
@@ -468,6 +498,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             title="Pricing and Cost"
             firstDivider={false}
           />
+
           <GridField
             size={0}
             className="px-1"
@@ -600,7 +631,13 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           helperText="Press Enter to Add New Line"
         />
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={dispatch}
+        clear={ClearForm}
+        cancelEditClean={cancelEditCleanup}
+      />
     </Paper>
   );
 };

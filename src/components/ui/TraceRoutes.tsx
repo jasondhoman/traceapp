@@ -22,9 +22,7 @@ const CreditMemo = lazy(
 const CustomerPage = lazy(
   () => import('../../pages/Customer/components/CustomerPage')
 );
-const CustomerSize = lazy(
-  () => import('../../pages/Customersize/components/CustomerSizePage')
-);
+const CustomerSize = lazy(() => import('../../pages/Customersize/index'));
 const GradeMix = lazy(
   () => import('../../pages/Grademix/components/GradeMixPage')
 );

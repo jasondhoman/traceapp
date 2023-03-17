@@ -1256,6 +1256,7 @@ export interface LogMessage {
 export interface AutoComplete {
   id: number;
   label: string | undefined;
+  group: string;
 }
 
 export interface ErrorMessage {

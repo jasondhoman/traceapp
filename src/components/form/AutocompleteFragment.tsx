@@ -111,6 +111,12 @@ const AutocompleteFragment: React.FC<IAutocompleteFragment> = ({
       value={state}
       filterOptions={filterOptions ?? undefined}
       getOptionLabel={getOptionLabel}
+      groupBy={(option: any) => {
+        if (option.group) {
+          return option.group;
+        }
+        return '';
+      }}
       onChange={(_: any, newValue: any) => {
         if (newValue) {
           changeState(newValue.id);

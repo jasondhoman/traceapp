@@ -1,5 +1,12 @@
 import { Grid, Tooltip, useTheme } from '@mui/material';
-import React, { Suspense, useCallback, useContext } from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  Suspense,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 import { AdminLinks, ArchiveLinks, ReportLinks } from '../../utils/Constants';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -84,10 +91,7 @@ const useStyles = makeStyles<{ drawerWidth: number; mixins: CSSProperties }>()(
   })
 );
 
-interface INavDrawer {
-  content: React.PropsWithChildren;
-}
-const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
+const NavDrawer: FC<PropsWithChildren> = ({ children }) => {
   const drawerWidth = 340;
   const theme = useTheme();
   const mixins = theme.mixins.toolbar;
@@ -109,7 +113,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
     navarchiveexpanded,
     setNavArchiveOpen,
   } = useContext(StateContext) as StateContextType;
-  const [open, setOpen] = React.useState(navOpen);
+  const [open, setOpen] = useState(navOpen);
 
   const handleDrawerOpen = useCallback(() => {
     setNavDrawerState(true);
