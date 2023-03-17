@@ -10,5 +10,6 @@ export const ServerConfigSchema = z.object({
 });
 
 export type ServerConfigSchema = z.infer<typeof ServerConfigSchema>;
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const config = ServerConfigSchema.parse(import.meta.env);
