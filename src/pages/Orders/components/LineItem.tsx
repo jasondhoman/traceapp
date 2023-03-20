@@ -101,7 +101,7 @@ const LineItem: React.FC<{
 
   useEffect(() => {
     setTrackingForLine(lineitem.tracking, index);
-  }, [index, lineitem.tracking, setTrackingForLine]);
+  }, []);
 
   return (
     <Grid container>
