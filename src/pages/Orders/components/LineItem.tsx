@@ -1,6 +1,6 @@
 import { Divider, Grid } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
-import { ILineItem, OrderContextType } from '../@types/OrderTypes';
+import React, { useContext, useState } from 'react';
+import { ILineItem } from '../@types/OrderTypes';
 
 import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerSize } from '../../../@types/tracetypes';
@@ -9,7 +9,7 @@ import CustomerTagSelect from '../../../components/form/CustomerTagSelect';
 import GridField from '../../../components/ui/GridField';
 import { StateContext } from '../../../context/StateContext';
 import { getCustomerSize } from '../../Customersize/api/customersize';
-import { OrderContext } from '../context/OrderContext';
+import { useOrderContext } from '../context/OrderContext';
 
 const LineItem: React.FC<{
   index: number;
@@ -17,14 +17,7 @@ const LineItem: React.FC<{
 }> = ({ index, lineitem }) => {
   const { setLoading } = useContext(StateContext) as StateContextType;
 
-  const {
-    customer_id,
-    lines,
-    // setLines,
-    updateLine,
-    setTrackingForLine,
-    setGradeForLine,
-  } = useContext(OrderContext) as OrderContextType;
+  const { customer_id, lines, updateLine, setGradeForLine } = useOrderContext();
 
   const [selectedGrade, setSelectedGrade] = useState(lineitem.grade);
 
@@ -98,10 +91,6 @@ const LineItem: React.FC<{
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    setTrackingForLine(lineitem.tracking, index);
-  }, []);
 
   return (
     <Grid container>

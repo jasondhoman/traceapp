@@ -26,8 +26,8 @@ import useQueryMutation from '../../../hooks/useQueryMutation';
 import { ReducerActionType } from '../../../utils/reducers';
 import { getCustomerShipping } from '../../Customer/api/customer';
 import { getCustomerSize } from '../../Customersize/api/customersize';
-import { ILineItem, OrderContextType } from '../@types/OrderTypes';
-import { OrderContext } from '../context/OrderContext';
+import { ILineItem } from '../@types/OrderTypes';
+import { useOrderContext } from '../context/OrderContext';
 import LineItem from './LineItem';
 import MultipleOrderForm from './MultipleOrderForm';
 
@@ -49,7 +49,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     isUpdate,
     setIsUpdate,
     // state,
-  } = useContext(OrderContext) as OrderContextType;
+  } = useOrderContext();
   // console.log(state);
   const [orderDates, setOrderDates] = useState({
     order_date: {
@@ -71,8 +71,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
   });
   const [order, setOrder] = useState<IOrderFormData>(default_order);
   const [startTracking, setStartTracking] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedGrade, setSelectedGrade] = useState(0);
 
   const queryClient = useQueryClient();
   const [newOrder, setNewOrder] = useState(customer_id ? false : true);
@@ -233,6 +231,10 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
   };
 
   const updateLines = useCallback(() => {
+    if (lines.length === 0) {
+      return [default_line];
+    }
+
     const line_def: ILineItem[] = [];
     if (customer_id === 0) {
       return [default_line];
@@ -267,7 +269,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
       }
     }
     return line_def;
-  }, [customer_id, lineCount, lines]);
+  }, [customer_id, lineCount]);
 
   useMemo(() => {
     getNextTrackingNumber().then((res) => {
@@ -304,8 +306,12 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
   }, [clearStates, newOrder, setCustomerID, setLines]);
 
   useEffect(() => {
-    setLines(updateLines());
-  }, [lineCount, setLines, updateLines]);
+    console.log('update lines');
+    const updatedLines = updateLines();
+    if (updatedLines) {
+      setLines(updatedLines);
+    }
+  }, [setLines, updateLines]);
 
   useEffect(() => {
     setupLines();
@@ -317,9 +323,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
         ship_date: prop_order.ship_date && new Date(prop_order.ship_date),
       });
 
-      if (prop_order.grade_mix_id) {
-        setSelectedGrade(prop_order.grade_mix_id ?? 0);
-      }
       setCustomerID(prop_order.customer_id);
     } else {
       setCustomerID(0);

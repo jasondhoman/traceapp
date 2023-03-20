@@ -1,20 +1,3 @@
-export interface OrderContextType {
-  customer_id: number;
-  setCustomerID: React.Dispatch<React.SetStateAction<number>>;
-  lineCount: number;
-  setLineCount: React.Dispatch<React.SetStateAction<number>>;
-  formOpen: boolean;
-  setFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  lines: ILineItem[];
-  setLines: React.Dispatch<React.SetStateAction<ILineItem[]>>;
-  clearStates: () => void;
-  isUpdate: boolean;
-  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  updateLine: (updatedLine: ILineItem, index: number) => void;
-  setTrackingForLine: (tracking: number, index: number) => void;
-  setGradeForLine: (grade: string, index: number) => void;
-}
-
 export interface ILineItem {
   tracking: number;
   grade_id: number;

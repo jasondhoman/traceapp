@@ -8,18 +8,15 @@ import {
   Divider,
   Grid,
 } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useSnackbar } from 'notistack';
 import GridField from '../../../components/ui/GridField';
-import { OrderContextType } from '../@types/OrderTypes';
-import { OrderContext } from '../context/OrderContext';
+import { useOrderContext } from '../context/OrderContext';
 
 const MultipleOrderForm = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const { formOpen, lineCount, setLineCount, setFormOpen } = useContext(
-    OrderContext
-  ) as OrderContextType;
+  const { formOpen, lineCount, setLineCount, setFormOpen } = useOrderContext();
 
   const [localLineCount, setLocLineCount] = React.useState(lineCount ?? 1);
 
