@@ -55,19 +55,9 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     order_date: {
       error: false,
       helperText: '',
-      value:
-        prop_order && prop_order.order_date
-          ? formatShortDate(prop_order.order_date)
-          : new Date().toLocaleDateString('en-US').replace(/\//g, '-'),
+      value: new Date().toLocaleDateString('en-US').replace(/\//g, '-'),
     },
-    ship_date: {
-      error: false,
-      helperText: '',
-      value:
-        prop_order && prop_order.ship_date
-          ? formatShortDate(prop_order.ship_date)
-          : '',
-    },
+    ship_date: { error: false, helperText: '', value: '' },
   });
   const [order, setOrder] = useState<IOrderFormData>(default_order);
   const [startTracking, setStartTracking] = useState(0);
@@ -267,15 +257,28 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
       }
     }
     return line_def;
-  }, [customer_id, lineCount, lines]);
+  }, [lines, lineCount]);
 
   useMemo(() => {
     getNextTrackingNumber().then((res) => {
       setStartTracking(() => res.tracking);
     });
+  }, [order.tracking]);
+
+  useEffect(() => {
+    if (newOrder) {
+      setLines([default_line]);
+      setNewOrder(false);
+      clearStates();
+      setCustomerID(0);
+    }
   }, []);
 
-  const setupLines = useCallback(() => {
+  useEffect(() => {
+    setLines(updateLines());
+  }, [lineCount]);
+
+  useEffect(() => {
     if (prop_order) {
       setLines([
         {
@@ -291,31 +294,24 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
           run_weight: prop_order.run_weight,
         },
       ]);
-    }
-  }, [prop_order, setLines]);
-
-  useEffect(() => {
-    if (newOrder) {
-      setLines([default_line]);
-      setNewOrder(false);
-      clearStates();
-      setCustomerID(0);
-    }
-  }, [clearStates, newOrder, setCustomerID, setLines]);
-
-  useEffect(() => {
-    setLines(updateLines());
-  }, [lineCount, setLines, updateLines]);
-
-  useEffect(() => {
-    setupLines();
-    if (prop_order) {
       setIsUpdate(true);
       setOrder({
         ...prop_order,
         order_date: new Date(prop_order.order_date),
         ship_date: prop_order.ship_date && new Date(prop_order.ship_date),
       });
+      const orderSetup = orderDates;
+      if (prop_order.order_date) {
+        orderSetup.order_date.value = formatShortDate(prop_order.order_date);
+      }
+      if (prop_order.ship_date) {
+        orderSetup.ship_date.value = formatShortDate(prop_order.ship_date);
+      }
+
+      setOrderDates((prev) => ({
+        ...prev,
+        ...orderSetup,
+      }));
 
       if (prop_order.grade_mix_id) {
         setSelectedGrade(prop_order.grade_mix_id ?? 0);
@@ -326,14 +322,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
       setLineCount(1);
     }
     setLoading(false);
-  }, [
-    prop_order,
-    setCustomerID,
-    setIsUpdate,
-    setLineCount,
-    setLoading,
-    setupLines,
-  ]);
+  }, [prop_order]);
 
   return (
     <Paper
