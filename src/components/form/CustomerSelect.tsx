@@ -52,7 +52,7 @@ const CustomerSelect: React.FC<ICustomerSelect> = ({
           };
         }
       );
-      customerAutoComplete.push({ id: 0, label: '' });
+      customerAutoComplete.unshift({ id: 0, label: '' });
       const s = customerAutoComplete.find((c) => c.id === id);
       if (s) {
         setSelectedCustomer(s);
