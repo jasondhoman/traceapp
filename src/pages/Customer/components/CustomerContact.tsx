@@ -68,8 +68,6 @@ const CustomerContact: React.FC<ICustomerForm> = ({
       user_id: user?.id,
     };
 
-    console.log(body);
-
     if (isUpdate) {
       updateCustomerMutation.mutate(body);
     } else {

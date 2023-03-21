@@ -72,6 +72,7 @@ const UserForm: React.FC<IPage> = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Value Change Event fired for name: ${target.name} value change ${
             prev[target.name]
@@ -120,7 +121,7 @@ const UserForm: React.FC<IPage> = () => {
       }
     } catch (error) {
       enqueueSnackbar('Error Creating User', { variant: 'error' });
-      console.log(error);
+      console.error(error);
     }
     setLoading(false);
   };

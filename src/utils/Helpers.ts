@@ -24,7 +24,6 @@ export async function GetCustomers(authTokens: AuthTokens, user: User) {
   );
   const data = await res.json();
   if (data) {
-    console.log(data);
     return data.customers;
   }
   return {};
@@ -57,7 +56,6 @@ export async function SendRequest(
     },
     body: JSON.stringify(data),
   });
-  console.log(request);
   if (request.status === 200) {
     next(true, `Successfully ${message} ${module_name}`, 'success');
   } else {
@@ -127,12 +125,13 @@ export async function GetRequest<T>(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(data);
       }
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return undefined;
 }
@@ -161,12 +160,13 @@ export async function GetRequestV2<T>(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(data);
       }
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return undefined;
 }
@@ -202,7 +202,7 @@ export function formatAsCurrency(v: string, d = 2): string {
   try {
     return `$${formatWithCommas(v)}`;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return '';
 }

@@ -18,12 +18,10 @@ const DateField: FC<{
   const [dateString, setDateString] = React.useState<string[]>([]);
 
   const handleDateChange = (e: React.SyntheticEvent) => {
-    console.log(inputEl);
     if (inputEl && inputEl.current) {
       const index = inputEl.current.selectionStart;
       const value = inputEl.current.value;
       if (index && value) {
-        console.log(index, value[index - 1]);
         const newDateString = dateString;
         newDateString[index - 1] = value[index - 1];
         setDateString(newDateString);

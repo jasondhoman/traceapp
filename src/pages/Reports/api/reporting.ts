@@ -24,7 +24,7 @@ export const getCustomerList = async () => {
     const response = await reportingAPI.get('/customers');
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -34,7 +34,7 @@ export const getSalespersonList = async () => {
     const response = await reportingAPI.get('/salespersons');
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -44,7 +44,7 @@ export const getCertificationsList = async () => {
     const response = await reportingAPI.get('/certifications');
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -62,7 +62,7 @@ export const getRawMaterialList = async () => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -80,7 +80,7 @@ export const getGradeMixList = async () => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -90,7 +90,7 @@ export const getInvoiceReport = async (id: number) => {
     const response = await reportingAPI.get(`/invoice/${id}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -122,7 +122,7 @@ export const getProductionInformation = async (id: number) => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -146,7 +146,7 @@ export const getSalesOrderDocument = async (
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -164,7 +164,7 @@ export const getFinishedInventoryReport = async () => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -185,7 +185,7 @@ export const getLinterReport = async () => {
     return response;
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -197,7 +197,7 @@ export const postLinterReport = async () => {
     return response;
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -221,7 +221,7 @@ export const getSalesCommissionReport = async (
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -245,7 +245,7 @@ export const generateBOL = async (
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -263,7 +263,7 @@ export const generateInvoice = async (id: number) => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };
@@ -281,7 +281,7 @@ export const generateCreditMemo = async (id: number) => {
     window.open(fileURL, '_blank');
     // return ;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };

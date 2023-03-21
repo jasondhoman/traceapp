@@ -33,7 +33,6 @@ const ResetPasswordPage = () => {
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(updatedUser.password);
     updatePassword(updatedUser.password)
       .then((res) => {
         if (res && res.status === 200) {
@@ -41,7 +40,7 @@ const ResetPasswordPage = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

@@ -26,7 +26,6 @@ const ETL: React.FC = () => {
     setOpen(false);
   };
   const handleSubmit = async (e: React.SyntheticEvent) => {
-    console.log(e);
     setOpen(false);
     setIsLoading(true);
     const res = await runETL();

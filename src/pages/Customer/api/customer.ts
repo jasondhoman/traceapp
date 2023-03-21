@@ -51,7 +51,7 @@ export const getCustomer = async (
   if (id !== null && id !== undefined) {
     try {
       const response = await customerAPI.get(`/${id}`);
-      console.log(response);
+
       res.status = response.status;
       res.data = response.data;
     } catch (err) {

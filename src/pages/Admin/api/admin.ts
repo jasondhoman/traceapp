@@ -47,7 +47,6 @@ export async function getLogs(date: string): Promise<LogMessage[] | undefined> {
 export async function getLogDates() {
   try {
     const response = await adminAPI.get(`logdates`);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return {};
@@ -60,13 +59,12 @@ export async function DeleteToken(id: number) {
       token: tokens?.refresh,
       id: id,
     });
-    console.log(response);
     if (response.status > 200) {
       return true;
     }
     return false;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return false;
   }
 }
@@ -86,7 +84,7 @@ export async function updateTokenData(token: string) {
     );
     return response;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -180,7 +178,7 @@ export async function getErrors() {
     const response = await adminAPI.get('errors');
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return [];
   }
 }
@@ -190,7 +188,7 @@ export async function getError(id: number) {
     const response = await adminAPI.get(`error/${id}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return {};
   }
 }
@@ -200,7 +198,7 @@ export async function getUsernames() {
     const response = await adminAPI.get('usernames');
     return response;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 }
@@ -213,7 +211,7 @@ export async function apiLoginUser(username: string, password: string) {
     });
     return response;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 }

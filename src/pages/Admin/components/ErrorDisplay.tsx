@@ -33,7 +33,7 @@ const ErrorDisplay = () => {
       .then((res) => {
         setErrors(res);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [navigate, user]);
 

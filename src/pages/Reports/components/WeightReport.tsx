@@ -33,8 +33,8 @@ const WeightReport: React.FC = () => {
         throw new Error('Not a number');
       }
       setTracking(parseInt(target.value));
-    } catch {
-      // console.log("Not a number");
+    } catch (err) {
+      console.error(err);
     }
   };
 

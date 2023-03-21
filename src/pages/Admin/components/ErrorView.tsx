@@ -52,7 +52,7 @@ const ErrorView: React.FC = () => {
           setError(error);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
   }, [id, navigate, user]);

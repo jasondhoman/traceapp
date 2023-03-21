@@ -38,7 +38,6 @@ const StateSelect: React.FC<IStateSelect> = ({
     //   setError(true);
     // }
     changeState(target.value);
-    console.log(event);
   };
 
   // const updateSelectedState = useCallback(

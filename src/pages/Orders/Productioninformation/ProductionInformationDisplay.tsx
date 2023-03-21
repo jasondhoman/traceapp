@@ -320,7 +320,6 @@ const ProductionDataDisplay: React.FC<IDisplay> = ({ reducer }) => {
   };
 
   const updatePinnedColumns = (columnModel: GridPinnedColumns) => {
-    console.log(columnModel);
     const newColumns = columns;
     newColumns.map((column: { [key: string]: any }) => {
       if (columnModel.left?.indexOf(column.field)) {

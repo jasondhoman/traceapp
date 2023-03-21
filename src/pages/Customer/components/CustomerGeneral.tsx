@@ -126,7 +126,7 @@ const CustomerGeneral: React.FC<ICustomerForm> = ({
         addCustomerMutation.mutate(data);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       enqueueSnackbar('Error: ' + error, { variant: 'error' });
     } finally {
       setContextCustomer((prev) => {

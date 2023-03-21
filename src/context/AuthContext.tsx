@@ -81,7 +81,7 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       setDashboardLinks(DashboardLinks);
       localStorage.setItem('dashboardlinks', JSON.stringify(DashboardLinks));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -157,7 +157,6 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       const res = await updateTokenData(authTokens.refresh);
       if (res?.status === 201) {
         const data = res.data;
-        console.log(data);
         const jwtdecoded = jwtDecode<JWTDecoded>(data.access);
         setAuthTokens(data);
         setUser(jwtdecoded);

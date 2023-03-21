@@ -146,10 +146,6 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
   ]);
 
   const handleChangeDescription = (id: number) => {
-    // const target = e.target as HTMLSelectElement;
-    // const id = parseInt(target.value);
-    console.log(id);
-
     if (rawMaterials && rawMaterials.length) {
       const selected = rawMaterials
         .filter((rawMaterial) => id === rawMaterial.id)

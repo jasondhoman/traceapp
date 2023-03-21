@@ -45,5 +45,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    'no-restricted-syntax': [
+      'warn',
+      {
+        selector:
+          "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
+        message: 'Unexpected property on console object was called',
+      },
+    ],
   },
 };

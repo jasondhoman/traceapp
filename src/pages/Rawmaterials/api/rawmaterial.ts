@@ -27,7 +27,7 @@ export const getRawMaterials = async () => {
     const response = await rawMaterialAPI.get('/rawmaterials');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -37,7 +37,7 @@ export const getRawMaterialsWithStock = async () => {
     const response = await rawMaterialAPI.get('/rawmaterialswithstock');
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

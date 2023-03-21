@@ -80,7 +80,6 @@ const GridDisplay: React.FC<IGridDisplay> = ({
   density,
   hideToolbar,
 }) => {
-  console.log(table);
   interface IRow {
     id: number;
   }

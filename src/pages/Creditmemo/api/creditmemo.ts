@@ -27,7 +27,7 @@ export const getCreditMemos = async () => {
     const response = await creditMemoAPI.get('/all');
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     const error = err as AxiosError;
     return error;
   }
@@ -40,9 +40,9 @@ export const getCreditMemo = async (
     const response = await creditMemoAPI.get(`/${id}`);
     return { status: response.status, data: response.data, message: null };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     const error = err as AxiosError;
-    console.log(error);
+    console.error(error);
     return { status: error.status, data: null, message: null };
   }
 };

@@ -183,6 +183,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Select Event fired for name: customer_id value change ${prev['customer_id']} 👉 ${id}`
         );

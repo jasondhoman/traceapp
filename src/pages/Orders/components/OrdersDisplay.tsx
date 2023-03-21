@@ -23,12 +23,11 @@ import { StateContextType } from '../../../@types/statecontext';
 import GridDisplay from '../../../components/ui/GridDisplay';
 import { StateContext } from '../../../context/StateContext';
 import { ReducerActionType } from '../../../utils/reducers';
-import { OrderContextType } from '../@types/OrderTypes';
-import { OrderContext } from '../context/OrderContext';
+import { useOrderContext } from '../context/OrderContext';
 
 const OrdersDisplay: React.FC<IDisplay> = ({ reducer }) => {
   const { setViewing } = useContext(StateContext) as StateContextType;
-  const { setIsUpdate } = useContext(OrderContext) as OrderContextType;
+  const { setIsUpdate } = useOrderContext();
   const { isLoading, data: orders } = useQuery<IOrder[]>('orders', getOrders);
 
   const MatEdit = (index: any) => {

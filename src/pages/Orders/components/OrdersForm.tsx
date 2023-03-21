@@ -43,7 +43,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     setIsUpdate,
     tracking,
   } = useOrderContext();
-  // console.log(state);
   const [orderDates, setOrderDates] = useState({
     order_date: {
       error: false,
@@ -144,7 +143,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
               };
             }),
         };
-        console.log(payload);
+
         if (payload.orders.length === 0) {
           throw new Error('Please add at least one line item');
         }

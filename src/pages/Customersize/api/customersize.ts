@@ -67,7 +67,7 @@ export const getCustomerTags = async (id: number, grade: string) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

@@ -106,6 +106,7 @@ const CertificationForm: React.FC<ICertification> = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Value Change Event fired for name: ${target.name} value change ${
             prev[target.name]

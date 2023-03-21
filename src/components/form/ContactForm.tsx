@@ -129,7 +129,6 @@ const ContactForm: React.FC<IContactForm> = ({
               state={state.state}
               changeState={(id) => {
                 setter((prevState: any) => {
-                  console.log(prevState);
                   return {
                     ...prevState,
                     state: id,

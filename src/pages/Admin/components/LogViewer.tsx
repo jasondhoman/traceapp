@@ -69,9 +69,9 @@ const LogViewer = () => {
               setLogs(res);
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.error(err));
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [selected]);
 

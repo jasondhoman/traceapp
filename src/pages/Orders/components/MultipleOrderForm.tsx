@@ -62,7 +62,6 @@ const MultipleOrderForm = () => {
         line_def.push(copyLine);
       }
     }
-    console.log(line_def);
     setLines(lines);
     setFormOpen(false);
   };

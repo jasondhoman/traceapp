@@ -72,7 +72,7 @@ const CreditMemos: React.FC<ICreditMemosFC> = ({ name }) => {
           'memo',
           async () => {
             const res: IResponse<ICreditMemoFormData> = await getCreditMemo(id);
-            console.log(res);
+
             if (res.status === 200) {
               dispatch({
                 type: ReducerActionType.SET_DATA,

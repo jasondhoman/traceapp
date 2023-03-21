@@ -130,6 +130,7 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Value Change Event fired for name: ${target.name} value change ${
             prev[target.name]
@@ -154,6 +155,7 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Select Event fired for name: ${target.name} value change ${
             prev[target.name]
@@ -173,6 +175,7 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Static Value Set Event fired for name: ${name} value change ${prev[name]} 👉 ${value}`
         );
@@ -188,6 +191,7 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(
           `Static Values Set Event fired for values: ${JSON.stringify(values)}`
         );

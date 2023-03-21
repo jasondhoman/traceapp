@@ -56,7 +56,6 @@ const ProductionInformation: React.FC<IPage> = ({ name }) => {
         const res: IResponse<IProductionFormData> =
           await getProductionInformation(id);
         if (res.status === 200) {
-          console.log(res.data);
           if (res.data?.missing_weight_sheet) {
             enqueueSnackbar(
               `Tracking ${res.data.tracking} is missing a weight sheet. Please create one.`,

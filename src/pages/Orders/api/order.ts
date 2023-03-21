@@ -153,7 +153,7 @@ export const getOrderInfoByTracking = async (
       return response.data;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return null;
 };
@@ -176,7 +176,7 @@ export const archiveOrders = async (ids: Set<GridRowId>) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -185,7 +185,6 @@ export const archiveOrders = async (ids: Set<GridRowId>) => {
 export const getNextTrackingNumber = async () => {
   try {
     const response = await orderAPI.get('/trackingnumber');
-    console.log(response);
     return response.data;
   } catch (error: any) {
     const err = error as AxiosError;
@@ -217,7 +216,7 @@ export const getOrdersExport = async (beginDate: string, endDate: string) => {
     link.setAttribute('download', `orders_${beginDate}_${endDate}.csv`);
     link.click();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };

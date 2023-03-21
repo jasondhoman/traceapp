@@ -57,7 +57,6 @@ const AutocompleteFragment: React.FC<IAutocompleteFragment> = ({
   const [description, setDescription] = useState('');
 
   const OptionEqualityTest = (option: AutoComplete, value: AutoComplete) => {
-    // console.log(option, value);
     return option.label === value.label || option.id === value.id;
   };
 

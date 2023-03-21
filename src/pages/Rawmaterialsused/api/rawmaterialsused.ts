@@ -110,7 +110,7 @@ export const getRawMatUsedExport = async () => {
     link.setAttribute('download', `raw_materials_used_${beginDate}.csv`);
     link.click();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };

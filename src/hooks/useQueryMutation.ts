@@ -30,6 +30,7 @@ const useQueryMutation = ({
     onMutate: (data) => {
       // log if in development mode
       if (import.meta.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-restricted-syntax
         console.log(data);
       }
     },
@@ -45,11 +46,10 @@ const useQueryMutation = ({
     onError: (error) => {
       console.error(error);
     },
-    onSettled: (error) => {
-      console.log(error?.status);
-      SendMessage(error?.status !== 200, method, moduleName);
+    onSettled: (res) => {
+      SendMessage(res?.status !== 200, method, moduleName);
       setLoading(false);
-      if (errorClosure) errorClosure(error);
+      if (errorClosure) errorClosure(res);
     },
   });
 
