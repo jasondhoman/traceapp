@@ -179,7 +179,6 @@ export const bulkArchiveOrdersByDate = async (enddate: string) => {
     const response = await orderAPI.get(`/bulkarchive/${urlEncoded(enddate)}`);
     return response;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -220,7 +219,7 @@ export const getOrdersExport = async () => {
     link.setAttribute('download', `orders_${today.getTime()}.csv`);
     link.click();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return err;
   }
 };

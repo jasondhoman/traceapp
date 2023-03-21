@@ -23,7 +23,6 @@ const BulkArchiveOrders: React.FC = () => {
     e.preventDefault();
     const endDateString = reportDates.end_date.value.split('T')[0];
     const response = await bulkArchiveOrdersByDate(endDateString);
-    console.log(response);
     if (response) {
       enqueueSnackbar(response.data.message, { variant: 'success' });
     } else {
