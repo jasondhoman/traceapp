@@ -12,11 +12,14 @@ import React, { useEffect } from 'react';
 
 import { useSnackbar } from 'notistack';
 import GridField from '../../../components/ui/GridField';
+import { default_line } from '../../../utils/Constants';
+import { ILineItem } from '../@types/OrderTypes';
 import { useOrderContext } from '../context/OrderContext';
 
 const MultipleOrderForm = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const { formOpen, lineCount, setLineCount, setFormOpen } = useOrderContext();
+  const { formOpen, lineCount, setLineCount, setFormOpen, lines, setLines } =
+    useOrderContext();
 
   const [localLineCount, setLocLineCount] = React.useState(lineCount ?? 1);
 
@@ -35,6 +38,33 @@ const MultipleOrderForm = () => {
       setLocLineCount(1);
       enqueueSnackbar('Invalid number of orders', { variant: 'error' });
     }
+  };
+
+  const handleSumbit = () => {
+    setLineCount(localLineCount > 0 ? localLineCount : 1);
+    const line_def: ILineItem[] = [];
+    let copyLine = default_line;
+    if (lines.length > 0) {
+      copyLine = {
+        ...lines[0],
+        qty: lines[0].qty ?? 0,
+        stock: lines[0].stock ?? 0,
+        pieces_per_pack: lines[0].pieces_per_pack ?? 0,
+        pack_per_bundle: lines[0].pack_per_bundle ?? 0,
+        special_instructions: lines[0].special_instructions ?? '',
+        tag_size: lines[0].tag_size ?? '',
+      };
+    }
+    for (let i = 0; i < lineCount; i++) {
+      if (lines[i]) {
+        line_def.push(lines[i]);
+      } else {
+        line_def.push(copyLine);
+      }
+    }
+    console.log(line_def);
+    setLines(lines);
+    setFormOpen(false);
   };
 
   useEffect(() => {
@@ -62,7 +92,7 @@ const MultipleOrderForm = () => {
               id="outlined-basic"
               label="Number of Orders"
               variant="outlined"
-              value={localLineCount}
+              value={localLineCount > 0 ? localLineCount : ''}
               onChange={handleChange}
               inputProps={{
                 maxLength: 2,
@@ -81,9 +111,7 @@ const MultipleOrderForm = () => {
         </Button>
         <Button
           onClick={() => {
-            setLineCount(localLineCount > 0 ? localLineCount : 1);
-            setLineCount(localLineCount > 0 ? localLineCount : 1);
-            setFormOpen(false);
+            handleSumbit();
           }}
           variant="contained"
           style={{ boxShadow: 'none' }}

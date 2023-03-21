@@ -1,15 +1,9 @@
 import { Button, Grid, Paper } from '@mui/material';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { IOrderFormData, IOrdersForm } from '../../../@types/tracetypes';
 import { default_line, default_order } from '../../../utils/Constants';
 import { formatShortDate, maskDate } from '../../../utils/Helpers';
-import { addOrder, getNextTrackingNumber, updateOrder } from '../api/order';
+import { addOrder, updateOrder } from '../api/order';
 
 import { AxiosResponse } from 'axios';
 import { useSnackbar } from 'notistack';
@@ -26,7 +20,6 @@ import useQueryMutation from '../../../hooks/useQueryMutation';
 import { ReducerActionType } from '../../../utils/reducers';
 import { getCustomerShipping } from '../../Customer/api/customer';
 import { getCustomerSize } from '../../Customersize/api/customersize';
-import { ILineItem } from '../@types/OrderTypes';
 import { useOrderContext } from '../context/OrderContext';
 import LineItem from './LineItem';
 import MultipleOrderForm from './MultipleOrderForm';
@@ -48,7 +41,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     clearStates,
     isUpdate,
     setIsUpdate,
-    // state,
+    tracking,
   } = useOrderContext();
   // console.log(state);
   const [orderDates, setOrderDates] = useState({
@@ -70,7 +63,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     },
   });
   const [order, setOrder] = useState<IOrderFormData>(default_order);
-  const [startTracking, setStartTracking] = useState(0);
 
   const queryClient = useQueryClient();
   const [newOrder, setNewOrder] = useState(customer_id ? false : true);
@@ -152,6 +144,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
               };
             }),
         };
+        console.log(payload);
         if (payload.orders.length === 0) {
           throw new Error('Please add at least one line item');
         }
@@ -230,53 +223,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     setOrderDates((prev) => ({ ...prev, ...newOrderDate }));
   };
 
-  const updateLines = useCallback(() => {
-    if (lines.length === 0) {
-      return [default_line];
-    }
-
-    const line_def: ILineItem[] = [];
-    if (customer_id === 0) {
-      return [default_line];
-    }
-    if (lineCount === undefined) {
-      for (let i = 0; i < 1; i++) {
-        if (lines[i]) {
-          line_def.push(lines[i]);
-        } else {
-          line_def.push(default_line);
-        }
-      }
-    } else {
-      let copyLine = default_line;
-      if (lines.length > 0) {
-        copyLine = {
-          ...lines[0],
-          qty: lines[0].qty ?? 0,
-          stock: lines[0].stock ?? 0,
-          pieces_per_pack: lines[0].pieces_per_pack ?? 0,
-          pack_per_bundle: lines[0].pack_per_bundle ?? 0,
-          special_instructions: lines[0].special_instructions ?? '',
-          tag_size: lines[0].tag_size ?? '',
-        };
-      }
-      for (let i = 0; i < lineCount; i++) {
-        if (lines[i]) {
-          line_def.push(lines[i]);
-        } else {
-          line_def.push(copyLine);
-        }
-      }
-    }
-    return line_def;
-  }, [customer_id, lineCount]);
-
-  useMemo(() => {
-    getNextTrackingNumber().then((res) => {
-      setStartTracking(() => res.tracking);
-    });
-  }, []);
-
   const setupLines = useCallback(() => {
     if (prop_order) {
       setLines([
@@ -296,6 +242,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     }
   }, [prop_order, setLines]);
 
+  // new order
   useEffect(() => {
     if (newOrder) {
       setLines([default_line]);
@@ -305,14 +252,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     }
   }, [clearStates, newOrder, setCustomerID, setLines]);
 
-  useEffect(() => {
-    console.log('update lines');
-    const updatedLines = updateLines();
-    if (updatedLines) {
-      setLines(updatedLines);
-    }
-  }, [setLines, updateLines]);
-
+  // update order
   useEffect(() => {
     setupLines();
     if (prop_order) {
@@ -337,6 +277,22 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     setLoading,
     setupLines,
   ]);
+
+  //line count change and duplicate last line
+  useEffect(() => {
+    if (lineCount > lines.length) {
+      const newLines = [...lines];
+      const dupedLine = { ...newLines[newLines.length - 1] };
+      for (let i = lines.length; i < lineCount; i++) {
+        newLines.push({ ...default_line, ...dupedLine });
+      }
+      setLines(newLines);
+    } else if (lineCount < lines.length) {
+      const newLines = [...lines];
+      newLines.splice(lineCount, lines.length - lineCount);
+      setLines(newLines);
+    }
+  }, [lineCount, lines, setLines]);
 
   return (
     <Paper
@@ -542,7 +498,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
               key={index}
               index={index}
               lineitem={{
-                tracking: isUpdate ? line.tracking : startTracking + index,
+                tracking: isUpdate ? line.tracking : tracking + index,
                 grade_id: line.grade_id,
                 grade_mix_id: line.grade_mix_id,
                 grade: line.grade,

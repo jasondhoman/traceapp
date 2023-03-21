@@ -1,7 +1,8 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { ILineItem } from '../@types/OrderTypes';
 
 import { default_line } from '../../../utils/Constants';
+import { getNextTrackingNumber } from '../api/order';
 
 export interface OrderContextType {
   customer_id: number;
@@ -18,7 +19,7 @@ export interface OrderContextType {
   updateLine: (updatedLine: ILineItem, index: number) => void;
   setTrackingForLine: (tracking: number, index: number) => void;
   setGradeForLine: (grade: string, index: number) => void;
-  updateLines: () => void;
+  tracking: number;
 }
 
 export const OrderContext = createContext<OrderContextType | null>(null);
@@ -29,6 +30,7 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [formOpen, setFormOpen] = useState(false);
   const [lines, setLines] = useState<ILineItem[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [tracking, setTracking] = useState(0);
 
   const clearStates = () => {
     setCustomerID(0);
@@ -70,48 +72,6 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setLines(() => updatedLines);
   };
 
-  const updateLines = useCallback(() => {
-    console.log('updateLines called');
-    if (lines.length === 0) {
-      setLines([default_line]);
-    }
-
-    const line_def: ILineItem[] = [];
-    if (customer_id === 0) {
-      setLines([default_line]);
-    }
-    if (lineCount === undefined) {
-      for (let i = 0; i < 1; i++) {
-        if (lines[i]) {
-          line_def.push(lines[i]);
-        } else {
-          line_def.push(default_line);
-        }
-      }
-    } else {
-      let copyLine = default_line;
-      if (lines.length > 0) {
-        copyLine = {
-          ...lines[0],
-          qty: lines[0].qty ?? 0,
-          stock: lines[0].stock ?? 0,
-          pieces_per_pack: lines[0].pieces_per_pack ?? 0,
-          pack_per_bundle: lines[0].pack_per_bundle ?? 0,
-          special_instructions: lines[0].special_instructions ?? '',
-          tag_size: lines[0].tag_size ?? '',
-        };
-      }
-      for (let i = 0; i < lineCount; i++) {
-        if (lines[i]) {
-          line_def.push(lines[i]);
-        } else {
-          line_def.push(copyLine);
-        }
-      }
-    }
-    setLines(line_def);
-  }, [customer_id, lineCount, lines]);
-
   const setTrackingForLine = useCallback(
     (tracking: number, index: number) => {
       const updatedLines = lines.map((line, i) => {
@@ -131,6 +91,16 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     [lines]
   );
 
+  useEffect(() => {
+    const getTracking = async () => {
+      const res = await getNextTrackingNumber();
+      if (res) {
+        setTracking(res.tracking);
+      }
+    };
+    getTracking();
+  }, []);
+
   const context_data = {
     customer_id: customer_id,
     setCustomerID: setCustomerID,
@@ -146,7 +116,7 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     updateLine: updateLine,
     setTrackingForLine: setTrackingForLine,
     setGradeForLine: setGradeForLine,
-    updateLines: updateLines,
+    tracking: tracking,
   };
 
   return (
