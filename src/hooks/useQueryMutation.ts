@@ -29,6 +29,8 @@ const useQueryMutation = ({
   const updateMutation = useMutation(mutator, {
     onMutate: (data) => {
       // log if in development mode
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       if (import.meta.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-restricted-syntax
         console.log(data);
