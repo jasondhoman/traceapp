@@ -8,7 +8,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useReducer,
   useState,
 } from 'react';
@@ -78,31 +77,6 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
     queryClient.invalidateQueries('customersizes');
   }, [queryClient]);
 
-  useMemo(() => {
-    if (selectedCustomer) {
-      const ids = customersizes?.filter(
-        (c) => c.customer_id === selectedCustomer
-      );
-      setQueueIDs(ids?.map((i) => i.id) || []);
-      const filteredTagsizes: string[] = [];
-      customersizes?.forEach((c) => {
-        if (c.customer_id === selectedCustomer) {
-          if (!filteredTagsizes.includes(c.tag_size)) {
-            filteredTagsizes.push(c.tag_size);
-          }
-          if (!grades.includes(c.grade)) {
-            setGrades((prev) => [...prev, c.grade]);
-          }
-        }
-      });
-      setTagSizes(filteredTagsizes.sort((a, b) => a.localeCompare(b)));
-    } else {
-      setQueueIDs([]);
-      setTagSizes([]);
-      setSelectedCustomer(null);
-    }
-  }, [customersizes, grades, selectedCustomer]);
-
   const getGrade = useCallback(
     async (id: number) => {
       try {
@@ -156,6 +130,28 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
     },
     [gradeID, queueIDs]
   );
+
+  useEffect(() => {
+    setQueueIDs(
+      customersizes
+        ?.filter((c) => c.customer_id === selectedCustomer)
+        ?.map((i) => i.id) || []
+    );
+    const grades: string[] = [];
+    const filteredTagsizes: string[] = [];
+    customersizes?.forEach((c) => {
+      if (c.customer_id === selectedCustomer) {
+        if (!filteredTagsizes.includes(c.tag_size)) {
+          filteredTagsizes.push(c.tag_size);
+        }
+        if (!grades.includes(c.grade)) {
+          grades.push(c.grade);
+        }
+      }
+    });
+    setGrades(grades);
+    setTagSizes(filteredTagsizes.sort((a, b) => a.localeCompare(b)));
+  }, [customersizes, selectedCustomer]);
 
   useEffect(() => {
     async function fetchData() {
