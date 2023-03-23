@@ -1,8 +1,6 @@
-import { Container } from 'react-bootstrap';
-
 import React from 'react';
 const Homepagetable: React.FC<{ name: string }> = ({ name }) => {
-  return <Container className=""></Container>;
+  return <div className=""></div>;
 };
 const HomePage = () => {
   const Components: { [index: string]: any } = {

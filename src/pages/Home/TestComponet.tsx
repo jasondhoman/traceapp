@@ -1,10 +1,8 @@
-import { Container, Table } from 'react-bootstrap';
-
 import React from 'react';
 
 const HomePageTable: React.FC<{ name: string }> = ({ name }) => {
   return (
-    <Container className="">
+    <div className="">
       {name}
       <h2>
         This will serve as a temporary Status Page. Reference this for
@@ -19,7 +17,7 @@ const HomePageTable: React.FC<{ name: string }> = ({ name }) => {
         <li>Testing</li>
         <li>Acceptance</li>
       </ul>
-      <Table striped>
+      <table>
         <thead>
           <tr>
             <th>#</th>
@@ -69,8 +67,8 @@ const HomePageTable: React.FC<{ name: string }> = ({ name }) => {
             <td>Not Started</td>
           </tr>
         </tbody>
-      </Table>
-    </Container>
+      </table>
+    </div>
   );
 };
 
