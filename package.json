@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "rm -rf build  && tsc && vite build",
-    "dev": "vite",
+    "dev": "vite --force",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
