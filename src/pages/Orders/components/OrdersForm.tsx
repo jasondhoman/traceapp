@@ -253,7 +253,6 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
 
   // update order
   useEffect(() => {
-    setupLines();
     if (prop_order) {
       setIsUpdate(true);
       setOrder({
@@ -263,6 +262,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
       });
 
       setCustomerID(prop_order.customer_id);
+      setupLines();
     } else {
       setCustomerID(0);
       setLineCount(1);
@@ -279,19 +279,21 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
 
   //line count change and duplicate last line
   useEffect(() => {
-    if (lineCount > lines.length) {
-      const newLines = [...lines];
-      const dupedLine = { ...newLines[newLines.length - 1] };
-      for (let i = lines.length; i < lineCount; i++) {
-        newLines.push({ ...default_line, ...dupedLine });
+    if (!prop_order) {
+      if (lineCount > lines.length) {
+        const newLines = [...lines];
+        const dupedLine = { ...newLines[newLines.length - 1] };
+        for (let i = lines.length; i < lineCount; i++) {
+          newLines.push({ ...default_line, ...dupedLine });
+        }
+        setLines(newLines);
+      } else if (lineCount < lines.length) {
+        const newLines = [...lines];
+        newLines.splice(lineCount, lines.length - lineCount);
+        setLines(newLines);
       }
-      setLines(newLines);
-    } else if (lineCount < lines.length) {
-      const newLines = [...lines];
-      newLines.splice(lineCount, lines.length - lineCount);
-      setLines(newLines);
     }
-  }, [lineCount, lines, setLines]);
+  }, [lineCount, lines, setLines, prop_order]);
 
   return (
     <Paper
