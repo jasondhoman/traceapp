@@ -6,9 +6,9 @@ import validator from 'validator';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
-import { getOrdersExport } from '../../Orders/api/order';
+import { getOrdersArchivedExport } from '../../Orders/api/order';
 
-const OrdersExport: React.FC = () => {
+const OrdersArchiveExport: React.FC = () => {
   const [enddate] = useState(formatShortDate(new Date()));
   const [reportDates, setReportDates] = useState({
     begin_date: {
@@ -32,7 +32,7 @@ const OrdersExport: React.FC = () => {
     e.preventDefault();
     const beginDateString = reportDates.begin_date.value.split('T')[0];
     const endDateString = reportDates.end_date.value.split('T')[0];
-    getOrdersExport();
+    getOrdersArchivedExport(beginDateString, endDateString);
   };
 
   const handleDateChange = (e: React.SyntheticEvent) => {
@@ -91,13 +91,13 @@ const OrdersExport: React.FC = () => {
               <TitleFragment
                 size="h3"
                 firstDivider={false}
-                title="Orders Export"
+                title="Orders Archive Export"
               />
               <Grid
                 container
                 direction="row"
                 className="my-2 mx-2"
-                justifyContent="space-center"
+                justifyContent="center"
                 alignItems="center"
                 columnSpacing={2}
                 rowSpacing={1}
@@ -151,4 +151,4 @@ const OrdersExport: React.FC = () => {
   );
 };
 
-export default OrdersExport;
+export default OrdersArchiveExport;

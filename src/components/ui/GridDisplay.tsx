@@ -209,16 +209,37 @@ const GridDisplay: React.FC<IGridDisplay> = ({
       }
       const res: AxiosResponse | undefined = await archiveApi(selectedIDs);
       if (res) {
-        if (res.status === 200) {
+        const return_list: IReturn = res.data;
+        if (selectedIDs.size - return_list.in_use.length > 0) {
           enqueueSnackbar(
-            res.status === 200 ? `Successfully Archived` : 'Error Archiving',
+            res.status === 200
+              ? `${
+                  selectedIDs.size - return_list.in_use.length
+                } - Records Successfully Archived`
+              : 'Error Deleting',
             {
               variant: res.status === 200 ? `success` : `error`,
             }
           );
-
+        }
+        // Only remove if we get a good response
+        if (res.status === 200) {
+          if (return_list.in_use.length > 0) {
+            enqueueSnackbar(
+              `${return_list.in_use.length} - ${
+                return_list.message ??
+                "Records were not invoiced and couldn't be archived"
+              }`,
+              {
+                variant: `info`,
+              }
+            );
+          }
+          return_list.in_use.forEach((e) => selectedIDs.delete(e));
           setRows((r: IRow[]) => r.filter((x) => !selectedIDs.has(x.id)));
-        } else {
+        }
+
+        if (res.status !== 200) {
           enqueueSnackbar('Error Archiving ' + res.status + ' return code', {
             variant: `error`,
           });

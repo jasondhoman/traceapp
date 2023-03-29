@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import React, { lazy } from 'react';
 import DeleteByTracking from '../../pages/Reports/components/DeleteByTracking';
 import GradeMixList from '../../pages/Reports/components/GradeMixListReport';
+import OrdersArchiveExport from '../../pages/Reports/components/OrdersArchiveExport';
 
 const ErrorView = lazy(() => import('../../pages/Admin/components/ErrorView'));
 const LogViewer = lazy(() => import('../../pages/Admin/components/LogViewer'));
@@ -81,6 +82,9 @@ const ErrorDisplay = lazy(
 );
 const OrdersExport = lazy(
   () => import('../../pages/Reports/components/OrdersExport')
+);
+const BulkArchiveOrders = lazy(
+  () => import('../../pages/Reports/components/BulkArchiveOrders')
 );
 
 const TraceRoutes = () => {
@@ -344,12 +348,6 @@ const TraceRoutes = () => {
           path="etl"
           element={<PrivateRoute component={ETL} name="Run ETL Process" />}
         />
-        <Route
-          path="exportorders"
-          element={
-            <PrivateRoute component={OrdersExport} name="Orders Export" />
-          }
-        />
       </Route>
       <Route path="/archive">
         <Route
@@ -359,11 +357,29 @@ const TraceRoutes = () => {
           }
         />
         <Route
+          path="exportarchivedorders"
+          element={
+            <PrivateRoute
+              component={OrdersArchiveExport}
+              name="Orders ArchivedExport"
+            />
+          }
+        />
+        <Route
           path="deleteorders"
           element={
             <PrivateRoute
               component={DeleteByTracking}
               name="Delete By Tracking"
+            />
+          }
+        />
+        <Route
+          path="bulkarchive"
+          element={
+            <PrivateRoute
+              component={BulkArchiveOrders}
+              name="Archive By Ship Date"
             />
           }
         />

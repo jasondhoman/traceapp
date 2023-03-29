@@ -6,21 +6,13 @@ import {
 } from '../../../@types/tracetypes';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
-import { GetAuthTokens } from '../../../utils/Helpers';
+import { config } from '../../../utils/config';
+import { GetAuthTokens, urlEncoded } from '../../../utils/Helpers';
 
 const tokens = GetAuthTokens();
 
 const orderAPI = axios.create({
-  baseURL:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    import.meta.env.NODE_ENV === 'development'
-      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_DEV_ROOT + '/order'
-      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        import.meta.env.VITE_API_ROOT + '/order',
+  baseURL: config.VITE_API_ROOT + '/order',
   headers: {
     Authorization: tokens?.refresh ?? '',
   },
@@ -181,6 +173,16 @@ export const archiveOrders = async (ids: Set<GridRowId>) => {
   }
 };
 
+// archive orders
+export const bulkArchiveOrdersByDate = async (enddate: string) => {
+  try {
+    const response = await orderAPI.get(`/bulkarchive/${urlEncoded(enddate)}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Get Next Tracking Number
 export const getNextTrackingNumber = async () => {
   try {
@@ -204,9 +206,33 @@ export const getIdFromTrackingNumber = async (tracking: number) => {
 };
 
 // export orders to csv
-export const getOrdersExport = async (beginDate: string, endDate: string) => {
+export const getOrdersExport = async () => {
   try {
-    const response = await orderAPI.get(`/export/${beginDate}/${endDate}`);
+    const response = await orderAPI.get(`/export`);
+    const file = new Blob([response.data.csv], { type: 'text/csv' });
+    const today = new Date();
+    //Build a URL from the file
+    const fileURL = URL.createObjectURL(file);
+    //download the file
+    const link = document.createElement('a');
+    link.href = fileURL;
+    link.setAttribute('download', `orders_${today.getTime()}.csv`);
+    link.click();
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+// export orders to csv
+export const getOrdersArchivedExport = async (
+  beginDate: string,
+  endDate: string
+) => {
+  try {
+    const response = await orderAPI.get(
+      `/archivedexport/${beginDate}/${endDate}`
+    );
     const file = new Blob([response.data.csv], { type: 'text/csv' });
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);

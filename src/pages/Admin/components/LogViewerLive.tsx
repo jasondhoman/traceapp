@@ -75,7 +75,7 @@ const LogViewerLive = () => {
       sortable: true,
       width: 140,
     },
-    { field: 'api', headerName: 'Api', sortable: true, width: 120 },
+    { field: 'api', headerName: 'API', sortable: true, width: 120 },
     {
       field: 'payload_size',
       headerName: 'Payload Size',
