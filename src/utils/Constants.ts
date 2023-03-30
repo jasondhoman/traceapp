@@ -112,89 +112,74 @@ export const AdminLinks = [
     key: 'userdisplay',
     icon: 'personaddicon',
     text: 'View Users',
+    errorMessage: '',
   },
   {
     href: '/adminpanel/userform',
     key: 'userformnew',
     icon: 'personaddicon',
     text: 'Add New User',
+    errorMessage: '',
   },
   {
     href: '/adminpanel/logviewer',
     key: 'logviewer',
     icon: 'accountcircleicon',
     text: 'Log Viewer Historical',
+    errorMessage: '',
   },
   {
     href: '/adminpanel/logviewer/live',
     key: 'logviewerlive',
     icon: 'accountcircleicon',
     text: 'Log Viewer Live',
+    errorMessage: '',
   },
   {
     href: '/adminpanel/auditlog',
     key: 'auditlog',
     icon: 'accountcircleicon',
     text: 'Audit Log',
+    errorMessage: '',
   },
 ];
 
 export const ReportLinks = [
-  // {
-  //   href: "/reporting/customerlist",
-  //   key: "customer_list",
-  //   icon: "receipticon",
-  //   text: "Customer List",
-  // },
-  // {
-  //   href: "/reporting/salespersonlist",
-  //   key: "salesperson_list",
-  //   icon: "receipticon",
-  //   text: "Salesperson List",
-  // },
-  // {
-  //   href: "/reporting/certificationlist",
-  //   key: "certification_list",
-  //   icon: "receipticon",
-  //   text: "Certification List",
-  // },
   {
     href: '/reporting/rawmateriallist',
     key: 'raw_material_list',
     icon: 'receipticon',
     text: 'Raw Material List',
+    errorMessage: '',
     onClick: getRawMaterialList,
   },
-  // {
-  //   href: "/reporting/gradeformulalist",
-  //   key: "grade_formula_list",
-  //   icon: "receipticon",
-  //   text: "Grade Formula List",
-  //   onClick: getGradeMixList,
-  // },
   {
     href: '/reporting/weight',
     key: 'weight_report',
     icon: 'receipticon',
     text: 'Weight Sheet',
+    errorMessage: '',
   },
   {
     href: '/reporting/productionrun',
     key: 'production_run_report',
     icon: 'receipticon',
     text: 'Production Run',
+    errorMessage: '',
   },
   {
     href: '/reporting/salesorderdocument',
     key: 'sales_order_document',
     icon: 'receipticon',
     text: 'Sales Order Document',
+    errorMessage: '',
   },
   {
     href: '/reporting/finishedgoods',
     key: 'finished_goods',
     icon: 'receipticon',
     text: 'Finished Inventory',
+    errorMessage: '',
     onClick: getFinishedInventoryReport,
   },
   {
@@ -202,49 +187,43 @@ export const ReportLinks = [
     key: 'sales_commission',
     icon: 'receipticon',
     text: 'Sales Commission Report',
+    errorMessage: '',
   },
   {
     href: '/reporting/linter',
     key: 'linter_report',
     icon: 'receipticon',
     text: 'Linter Report',
+    errorMessage: '',
   },
   {
     href: '/reporting/invoice',
     key: 'invoice_report',
     icon: 'receipticon',
     text: 'Invoice',
+    errorMessage: '',
   },
   {
     href: '/reporting/bol',
     key: 'bill_of_lading_report',
     icon: 'receipticon',
     text: 'Bill of Lading',
+    errorMessage: '',
   },
   {
     href: '/reporting/creditmemo',
     key: 'credit_memo_report',
     icon: 'receipticon',
     text: 'Print Credit Memo',
+    errorMessage: '',
   },
   {
     href: '/reporting/etl',
     key: 'run_etl',
     icon: 'receipticon',
     text: 'Transfer Data from Bill',
+    errorMessage: '',
   },
-  // {
-  //   href: "/reporting/customersizelist",
-  //   key: "customer_size_list",
-  //   icon: "receipticon",
-  //   text: "Customer Size List",
-  // },
-  // {
-  //   href: "/reporting/invoicing",
-  //   key: "invoice_list",
-  //   icon: "receipticon",
-  //   text: "Invoicing",
-  // },
 ];
 
 export const ArchiveLinks = [
@@ -253,12 +232,14 @@ export const ArchiveLinks = [
     key: 'delete_orders',
     icon: 'receipticon',
     text: 'Delete Order By Tracking',
+    errorMessage: '',
   },
   {
     href: '/archive/exportorders',
     key: 'export_orders',
     icon: 'receipticon',
     text: 'Export Invoiced Active Orders',
+    errorMessage: '',
     onClick: getOrdersExport,
   },
   {
@@ -266,12 +247,14 @@ export const ArchiveLinks = [
     key: 'export_orders',
     icon: 'receipticon',
     text: 'Export Archived Orders',
+    errorMessage: '',
   },
   {
     href: '/archive/rawmaterialsused',
     key: 'export_raw_materials_used',
     icon: 'receipticon',
     text: 'Export Raw Materials Used',
+    errorMessage: '',
     onClick: getRawMatUsedExport,
   },
   {
@@ -279,6 +262,7 @@ export const ArchiveLinks = [
     key: 'export_orders',
     icon: 'receipticon',
     text: 'Archived Orders by Ship Date',
+    errorMessage: '',
   },
 ];
 export const DashboardLinks = [
@@ -287,6 +271,7 @@ export const DashboardLinks = [
     key: 'none',
     icon: '',
     text: 'Placeholder',
+    errorMessage: '',
   },
 ];
 
@@ -414,76 +399,81 @@ export const default_weights_to_ship = {
 };
 
 export const navpoints = [
-  // {
-  //   href: '/',
-  //   key: 'home',
-  //   icon: 'homeicon',
-  //   text: 'Home',
-  // },
   {
     href: '/orders',
     key: 'orders',
     icon: 'storeicon',
     text: 'Orders',
+    errorMessage: '',
   },
   {
     href: '/customers',
     key: 'customers',
     icon: 'accountcircleicon',
     text: 'Customers',
+    errorMessage: '',
   },
   {
     href: '/certifications',
     key: 'certifications',
     icon: 'descriptionicon',
     text: 'Certifications',
+    errorMessage: '',
   },
   {
     href: '/rawmaterials',
     key: 'rawmaterials',
     icon: 'settingsicon',
     text: 'Raw Materials',
+    errorMessage: '',
   },
   {
     href: '/rawmaterialsused',
     key: 'rawmaterialsused',
     icon: 'settingsicon',
     text: 'Raw Materials Used',
+    errorMessage: '',
   },
   {
     href: '/customersize',
     key: 'customersize',
     icon: 'adjusticon',
     text: 'Customer Size',
+    errorMessage: '',
   },
   {
     href: '/grademix',
     key: 'grademix',
     icon: 'adjusticon',
     text: 'Grade Mix',
+    errorMessage: '',
   },
   {
     href: '/salepersons',
     key: 'salepersons',
     icon: 'attachmoneyicon',
     text: 'Salespersons',
+    errorMessage: '',
   },
   {
     href: '/productioninformation',
     key: 'productioninformation',
     icon: 'businessicon',
     text: 'Production Information',
+    errorMessage: '',
   },
   {
     href: '/weightstoship',
     key: 'weightstoship',
     icon: 'localshippingicon',
     text: 'Weights to Ship',
+    errorMessage: '',
   },
   {
     href: '/creditmemo',
     key: 'creditmemo',
     icon: 'receipticon',
     text: 'Credit Memo',
+    errorMessage: '',
   },
 ];

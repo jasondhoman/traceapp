@@ -16,12 +16,12 @@ import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { StateContextType } from '../@types/statecontext';
 import { ILink, MessageResponse } from '../@types/tracetypes';
-import { StateContext } from './StateContext';
+import { StateContext, useStateContext } from './StateContext';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { setLoading } = useContext(StateContext) as StateContextType;
+  const { navOpen, setNavOpen, setLoading } = useStateContext();
 
   const [user, setUser] = useState<JWTDecoded | null>(() =>
     localStorage.getItem('authTokens')
@@ -207,9 +207,23 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     // eslint-disable-next-line
   }, [authTokens, loading]);
 
+  useEffect(() => {
+    if (!authenticated && navOpen) {
+      setNavOpen(false);
+    }
+  }, [authenticated, navOpen, setNavOpen]);
+
   return (
     <AuthContext.Provider value={context_data}>{children}</AuthContext.Provider>
   );
 };
 
 export default AuthProvider;
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuthContext must be used within a AuthProvider');
+  }
+  return context;
+};

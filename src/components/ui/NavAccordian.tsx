@@ -13,6 +13,7 @@ import {
 import React, { useContext } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useSnackbar } from 'notistack';
 import { StateContextType } from '../../@types/statecontext';
 import { ILink } from '../../@types/tracetypes';
 import { StateContext } from '../../context/StateContext';
@@ -32,6 +33,7 @@ const NavAccordian: React.FC<INavAccordian> = ({
   links,
 }) => {
   const { setSelectedLink } = useContext(StateContext) as StateContextType;
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSelected = (i: string) => {
     setSelectedLink(i);
@@ -42,6 +44,19 @@ const NavAccordian: React.FC<INavAccordian> = ({
     const h = href.replace('/', '');
 
     return h === last_index;
+  };
+
+  const handleOnClick = async (
+    onClickFunc?: () => Promise<void | { message: string }>,
+    errorMessage?: string
+  ) => {
+    if (!onClickFunc) return;
+    const res = await onClickFunc();
+    if (res?.message) {
+      enqueueSnackbar(res.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
@@ -96,7 +111,10 @@ const NavAccordian: React.FC<INavAccordian> = ({
                 </ListItem>
               </Link>
             ) : (
-              <Link className="link" onClick={link.onClick}>
+              <Link
+                className="link"
+                onClick={() => handleOnClick(link.onClick, link.errorMessage)}
+              >
                 <ListItem key={link.key} className="py-1">
                   <ListItemIcon
                     style={{

@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction } from 'react';
 export type StateContextType = {
   setNavDrawerState: (state: boolean) => void;
   navOpen: boolean;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
   customer_id: number;
   setNewCustomerID: (id: number) => void;
   isLoading: boolean;

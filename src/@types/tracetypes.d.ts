@@ -1169,7 +1169,8 @@ export interface ILink {
   key: string;
   icon: string;
   text: string;
-  onClick?: () => void;
+  onClick?: () => Promise<void | { message: string }>;
+  errorMessage?: string;
 }
 
 export type Links = {

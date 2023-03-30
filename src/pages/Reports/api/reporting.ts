@@ -113,9 +113,10 @@ export const getProductionInformation = async (id: number) => {
     //Open the URL on new Window
     window.open(fileURL, '_blank');
     // return ;
+    return response;
   } catch (err) {
     console.error(err);
-    return err;
+    return null;
   }
 };
 
@@ -149,6 +150,9 @@ export const getFinishedInventoryReport = async () => {
     const response = await reportingAPI.get(`/finishedinventory`, {
       responseType: 'blob',
     });
+    if (response.status !== 200 || !response.data || response.data.size === 0) {
+      return { message: 'No Finished Inventory Data was found Found' };
+    }
     const file = new Blob([response.data], { type: 'application/pdf' });
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);

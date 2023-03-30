@@ -87,6 +87,10 @@ const BulkArchiveOrders = lazy(
   () => import('../../pages/Reports/components/BulkArchiveOrders')
 );
 
+const ScreenLessReport = lazy(
+  () => import('../../pages/Reports/components/ScreenLessReport')
+);
+
 const TraceRoutes = () => {
   return (
     <Routes>

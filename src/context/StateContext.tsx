@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { SelectChangeEvent } from '@mui/material';
 import { StateContextType } from '../@types/statecontext';
@@ -211,6 +211,7 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const context_data = {
     setNavDrawerState: setNavDrawerState,
     navOpen: navOpen,
+    setNavOpen: setNavOpen,
     customer_id: customer_id,
     setNewCustomerID: setNewCustomerID,
     isLoading: isLoading,
@@ -252,3 +253,11 @@ const StateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 };
 
 export default StateProvider;
+
+export const useStateContext = () => {
+  const context = useContext(StateContext) as StateContextType;
+  if (context === undefined) {
+    throw new Error('useStateContext must be used within a StateProvider');
+  }
+  return context;
+};

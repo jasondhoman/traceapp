@@ -1,4 +1,5 @@
 import { Container, Grid, Paper } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 import React from 'react';
 import FormButtons from '../../../components/ui/FormButtons';
@@ -7,13 +8,19 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { getProductionInformation } from '../api/reporting';
 
 const ProductionRunReport: React.FC = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [tracking, setTracking] = React.useState(0);
   const clearForm = () => {
     setTracking(0);
   };
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    getProductionInformation(tracking);
+    const res = await getProductionInformation(tracking);
+    if (!res) {
+      enqueueSnackbar(`No Production Information Found for ${tracking}`, {
+        variant: 'error',
+      });
+    }
   };
   const handleChange = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;

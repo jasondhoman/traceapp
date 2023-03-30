@@ -209,6 +209,13 @@ export const getIdFromTrackingNumber = async (tracking: number) => {
 export const getOrdersExport = async () => {
   try {
     const response = await orderAPI.get(`/export`);
+    if (
+      response.status !== 200 ||
+      !response.data.csv ||
+      response.data.csv.length <= 2
+    ) {
+      return { message: 'No active invoiced orders found' };
+    }
     const file = new Blob([response.data.csv], { type: 'text/csv' });
     const today = new Date();
     //Build a URL from the file

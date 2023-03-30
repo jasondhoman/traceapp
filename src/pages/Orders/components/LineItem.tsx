@@ -1,13 +1,12 @@
 import { Divider, Grid } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ILineItem } from '../@types/OrderTypes';
 
-import { StateContextType } from '../../../@types/statecontext';
 import { ICustomerSize } from '../../../@types/tracetypes';
 import CustomerSizeSelect from '../../../components/form/CustomerSizeSelect';
 import CustomerTagSelect from '../../../components/form/CustomerTagSelect';
 import GridField from '../../../components/ui/GridField';
-import { StateContext } from '../../../context/StateContext';
+import { useStateContext } from '../../../context/StateContext';
 import { getCustomerSize } from '../../Customersize/api/customersize';
 import { useOrderContext } from '../context/OrderContext';
 
@@ -15,7 +14,7 @@ const LineItem: React.FC<{
   index: number;
   lineitem: ILineItem;
 }> = ({ index, lineitem }) => {
-  const { setLoading } = useContext(StateContext) as StateContextType;
+  const { setLoading } = useStateContext();
 
   const { customer_id, lines, updateLine, setGradeForLine } = useOrderContext();
 
