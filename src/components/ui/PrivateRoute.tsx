@@ -14,9 +14,13 @@ const PrivateRoute: React.FC<IPrivateRoute> = ({
   component: RouteComponent,
   name,
 }) => {
-  const { user } = useContext(AuthContext) as AuthContextType;
+  const { authenticated } = useContext(AuthContext) as AuthContextType;
 
-  return user ? <RouteComponent name={name} /> : <Navigate to="/login" />;
+  return authenticated ? (
+    <RouteComponent name={name} />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 export default PrivateRoute;

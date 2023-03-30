@@ -29,7 +29,9 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       : null
   );
 
-  const [isAdmin] = useState(user?.role && user.role < 3 ? true : false);
+  const [isAdmin, setIsAdmin] = useState(
+    user?.role && user.role < 3 ? true : false
+  );
 
   const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem('authTokens')
@@ -106,6 +108,7 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         const user_decoded = jwtDecode(data.access) as JWTDecoded;
         setAuthTokens(data);
         setUser(user_decoded);
+        setIsAdmin(user_decoded.role < 3 ? true : false);
         localStorage.setItem('authTokens', JSON.stringify(data));
         //set auth cookies
 
@@ -221,7 +224,7 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 export default AuthProvider;
 
 export const useAuthContext = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext) as AuthContextType;
   if (context === undefined) {
     throw new Error('useAuthContext must be used within a AuthProvider');
   }

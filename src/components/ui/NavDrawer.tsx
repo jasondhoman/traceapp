@@ -14,9 +14,8 @@ import { CSSProperties } from '@mui/styled-engine';
 import { Container } from '@mui/system';
 import { useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
-import { AuthContextType } from '../../@types/authcontext';
 import { StateContextType } from '../../@types/statecontext';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import { StateContext } from '../../context/StateContext';
 import GridLoading from './GridLoading';
 import { Icon } from './Icon';
@@ -97,9 +96,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   // @ts-ignore
   const staging = import.meta.env.VITE_STAGING === 'true' ?? false;
   const title = staging ? 'Trace Industries Staging' : 'Trace Industries';
-  const { authenticated, isAdmin, links, user } = useContext(
-    AuthContext
-  ) as AuthContextType;
+  const { authenticated, isAdmin, links, user } = useAuthContext();
   const {
     navOpen,
     setNavDrawerState,
