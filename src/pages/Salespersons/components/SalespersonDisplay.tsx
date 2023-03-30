@@ -2,7 +2,7 @@ import { Grid, IconButton } from '@mui/material';
 import {
   GridColumnOrderChangeParams,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-pro';
 import React, { useContext, useState } from 'react';
 import { IDisplay, ISalesPerson } from '../../../@types/tracetypes';
 import {

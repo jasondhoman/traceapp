@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import {
   GridColumnOrderChangeParams,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-pro';
 import React, { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';

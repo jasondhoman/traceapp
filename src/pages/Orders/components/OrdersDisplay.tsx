@@ -3,7 +3,7 @@ import {
   GridColumnOrderChangeParams,
   GridColumnResizeParams,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-pro';
 import React, { useContext, useState } from 'react';
 import { IDisplay, IOrder } from '../../../@types/tracetypes';
 import {

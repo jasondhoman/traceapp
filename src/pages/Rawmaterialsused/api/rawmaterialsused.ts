@@ -92,7 +92,7 @@ export const getRawMatUsedExport = async () => {
     const file = new Blob([response.data.csv], { type: 'text/csv' });
     //get todays date as a string in us format
     const today = new Date();
-    const beginDate = today.toLocaleDateString('en-US');
+    const beginDate = formatShortDate(today);
 
     //Build a URL from the file
     const fileURL = URL.createObjectURL(file);

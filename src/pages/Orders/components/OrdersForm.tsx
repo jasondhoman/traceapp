@@ -50,7 +50,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
       value:
         prop_order && prop_order.order_date
           ? formatShortDate(prop_order.order_date)
-          : new Date().toLocaleDateString('en-US').replace(/\//g, '-'),
+          : formatShortDate(new Date()),
     },
     ship_date: {
       error: false,

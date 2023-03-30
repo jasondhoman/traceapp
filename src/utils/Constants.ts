@@ -4,6 +4,7 @@ import {
   getFinishedInventoryReport,
   getRawMaterialList,
 } from '../pages/Reports/api/reporting';
+import { formatShortDate } from './Helpers';
 
 const today = new Date(Date.now());
 export const default_contact = {
@@ -390,7 +391,7 @@ export const default_weights_to_ship = {
   company_name: '',
   grade: '',
   tag_size: '',
-  ship_date: new Date().toLocaleDateString().split('T')[0],
+  ship_date: formatShortDate(new Date()),
   total_weight: 0,
   qty: 0,
   min: 0,

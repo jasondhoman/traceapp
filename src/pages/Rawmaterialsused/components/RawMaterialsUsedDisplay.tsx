@@ -1,7 +1,7 @@
 import {
   GridColumnOrderChangeParams,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-pro';
 import React, { useContext, useState } from 'react';
 import { IDisplay, IRawMaterialsUsed } from '../../../@types/tracetypes';
 import {

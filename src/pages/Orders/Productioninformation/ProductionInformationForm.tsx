@@ -17,7 +17,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import { default_prod_info } from '../../../utils/Constants';
-import { maskDate, roundNumber } from '../../../utils/Helpers';
+import { formatShortDate, maskDate, roundNumber } from '../../../utils/Helpers';
 import {
   getIdFromTrackingNumber,
   getOrderTrackingIds,
@@ -218,9 +218,7 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
           ...prev,
           ship_date: {
             ...prev.ship_date,
-            value: new Date(prop_order.ship_date)
-              .toLocaleDateString('en-US')
-              .replace(/\//g, '-'),
+            value: formatShortDate(new Date(prop_order.ship_date)),
           },
         }));
       }

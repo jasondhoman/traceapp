@@ -187,9 +187,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
         error: false,
         helperText: '',
         value: data.ship_date
-          ? new Date(data.ship_date ?? '')
-              .toLocaleDateString('en-US')
-              .replace(/\//g, '-')
+          ? formatShortDate(new Date(data.ship_date ?? ''))
           : '',
       });
     }

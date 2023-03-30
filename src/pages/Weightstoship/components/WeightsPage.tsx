@@ -27,10 +27,6 @@ const WeightsPage: React.FC<IPage> = ({ name }) => {
     StateContext
   ) as StateContextType;
 
-  if (name) {
-    setModuleName(name);
-  }
-
   const queryClient = useQueryClient();
 
   const [state, dispatch] = useReducer(pageReducer, {
@@ -97,6 +93,9 @@ const WeightsPage: React.FC<IPage> = ({ name }) => {
 
   useEffect(() => {
     queryClient.removeQueries('weight');
+    if (name) {
+      setModuleName(name);
+    }
     setLoading(true);
     if (state.id && state.id > 0) {
       getWeightData(state.id);
