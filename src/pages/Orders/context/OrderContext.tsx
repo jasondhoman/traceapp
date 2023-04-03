@@ -1,8 +1,7 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useState } from 'react';
 import { ILineItem } from '../@types/OrderTypes';
 
 import { default_line } from '../../../utils/Constants';
-import { getNextTrackingNumber } from '../api/order';
 
 export interface OrderContextType {
   customer_id: number;
@@ -19,7 +18,6 @@ export interface OrderContextType {
   updateLine: (updatedLine: ILineItem, index: number) => void;
   setTrackingForLine: (tracking: number, index: number) => void;
   setGradeForLine: (grade: string, index: number) => void;
-  tracking: number;
 }
 
 export const OrderContext = createContext<OrderContextType | null>(null);
@@ -30,7 +28,6 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [formOpen, setFormOpen] = useState(false);
   const [lines, setLines] = useState<ILineItem[]>([]);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [tracking, setTracking] = useState(0);
 
   const clearStates = () => {
     setCustomerID(0);
@@ -91,16 +88,6 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     [lines]
   );
 
-  useEffect(() => {
-    const getTracking = async () => {
-      const res = await getNextTrackingNumber();
-      if (res) {
-        setTracking(res.tracking);
-      }
-    };
-    getTracking();
-  }, []);
-
   const context_data = {
     customer_id: customer_id,
     setCustomerID: setCustomerID,
@@ -116,7 +103,6 @@ const OrderProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     updateLine: updateLine,
     setTrackingForLine: setTrackingForLine,
     setGradeForLine: setGradeForLine,
-    tracking: tracking,
   };
 
   return (

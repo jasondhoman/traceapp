@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { IOrderFormData, IOrdersForm } from '../../../@types/tracetypes';
 import { default_line, default_order } from '../../../utils/Constants';
 import { formatShortDate, maskDate } from '../../../utils/Helpers';
-import { addOrder, updateOrder } from '../api/order';
+import { addOrder, getNextTrackingNumber, updateOrder } from '../api/order';
 
 import { AxiosResponse } from 'axios';
 import { useSnackbar } from 'notistack';
@@ -41,8 +41,9 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     clearStates,
     isUpdate,
     setIsUpdate,
-    tracking,
   } = useOrderContext();
+
+  const [tracking, setTracking] = useState(0);
   const [orderDates, setOrderDates] = useState({
     order_date: {
       error: false,
@@ -243,6 +244,13 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
 
   // new order
   useEffect(() => {
+    const getTracking = async () => {
+      const res = await getNextTrackingNumber();
+      if (res) {
+        setTracking(res.tracking);
+      }
+    };
+    getTracking();
     if (newOrder) {
       setLines([default_line]);
       setNewOrder(false);
