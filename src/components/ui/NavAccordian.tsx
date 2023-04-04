@@ -112,7 +112,7 @@ const NavAccordian: React.FC<INavAccordian> = ({
               </Link>
             ) : (
               <Link
-                to=""
+                to={window.location.href}
                 onClick={() => handleOnClick(link.onClick, link.errorMessage)}
               >
                 <ListItem key={link.key} className="py-1">
