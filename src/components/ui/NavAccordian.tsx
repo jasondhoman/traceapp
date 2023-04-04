@@ -3,7 +3,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   IconButton,
-  Link,
   List,
   ListItem,
   ListItemIcon,
@@ -14,6 +13,7 @@ import React, { useContext } from 'react';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSnackbar } from 'notistack';
+import { Link } from 'react-router-dom';
 import { StateContextType } from '../../@types/statecontext';
 import { ILink } from '../../@types/tracetypes';
 import { StateContext } from '../../context/StateContext';
@@ -88,7 +88,7 @@ const NavAccordian: React.FC<INavAccordian> = ({
             key={index}
           >
             {!link.onClick ? (
-              <Link href={link.href}>
+              <Link to={link.href}>
                 <ListItem key={link.key} className="py-1">
                   <ListItemIcon
                     style={{
@@ -112,7 +112,7 @@ const NavAccordian: React.FC<INavAccordian> = ({
               </Link>
             ) : (
               <Link
-                className="link"
+                to=""
                 onClick={() => handleOnClick(link.onClick, link.errorMessage)}
               >
                 <ListItem key={link.key} className="py-1">

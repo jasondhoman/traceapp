@@ -32,15 +32,10 @@ const CreditMemos: React.FC<ICreditMemosFC> = ({ name }) => {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const { route_id } = useParams();
-  const [tab_id, setTabId] = React.useState(1);
 
   const { setLoading, setModuleName } = useContext(
     StateContext
   ) as StateContextType;
-
-  if (name) {
-    setModuleName(name);
-  }
 
   const [state, dispatch] = useReducer(pageReducer, {
     ...initial_page_state,
@@ -137,12 +132,17 @@ const CreditMemos: React.FC<ICreditMemosFC> = ({ name }) => {
       });
     }
     setLoading(false);
+    if (name) {
+      setModuleName(name);
+    }
   }, [
     enqueueSnackbar,
     getCreditMemoData,
+    name,
     queryClient,
     route_id,
     setLoading,
+    setModuleName,
     state.id,
   ]);
 

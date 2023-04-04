@@ -20,6 +20,14 @@ export interface JWTDecoded {
 export interface settings {
   settings: string;
 }
+
+export interface LinkStack {
+  menu: ILink[];
+  report: ILink[];
+  admin: ILink[];
+  archive: ILink[];
+  dashboard: ILink[];
+}
 export type AuthContextType = {
   user: JWTDecoded | null;
   setUser: React.Dispatch<React.SetStateAction<JWTDecoded | null>>;
@@ -29,9 +37,6 @@ export type AuthContextType = {
   status: string;
   statusLevel: 'error' | 'success' | 'info' | 'warning';
   authenticated: boolean;
-  links: ILink[];
-  reportLinks: ILink[];
-  adminLinks: ILink[];
-  dashboardLinks: ILink[];
+  links: LinkStack;
   isAdmin: boolean;
 };

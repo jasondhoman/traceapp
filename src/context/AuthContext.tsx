@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { AuthContextType, JWTDecoded } from '../@types/authcontext';
+import { AuthContextType, JWTDecoded, LinkStack } from '../@types/authcontext';
 import {
   apiLoginUser,
   DeleteToken,
@@ -7,6 +7,7 @@ import {
 } from '../pages/Admin/api/admin';
 import {
   AdminLinks,
+  ArchiveLinks,
   DashboardLinks,
   navpoints,
   ReportLinks,
@@ -15,7 +16,7 @@ import {
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { StateContextType } from '../@types/statecontext';
-import { ILink, MessageResponse } from '../@types/tracetypes';
+import { MessageResponse } from '../@types/tracetypes';
 import { StateContext, useStateContext } from './StateContext';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -45,43 +46,26 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(
     user === null ? false : true
   );
-  const [links, setLinks] = useState<ILink[]>(() =>
-    localStorage.getItem('links') && localStorage.getItem('authTokens')
-      ? JSON.parse(localStorage.getItem('links') ?? '')
-      : []
-  );
-
-  const [reportLinks, setReportLinks] = useState<ILink[]>(() =>
-    localStorage.getItem('reportlinks') && localStorage.getItem('authTokens')
-      ? JSON.parse(localStorage.getItem('reportlinks') ?? '')
-      : []
-  );
-
-  const [adminLinks, setAdminLinks] = useState<ILink[]>(() =>
-    localStorage.getItem('adminlinks') && localStorage.getItem('authTokens')
-      ? JSON.parse(localStorage.getItem('adminlinks') ?? '')
-      : []
-  );
-
-  const [dashboardLinks, setDashboardLinks] = useState<ILink[]>(() =>
-    localStorage.getItem('dashboardlinks') && localStorage.getItem('authTokens')
-      ? JSON.parse(localStorage.getItem('dashboardlinks') ?? '')
-      : []
-  );
+  const [links, setLinks] = useState<LinkStack>({
+    menu: [],
+    report: [],
+    admin: [],
+    dashboard: [],
+    archive: [],
+  });
 
   const { setNavDrawerState } = useContext(StateContext) as StateContextType;
 
   const navigate = useNavigate();
   const SetupLinks = async () => {
     try {
-      setLinks(navpoints);
-      localStorage.setItem('links', JSON.stringify(navpoints));
-      setReportLinks(ReportLinks);
-      localStorage.setItem('reportlinks', JSON.stringify(ReportLinks));
-      setAdminLinks(AdminLinks);
-      localStorage.setItem('adminlink', JSON.stringify(AdminLinks));
-      setDashboardLinks(DashboardLinks);
-      localStorage.setItem('dashboardlinks', JSON.stringify(DashboardLinks));
+      setLinks({
+        menu: navpoints,
+        report: ReportLinks,
+        admin: AdminLinks,
+        dashboard: DashboardLinks,
+        archive: ArchiveLinks,
+      });
     } catch (err) {
       console.error(err);
     }
@@ -189,9 +173,6 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     statusLevel: statusLevel,
     authenticated: authenticated,
     links: links,
-    reportLinks: reportLinks,
-    adminLinks: adminLinks,
-    dashboardLinks: dashboardLinks,
     isAdmin: isAdmin,
   };
 
@@ -213,6 +194,8 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (!authenticated && navOpen) {
       setNavOpen(false);
+    } else {
+      SetupLinks();
     }
   }, [authenticated, navOpen, setNavOpen]);
 

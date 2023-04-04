@@ -1,6 +1,5 @@
 import { Grid, Tooltip, useTheme } from '@mui/material';
 import React, { Suspense, useCallback, useContext } from 'react';
-import { AdminLinks, ArchiveLinks, ReportLinks } from '../../utils/Constants';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
@@ -206,19 +205,19 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
           open={navaccordianopen}
           stateChange={setNavAccordianOpen}
           title="Menu Options"
-          links={links}
+          links={links.menu}
         />
         <NavAccordian
           open={navreportexpanded}
           stateChange={setNavReportOpen}
           title="Reports"
-          links={ReportLinks}
+          links={links.report}
         />
         <NavAccordian
           open={navarchiveexpanded}
           stateChange={setNavArchiveOpen}
           title="Archive"
-          links={ArchiveLinks}
+          links={links.archive}
         />
 
         {isAdmin && (
@@ -226,7 +225,7 @@ const NavDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
             open={navadminexpanded}
             stateChange={setNavAdminOpen}
             title="Admin"
-            links={AdminLinks}
+            links={links.admin}
           />
         )}
       </Drawer>
