@@ -104,7 +104,8 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
           setLoading(false);
           navigate('/resetpassword');
         } else {
-          navigate('/');
+          // navigate('/');
+          window.location.href = '/';
         }
       } else {
         const data = res.response.data;

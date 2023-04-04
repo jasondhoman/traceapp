@@ -19,8 +19,12 @@ const orderAPI = axios.create({
 });
 
 export const getOrders = async () => {
-  const response = await orderAPI.get('/orders');
-  return response.data;
+  try {
+    const response = await orderAPI.get('/orders');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getOrder = async (
