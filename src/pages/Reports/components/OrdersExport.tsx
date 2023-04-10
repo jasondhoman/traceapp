@@ -1,6 +1,6 @@
 import { Container, Grid, Paper } from '@mui/material';
 import React, { useState } from 'react';
-import { formatShortDate, maskDate } from '../../../utils/Helpers';
+import { formatShortDate, maskDate } from '../../../utils/helpers';
 
 import validator from 'validator';
 import FormButtons from '../../../components/ui/FormButtons';

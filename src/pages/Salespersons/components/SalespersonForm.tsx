@@ -15,7 +15,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_salesperson } from '../../../utils/Constants';
+import { default_salesperson } from '../../../utils/constants';
 
 interface ISalesPersonsEdit {
   reducer: React.Dispatch<SetPageState>;

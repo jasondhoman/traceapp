@@ -11,7 +11,7 @@ import {
   DashboardLinks,
   navpoints,
   ReportLinks,
-} from '../utils/Constants';
+} from '../utils/constants';
 
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';

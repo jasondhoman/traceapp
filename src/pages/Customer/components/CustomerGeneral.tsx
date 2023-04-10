@@ -18,7 +18,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_customer } from '../../../utils/Constants';
+import { default_customer } from '../../../utils/constants';
 import { useCustomerContext } from '../context/Customer.Context';
 
 const CustomerGeneral: React.FC<ICustomerForm> = ({

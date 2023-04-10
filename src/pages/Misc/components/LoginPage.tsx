@@ -6,16 +6,13 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { AuthContextType } from '../../../@types/authcontext';
 import { StateContextType } from '../../../@types/statecontext';
 import GridField from '../../../components/ui/GridField';
-import { AuthContext } from '../../../context/AuthContext';
+import { useAuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 
 const LoginPage = () => {
-  const { statusLevel, status, loginUser } = useContext(
-    AuthContext
-  ) as AuthContextType;
+  const { statusLevel, status, loginUser, authenticated } = useAuthContext();
   const { isLoading } = useContext(StateContext) as StateContextType;
 
   return (

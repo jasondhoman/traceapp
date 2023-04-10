@@ -35,7 +35,7 @@ const RawMaterialSelect: React.FC<IRawMat> = ({
         const rawmats: AutoComplete[] = res.map((c: IRawMaterials) => {
           return { id: c.id, label: c.description };
         });
-        rawmats.push({ id: 0, label: '' });
+        rawmats.unshift({ id: 0, label: '' });
 
         const selected = rawmats.find((c) => c.id === state);
         if (selected) {

@@ -14,7 +14,7 @@ import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_credit_memo } from '../../../utils/Constants';
+import { default_credit_memo } from '../../../utils/constants';
 import { getCustomer } from '../../Customer/api/customer';
 
 interface ICreditMemoForm {

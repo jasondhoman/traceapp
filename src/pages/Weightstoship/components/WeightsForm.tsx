@@ -6,7 +6,7 @@ import {
   Paper,
 } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { formatShortDate, maskDate } from '../../../utils/Helpers';
+import { formatShortDate, maskDate } from '../../../utils/helpers';
 import {
   getOrderInfoByTracking,
   getOrderTrackingIdsForWeight,
@@ -24,7 +24,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_weights_to_ship } from '../../../utils/Constants';
+import { default_weights_to_ship } from '../../../utils/constants';
 import { SetPageState } from '../../../utils/reducers';
 import WeightsGrid from './WeightsGrid';
 

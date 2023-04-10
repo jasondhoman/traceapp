@@ -8,7 +8,7 @@ import {
   formatAsCurrency,
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import {
   deleteRawMatsUsed,
   getRawMaterialsUsed,

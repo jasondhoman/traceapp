@@ -16,8 +16,8 @@ import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
-import { default_prod_info } from '../../../utils/Constants';
-import { formatShortDate, maskDate, roundNumber } from '../../../utils/Helpers';
+import { default_prod_info } from '../../../utils/constants';
+import { formatShortDate, maskDate, roundNumber } from '../../../utils/helpers';
 import {
   getIdFromTrackingNumber,
   getOrderTrackingIds,

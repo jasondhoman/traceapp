@@ -8,7 +8,7 @@ import { IDisplay, ISalesPerson } from '../../../@types/tracetypes';
 import {
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteSalepersons, getSalespersons } from '../api/salesperson';
 
 import EditIcon from '@mui/icons-material/Edit';

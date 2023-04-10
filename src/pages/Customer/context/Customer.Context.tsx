@@ -10,7 +10,7 @@ import React, {
 
 import { CustomerContextType } from '../../../@types/customercontext';
 import { ICustomerFormData } from '../../../@types/tracetypes';
-import { default_customer } from '../../../utils/Constants';
+import { default_customer } from '../../../utils/constants';
 import { getCustomer } from '../api/customer';
 
 export const CustomerContext = createContext<CustomerContextType | null>(null);

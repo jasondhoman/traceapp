@@ -8,7 +8,7 @@ import {
   formatAsCurrency,
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteCustomers, getCustomers } from '../api/customer';
 
 import CheckIcon from '@mui/icons-material/Check';

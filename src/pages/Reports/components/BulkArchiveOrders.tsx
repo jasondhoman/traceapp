@@ -1,6 +1,6 @@
 import { Container, Grid, Paper } from '@mui/material';
 import React, { useState } from 'react';
-import { maskDate } from '../../../utils/Helpers';
+import { maskDate } from '../../../utils/helpers';
 
 import { useSnackbar } from 'notistack';
 import validator from 'validator';

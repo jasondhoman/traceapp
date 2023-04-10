@@ -7,7 +7,7 @@ import React, { useContext, useState } from 'react';
 import {
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteCertificates, getCertificates } from '../api/certifications';
 
 import EditIcon from '@mui/icons-material/Edit';

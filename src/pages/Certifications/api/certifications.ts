@@ -7,7 +7,7 @@ import DeleteResponse, {
 
 import { GridRowId } from '@mui/x-data-grid-pro';
 import { config } from '../../../utils/config';
-import { GetAuthTokens } from '../../../utils/Helpers';
+import { GetAuthTokens } from '../../../utils/helpers';
 
 const tokens = GetAuthTokens();
 

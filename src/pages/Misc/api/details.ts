@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-import { GetAuthTokens } from '../../../utils/Helpers';
+import { GetAuthTokens } from '../../../utils/helpers';
 
 const tokens = GetAuthTokens();
 

@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useState } from 'react';
 import { ILineItem } from '../@types/OrderTypes';
 
-import { default_line } from '../../../utils/Constants';
+import { default_line } from '../../../utils/constants';
 
 export interface OrderContextType {
   customer_id: number;

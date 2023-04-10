@@ -25,7 +25,7 @@ import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
-import { default_user } from '../../../utils/Constants';
+import { default_user } from '../../../utils/constants';
 import { getDetailByID } from '../../Misc/api/details';
 
 const UserForm: React.FC<IPage> = () => {

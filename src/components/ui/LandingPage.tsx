@@ -2,22 +2,19 @@ import { Container, Grid } from '@mui/material';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import React from 'react';
+import React, { FC, ReactNode, SyntheticEvent } from 'react';
 
 interface ILandingPage {
   tab_id: number;
-  handleChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    value: any
-  ) => void;
+  handleChange: (event: SyntheticEvent<Element, Event>, value: any) => void;
   disabled: boolean;
   tablabel: string;
-  children: JSX.Element;
+  children: ReactNode;
   name: string;
   formSize: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | undefined;
 }
 
-const LandingPage: React.FC<ILandingPage> = ({
+const LandingPage: FC<ILandingPage> = ({
   tab_id,
   handleChange,
   disabled,

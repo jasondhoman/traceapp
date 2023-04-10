@@ -9,7 +9,7 @@ import {
   formatShortDate,
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteCreditMemos, getCreditMemos } from '../api/creditmemo';
 
 import CheckIcon from '@mui/icons-material/Check';

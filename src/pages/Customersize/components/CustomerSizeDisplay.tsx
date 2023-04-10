@@ -10,7 +10,7 @@ import {
   formatShortDate,
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteCustomersizes, getCustomerSizes } from '../api/customersize';
 
 import EditIcon from '@mui/icons-material/Edit';

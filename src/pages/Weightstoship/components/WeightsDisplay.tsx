@@ -8,7 +8,7 @@ import { IDisplay, IWeightsToShipOut } from '../../../@types/tracetypes';
 import {
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { deleteWeights, getWeights } from '../api/weightstoship';
 
 import EditIcon from '@mui/icons-material/Edit';

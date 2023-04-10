@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 
 import { useSnackbar } from 'notistack';
 import GridField from '../../../components/ui/GridField';
-import { default_line } from '../../../utils/Constants';
+import { default_line } from '../../../utils/constants';
 import { ILineItem } from '../@types/OrderTypes';
 import { useOrderContext } from '../context/OrderContext';
 

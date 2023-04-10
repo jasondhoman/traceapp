@@ -1,4 +1,5 @@
 // @types.authcontext.ts
+import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 import { ILink, MessageResponse } from './tracetypes';
 export interface authTokens {
   access: string;
@@ -30,9 +31,9 @@ export interface LinkStack {
 }
 export type AuthContextType = {
   user: JWTDecoded | null;
-  setUser: React.Dispatch<React.SetStateAction<JWTDecoded | null>>;
+  setUser: Dispatch<SetStateAction<JWTDecoded | null>>;
   authTokens: authTokens;
-  loginUser: (e: React.SyntheticEvent) => Promise<void | MessageResponse>;
+  loginUser: (e: SyntheticEvent) => Promise<void | MessageResponse>;
   logoutUser: () => void;
   status: string;
   statusLevel: 'error' | 'success' | 'info' | 'warning';

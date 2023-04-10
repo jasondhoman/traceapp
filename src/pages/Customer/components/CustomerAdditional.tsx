@@ -14,7 +14,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_contact } from '../../../utils/Constants';
+import { default_contact } from '../../../utils/constants';
 import { CustomerContext } from '../context/Customer.Context';
 
 interface ICustomerNew {

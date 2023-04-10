@@ -1,46 +1,43 @@
 import { SelectChangeEvent } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, SyntheticEvent } from 'react';
 
 // @types.statecontext.ts
 export type StateContextType = {
   setNavDrawerState: (state: boolean) => void;
   navOpen: boolean;
-  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setNavOpen: Dispatch<SetStateAction<boolean>>;
   customer_id: number;
   setNewCustomerID: (id: number) => void;
   isLoading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
   selectedLink: string;
-  setSelectedLink: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedLink: Dispatch<SetStateAction<string>>;
   navLoaded: boolean;
-  setNavLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setNavLoaded: Dispatch<SetStateAction<boolean>>;
   gridLoading: boolean;
-  setGridLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setGridLoading: Dispatch<SetStateAction<boolean>>;
   viewing: boolean;
-  setViewing: React.Dispatch<React.SetStateAction<boolean>>;
+  setViewing: Dispatch<SetStateAction<boolean>>;
   navaccordianopen: boolean;
   setNavAccordianOpen: (state: boolean) => void;
   handleChange: (
-    e: React.SyntheticEvent,
-    setter: React.Dispatch<React.SetStateAction<any>>
+    e: SyntheticEvent,
+    setter: Dispatch<SetStateAction<any>>
   ) => void;
   handleSelectChange: (
-    e: React.SyntheticEvent | SelectChangeEvent,
-    setter: React.Dispatch<React.SetStateAction<any>>,
+    e: SyntheticEvent | SelectChangeEvent,
+    setter: Dispatch<SetStateAction<any>>,
     state?: any
   ) => void;
   setStaticValue: (
     name: string,
     value: any,
-    setter: React.Dispatch<React.SetStateAction<any>>
+    setter: Dispatch<SetStateAction<any>>
   ) => void;
-  setStaticValues: (
-    values: any,
-    setter: React.Dispatch<React.SetStateAction<any>>
-  ) => void;
+  setStaticValues: (values: any, setter: Dispatch<SetStateAction<any>>) => void;
   handleDateChange: (
-    e: React.SyntheticEvent,
-    setter: React.Dispatch<React.SetStateAction<any>>
+    e: SyntheticEvent,
+    setter: Dispatch<SetStateAction<any>>
   ) => void;
   setNavAdminOpen: (state: boolean) => void;
   setNavReportOpen: (state: boolean) => void;

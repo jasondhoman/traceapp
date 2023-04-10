@@ -11,7 +11,7 @@ import {
   formatShortDate,
   getLocaleStorageItem,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { archiveOrders, deleteOrders, getOrders } from '../api/order';
 
 import EditIcon from '@mui/icons-material/Edit';

@@ -18,7 +18,7 @@ import {
   getLocaleStorageItem,
   setDateStringToCST,
   setLocaleStorageItem,
-} from '../../../utils/Helpers';
+} from '../../../utils/helpers';
 import { ReducerActionType } from '../../../utils/reducers';
 import { getUsers } from '../api/admin';
 

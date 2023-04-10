@@ -125,6 +125,8 @@ const WeightsPage: React.FC<IPage> = ({ name }) => {
     route_id,
     setLoading,
     state.id,
+    name,
+    setModuleName,
   ]);
 
   return (

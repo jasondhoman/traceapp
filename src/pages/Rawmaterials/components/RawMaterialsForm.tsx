@@ -19,8 +19,8 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { AuthContext } from '../../../context/AuthContext';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_raw_mat } from '../../../utils/Constants';
-import { GetDate } from '../../../utils/Helpers';
+import { default_raw_mat } from '../../../utils/constants';
+import { GetDate } from '../../../utils/helpers';
 
 interface IRawMaterialsForm {
   reducer: React.Dispatch<SetPageState>;

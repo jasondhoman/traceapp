@@ -4,7 +4,7 @@ import {
   getFinishedInventoryReport,
   getRawMaterialList,
 } from '../pages/Reports/api/reporting';
-import { formatShortDate } from './Helpers';
+import { formatShortDate } from './helpers';
 
 const today = new Date(Date.now());
 export const default_contact = {
@@ -262,7 +262,7 @@ export const ArchiveLinks = [
     href: '/archive/bulkarchive',
     key: 'export_orders',
     icon: 'receipticon',
-    text: 'Archived Orders by Ship Date',
+    text: 'Archive Orders by Ship Date',
     errorMessage: '',
   },
 ];

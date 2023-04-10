@@ -6,7 +6,7 @@ import {
 
 import { GridRowId } from '@mui/x-data-grid-pro';
 import { config } from '../../../utils/config';
-import { formatShortDate, GetAuthTokens } from '../../../utils/Helpers';
+import { GetAuthTokens, formatShortDate } from '../../../utils/helpers';
 
 const tokens = GetAuthTokens();
 

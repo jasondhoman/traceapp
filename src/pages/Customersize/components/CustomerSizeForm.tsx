@@ -19,7 +19,7 @@ import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
-import { default_size } from '../../../utils/Constants';
+import { default_size } from '../../../utils/constants';
 
 interface ICustomerSize {
   prop_customer_size?: ICustomerSizeForm;

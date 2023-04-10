@@ -308,6 +308,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
           wrap="nowrap"
         >
           <GridField
+            requiredInput
             size={0}
             id="qty"
             name="qty"
@@ -328,6 +329,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
             x
           </Grid>
           <GridField
+            requiredInput
             size={0}
             fullWidth
             id="average_weight"
@@ -349,6 +351,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
             x
           </Grid>
           <GridField
+            requiredInput
             size={0}
             fullWidth
             className="text-right"
@@ -371,6 +374,7 @@ const RawMaterialsUsedEdit: React.FC<IRawMaterialsUsedEdit> = ({
             =
           </Grid>
           <GridField
+            requiredInput
             size={0}
             fullWidth
             id="cost"

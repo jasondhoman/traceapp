@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ICustomerSize, IResponse } from '../../../@types/tracetypes';
-import { GetAuthTokens, urlEncoded } from '../../../utils/Helpers';
+import { GetAuthTokens, urlEncoded } from '../../../utils/helpers';
 
 import { GridRowId } from '@mui/x-data-grid-pro';
 import { config } from '../../../utils/config';

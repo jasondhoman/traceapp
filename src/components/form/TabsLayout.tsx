@@ -1,19 +1,19 @@
 import { Grid, Tab, Tabs } from '@mui/material';
 
 import { Container } from '@mui/material';
-import React from 'react';
+import React, { FC, ReactNode, SyntheticEvent } from 'react';
 
 interface ITabLayout {
   value: any;
-  onChange: (event: React.SyntheticEvent<Element, Event>, value: any) => void;
+  onChange: (event: SyntheticEvent<Element, Event>, value: any) => void;
   disabled: boolean;
   name: string;
   tablabel: string;
-  component: JSX.Element;
+  component: ReactNode;
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
   disableNew?: boolean;
 }
-const TabsLayout: React.FC<ITabLayout> = ({
+const TabsLayout: FC<ITabLayout> = ({
   value,
   onChange,
   disabled,

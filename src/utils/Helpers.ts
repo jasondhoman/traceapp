@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { authTokens } from '../@types/authcontext';
 
 interface User {
@@ -281,7 +282,7 @@ export async function SendMessage(
 export function getLocaleStorageItem(
   key: string,
   defaultValue: any = null,
-  renderCells: { [key: string]: (params: any) => JSX.Element } = {},
+  renderCells: { [key: string]: (params: any) => ReactNode } = {},
   valueGetters: { [key: string]: (params: any) => any } = {}
 ) {
   const item = localStorage.getItem(key);
