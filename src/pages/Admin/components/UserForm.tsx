@@ -94,7 +94,6 @@ const UserForm: React.FC<IPage> = () => {
 
     const data = {
       ...traceUser,
-      user_id: isUpdate ? user?.id : undefined,
     };
 
     // Upsert Here
@@ -192,7 +191,7 @@ const UserForm: React.FC<IPage> = () => {
               helperText={checkUsername ? 'Username is taken' : ' '}
               inputProps={{
                 maxLength: 55,
-                autocomplete: '',
+                autoComplete: '',
               }}
               disableAutocomplete
               onChange={(e: React.SyntheticEvent) => handleChange(e)}
