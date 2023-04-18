@@ -1,4 +1,4 @@
-import { Grid, Paper } from '@mui/material';
+import { Button, Grid, Paper } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { ReducerActionType, SetPageState } from '../../../utils/reducers';
 import {
@@ -20,6 +20,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_size } from '../../../utils/constants';
+import { useCustomerSizeContext } from '../CustomerSizeContext';
 
 interface ICustomerSize {
   prop_customer_size?: ICustomerSizeForm;
@@ -31,6 +32,8 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
   prop_customer_size,
 }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const { handleSizeChange, queueIDs, gradeID, setSelectedCustomer } =
+    useCustomerSizeContext();
   const { setStaticValue, setLoading, handleChange } = useContext(
     StateContext
   ) as StateContextType;
@@ -161,6 +164,8 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
   const handleSelectChange = async (id: number) => {
     if (!id) return;
 
+    setSelectedCustomer(id);
+
     const sizes = (await getCustomerSizeLookupByCustomer(id)) as {
       grade: string;
       tag_size: string;
@@ -276,6 +281,30 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           inputProps={{ maxLength: 1000 }}
           multiline
           helperText="Press Enter to Add New Line"
+        />
+        <GridField
+          size={8}
+          fullWidth
+          id="customer_grade_name"
+          name="customer_grade_name"
+          margin="normal"
+          label="Customer Grade Name"
+          onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
+          value={customersize.customer_grade_name}
+          inputProps={{ maxLength: 1000 }}
+          multiline
+        />
+        <GridField
+          size={8}
+          fullWidth
+          id="customer_part_no"
+          name="customer_part_no"
+          margin="normal"
+          label="Customer Part Number"
+          onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
+          value={customersize.customer_part_no}
+          inputProps={{ maxLength: 1000 }}
+          multiline
         />
         <GridField
           fullWidth
@@ -588,11 +617,63 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           label="Equipment Instructions"
           inputProps={{ maxLength: 1000 }}
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.equipment_spec_inst}
+          value={customersize.equipment_spec_inst ?? ''}
           helperText="Press Enter to Add New Line"
         />
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        // before={
+        //   <>
+        //     <Button
+        //       variant="contained"
+        //       color="primary"
+        //       onClick={() => handleSizeChange(false)}
+        //       style={{ boxShadow: 'none' }}
+        //       disabled={queueIDs[0] === gradeID}
+        //     >
+        //       Prev Size
+        //     </Button>
+        //     <Button
+        //       variant="contained"
+        //       color="primary"
+        //       onClick={() => handleSizeChange(true)}
+        //       style={{ boxShadow: 'none' }}
+        //       disabled={queueIDs[queueIDs.length - 1] === gradeID}
+        //     >
+        //       Next Size
+        //     </Button>
+        //   </>
+        // }
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        after={
+          isUpdate && (
+            <>
+              <Button
+                className="ms-1"
+                variant="contained"
+                color="primary"
+                onClick={() => handleSizeChange(false)}
+                style={{ boxShadow: 'none' }}
+                disabled={queueIDs[0] === gradeID}
+              >
+                Prev Size
+              </Button>
+              <Button
+                className="ms-2"
+                variant="contained"
+                color="primary"
+                onClick={() => handleSizeChange(true)}
+                style={{ boxShadow: 'none' }}
+                disabled={queueIDs[queueIDs.length - 1] === gradeID}
+              >
+                Next Size
+              </Button>
+            </>
+          )
+        }
+      />
     </Paper>
   );
 };

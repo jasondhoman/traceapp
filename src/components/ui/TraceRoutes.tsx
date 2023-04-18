@@ -23,9 +23,7 @@ const CreditMemo = lazy(
 const CustomerPage = lazy(
   () => import('../../pages/Customer/components/CustomerPage')
 );
-const CustomerSize = lazy(
-  () => import('../../pages/Customersize/components/CustomerSizePage')
-);
+const CustomerSize = lazy(() => import('../../pages/Customersize/index'));
 const GradeMix = lazy(
   () => import('../../pages/Grademix/components/GradeMixPage')
 );
@@ -52,7 +50,6 @@ const BillOfLading = lazy(
 const CreditMemoReport = lazy(
   () => import('../../pages/Reports/components/CreditMemoReport')
 );
-const ETL = lazy(() => import('../../pages/Reports/components/ETL'));
 
 const Invoice = lazy(() => import('../../pages/Reports/components/Invoice'));
 const LinterReport = lazy(
@@ -347,10 +344,6 @@ const TraceRoutes = () => {
           element={
             <PrivateRoute component={CreditMemoReport} name="Invoicing" />
           }
-        />
-        <Route
-          path="etl"
-          element={<PrivateRoute component={ETL} name="Run ETL Process" />}
         />
       </Route>
       <Route path="/archive">

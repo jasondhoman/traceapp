@@ -136,13 +136,6 @@ export const AdminLinks = [
     text: 'Log Viewer Live',
     errorMessage: '',
   },
-  {
-    href: '/adminpanel/auditlog',
-    key: 'auditlog',
-    icon: 'accountcircleicon',
-    text: 'Audit Log',
-    errorMessage: '',
-  },
 ];
 
 export const ReportLinks = [
@@ -216,13 +209,6 @@ export const ReportLinks = [
     key: 'credit_memo_report',
     icon: 'receipticon',
     text: 'Print Credit Memo',
-    errorMessage: '',
-  },
-  {
-    href: '/reporting/etl',
-    key: 'run_etl',
-    icon: 'receipticon',
-    text: 'Transfer Data from Bill',
     errorMessage: '',
   },
 ];
@@ -371,6 +357,8 @@ export const default_size = {
   min_weight: 0,
   max_weight: 0,
   grade_mix_id: 0,
+  customer_grade_name: '',
+  customer_part_no: '',
 };
 
 export const default_line = {

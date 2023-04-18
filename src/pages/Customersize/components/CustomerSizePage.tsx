@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ICustomerSize, IPage, IResponse } from '../../../@types/tracetypes';
 import {
+  ReducerActionType,
   initial_page_state,
   pageReducer,
-  ReducerActionType,
 } from '../../../utils/reducers';
 
 import { useSnackbar } from 'notistack';
@@ -12,11 +12,13 @@ import { useParams } from 'react-router-dom';
 import { StateContextType } from '../../../@types/statecontext';
 import LandingPage from '../../../components/ui/LandingPage';
 import { StateContext } from '../../../context/StateContext';
+import { useCustomerSizeContext } from '../CustomerSizeContext';
 import { getCustomerSize } from '../api/customersize';
 import CustomerSizeDisplay from './CustomerSizeDisplay';
 import CustomerSizeForm from './CustomerSizeForm';
 
 const CustomerSize: React.FC<IPage> = ({ name }) => {
+  const { setSelectedCustomer, setGradeID } = useCustomerSizeContext();
   const { enqueueSnackbar } = useSnackbar();
   const { route_id } = useParams();
   const { setLoading, setModuleName } = useContext(
@@ -64,6 +66,9 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
                   data: res.data,
                 },
               });
+              if (res.data && res.data.customer_id) {
+                setSelectedCustomer(res.data.customer_id);
+              }
               return res.data;
             } else {
               enqueueSnackbar(`${res.message}`, { variant: 'error' });
@@ -90,8 +95,9 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
       }
     },
-    [enqueueSnackbar, setLoading, queryClient]
+    [enqueueSnackbar, queryClient, setSelectedCustomer, setLoading]
   );
+
   useEffect(() => {
     setLoading(true);
     if (name) {
@@ -99,9 +105,11 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
     }
     if (state.id && state.id > 0) {
       getCustomersizeRecord(state.id);
+      setGradeID(state.id);
     } else if (route_id) {
       try {
         getCustomersizeRecord(parseInt(route_id));
+        setGradeID(parseInt(route_id));
       } catch (err) {
         console.error(err);
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
@@ -126,6 +134,7 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
     name,
     queryClient,
     route_id,
+    setGradeID,
     setLoading,
     setModuleName,
     state.id,

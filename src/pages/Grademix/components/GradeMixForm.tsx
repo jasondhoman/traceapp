@@ -57,6 +57,7 @@ const GradeMixForm: React.FC<IGradeMixForm> = ({ reducer, prop_grade_mix }) => {
     const gradeMixDetails = details.filter(
       (detail: IGradeMixDetail) => detail.description !== ''
     );
+
     // let gradeMixDetails = [
     //   ...details!.filter((detail) => {
     //     if (detail.description && detail.qty) {
@@ -68,7 +69,13 @@ const GradeMixForm: React.FC<IGradeMixForm> = ({ reducer, prop_grade_mix }) => {
     const data = {
       grade,
       grademix_id: isUpdate ? prop_grade_mix?.id : null,
-      gradeMixDetails,
+      gradeMixDetails: gradeMixDetails.map((detail) => {
+        return {
+          description: detail.description,
+          qty: detail.qty ?? 0,
+          cordinal_order: detail.cordinal_order,
+        };
+      }),
     };
 
     if (isUpdate) {
@@ -168,7 +175,7 @@ const GradeMixForm: React.FC<IGradeMixForm> = ({ reducer, prop_grade_mix }) => {
       setInit(false);
     }
     setLoading(false);
-  }, [details, init, initialLoad, prop_grade_mix, setLoading, total_rows]);
+  }, [init, initialLoad, prop_grade_mix, setLoading, total_rows]);
 
   return (
     <Paper

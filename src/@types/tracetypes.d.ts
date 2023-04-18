@@ -367,6 +367,8 @@ export interface ICustomerSizeForm {
   min_weight: number;
   max_weight: number;
   grade_mix_id: number;
+  customer_grade_name: string;
+  customer_part_no: string;
 }
 
 export type CustomerSizesType = {
