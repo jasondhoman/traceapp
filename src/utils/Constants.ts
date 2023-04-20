@@ -211,6 +211,13 @@ export const ReportLinks = [
     text: 'Print Credit Memo',
     errorMessage: '',
   },
+  {
+    href: '/reporting/labels',
+    key: 'label_generator',
+    icon: 'receipticon',
+    text: 'Print Labels',
+    errorMessage: '',
+  },
 ];
 
 export const ArchiveLinks = [

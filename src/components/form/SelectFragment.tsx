@@ -25,6 +25,7 @@ interface ISelectFragment {
   disabled?: boolean;
   name?: string;
   defaultType?: 'number' | 'string';
+  className?: string;
 }
 
 const SelectFragment: React.FC<ISelectFragment> = ({
@@ -38,6 +39,7 @@ const SelectFragment: React.FC<ISelectFragment> = ({
   disabled = false,
   name,
   defaultType = 'number',
+  className,
 }) => {
   const { viewing } = useContext(StateContext) as StateContextType;
   const [description, setDescription] = useState('');
@@ -70,7 +72,11 @@ const SelectFragment: React.FC<ISelectFragment> = ({
       mask={''}
     />
   ) : (
-    <FormControl fullWidth variant="outlined" className="m-0">
+    <FormControl
+      fullWidth
+      variant="outlined"
+      className={className ? className : 'm-0'}
+    >
       <InputLabel id={id}>{label}</InputLabel>
       <Select
         id={id}

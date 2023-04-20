@@ -80,6 +80,9 @@ const ErrorDisplay = lazy(
 const OrdersExport = lazy(
   () => import('../../pages/Reports/components/OrdersExport')
 );
+const LabelGenerator = lazy(
+  () => import('../../pages/Reports/components/Label')
+);
 const BulkArchiveOrders = lazy(
   () => import('../../pages/Reports/components/BulkArchiveOrders')
 );
@@ -344,6 +347,10 @@ const TraceRoutes = () => {
           element={
             <PrivateRoute component={CreditMemoReport} name="Invoicing" />
           }
+        />
+        <Route
+          path="labels"
+          element={<PrivateRoute component={LabelGenerator} name="labels" />}
         />
       </Route>
       <Route path="/archive">

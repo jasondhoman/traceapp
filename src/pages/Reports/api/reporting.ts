@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/helpers';
 
@@ -282,12 +282,21 @@ export const generateCreditMemo = async (id: number) => {
   }
 };
 
-export const runETL = async () => {
+export const generateLabel = async (body: any) => {
   try {
-    const response = await reportingAPI.get(`/runetl`);
+    // response type blob is important for pdfs to render properly
+    const response = await reportingAPI.post(`/labels`, body, {
+      responseType: 'blob',
+    });
+    const file = new Blob([response.data], { type: 'application/pdf' });
+    //Build a URL from the file
+    const fileURL = URL.createObjectURL(file);
+    //Open the URL on new Window
+
+    window.open(fileURL, '_blank');
+
     return response;
   } catch (err) {
-    const error = err as AxiosError;
-    return error;
+    console.error(err);
   }
 };
