@@ -285,6 +285,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         <GridField
           size={8}
           fullWidth
+          helperText="Add \n for a line break"
           id="customer_grade_name"
           name="customer_grade_name"
           margin="normal"

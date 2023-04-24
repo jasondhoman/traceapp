@@ -103,7 +103,7 @@ const LabelGenerator: FC = () => {
                 changeState={(e: SelectChangeEvent) =>
                   setSelectedSize(Number(e.target.value))
                 }
-                label="Select Label Size"
+                label="Label Size"
                 id="label-size"
               />
               {selectedSize === 1 && (
