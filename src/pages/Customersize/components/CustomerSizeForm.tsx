@@ -298,6 +298,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         <GridField
           size={8}
           fullWidth
+          helperText=" "
           id="customer_part_no"
           name="customer_part_no"
           margin="normal"
