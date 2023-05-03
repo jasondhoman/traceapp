@@ -1,11 +1,12 @@
 import { Container, Grid, Paper } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatShortDate, maskDate } from '../../../utils/helpers';
 
 import validator from 'validator';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { getOrdersExport } from '../../Orders/api/order';
 
 const OrdersExport: React.FC = () => {
@@ -61,6 +62,11 @@ const OrdersExport: React.FC = () => {
     }
     setReportDates((prev) => ({ ...prev, ...newOrderDate }));
   };
+
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

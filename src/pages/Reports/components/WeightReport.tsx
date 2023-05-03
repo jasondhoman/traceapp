@@ -2,15 +2,18 @@ import { Container, Grid, Paper } from '@mui/material';
 
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { getWeightReport } from '../api/reporting';
 
 const WeightReport: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [tracking, setTracking] = React.useState(0);
+  const { setViewing } = useStateContext();
+
   const clearForm = () => {
     setTracking(0);
   };
@@ -37,6 +40,10 @@ const WeightReport: React.FC = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

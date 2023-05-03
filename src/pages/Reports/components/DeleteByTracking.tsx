@@ -1,10 +1,11 @@
 import { Container, Grid, Paper } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { deleteOrderByTracking } from '../../Orders/api/order';
 
 const DeleteByTracking: React.FC = () => {
@@ -44,6 +45,11 @@ const DeleteByTracking: React.FC = () => {
       };
     });
   };
+
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

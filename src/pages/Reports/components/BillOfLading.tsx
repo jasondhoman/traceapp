@@ -1,12 +1,14 @@
 import { Container, Grid, Paper } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { generateBOL } from '../api/reporting';
 
 const BillOfLading: React.FC = () => {
+  const { setViewing } = useStateContext();
   const [tracking, setTracking] = useState({
     begtracking: 0,
     endtracking: 0,
@@ -33,6 +35,10 @@ const BillOfLading: React.FC = () => {
       };
     });
   };
+
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

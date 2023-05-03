@@ -1,5 +1,6 @@
 import { useSnackbar } from 'notistack';
 import React, { FC, useEffect } from 'react';
+import { useStateContext } from '../../../context/StateContext';
 
 const ScreenLessReport: FC<{
   fireFunction: boolean;
@@ -7,6 +8,11 @@ const ScreenLessReport: FC<{
   errorMessage: string;
 }> = ({ fireFunction, reportFunction, errorMessage }) => {
   const { enqueueSnackbar } = useSnackbar();
+
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   useEffect(() => {
     if (fireFunction) {

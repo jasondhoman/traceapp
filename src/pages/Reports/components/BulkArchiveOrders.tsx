@@ -7,10 +7,13 @@ import validator from 'validator';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { bulkArchiveOrdersByDate } from '../../Orders/api/order';
 
 const BulkArchiveOrders: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const { setViewing } = useStateContext();
+
   const [reportDates, setReportDates] = useState({
     end_date: { error: false, helperText: '', value: '' },
   });
@@ -47,6 +50,9 @@ const BulkArchiveOrders: React.FC = () => {
     setReportDates((prev) => ({ ...prev, ...newOrderDate }));
   };
 
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>
       <Grid
@@ -121,3 +127,6 @@ const BulkArchiveOrders: React.FC = () => {
 };
 
 export default BulkArchiveOrders;
+function useEffect(arg0: () => void, arg1: any[]) {
+  throw new Error('Function not implemented.');
+}

@@ -2,10 +2,11 @@ import { Container, Grid, Paper } from '@mui/material';
 import { AxiosResponse } from 'axios';
 
 import { useSnackbar } from 'notistack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import SelectFragment from '../../../components/form/SelectFragment';
 import FormButtons from '../../../components/ui/FormButtons';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { getLinterReport, postLinterReport } from '../api/reporting';
 
 const LinterReport: React.FC = () => {
@@ -30,6 +31,11 @@ const LinterReport: React.FC = () => {
       }
     }
   };
+
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

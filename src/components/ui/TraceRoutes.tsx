@@ -87,6 +87,10 @@ const BulkArchiveOrders = lazy(
   () => import('../../pages/Reports/components/BulkArchiveOrders')
 );
 
+const Archive = lazy(
+  () => import('../../pages/Archive/components/ArchivePage')
+);
+
 const ScreenLessReport = lazy(
   () => import('../../pages/Reports/components/ScreenLessReport')
 );
@@ -241,6 +245,10 @@ const TraceRoutes = () => {
           element={<PrivateRoute component={CreditMemo} name="Credit Memo" />}
         />
       </Route>
+      <Route
+        path="/archivedisplay"
+        element={<PrivateRoute component={Archive} name="Archive" />}
+      />
       <Route path="/adminpanel">
         <Route
           element={

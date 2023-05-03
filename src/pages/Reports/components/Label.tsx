@@ -7,11 +7,12 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import SelectFragment from '../../../components/form/SelectFragment';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { generateLabel } from '../api/reporting';
 
 const LabelGenerator: FC = () => {
@@ -42,6 +43,11 @@ const LabelGenerator: FC = () => {
     const target = e.target as HTMLInputElement;
     setTracking(parseInt(target.value));
   };
+
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

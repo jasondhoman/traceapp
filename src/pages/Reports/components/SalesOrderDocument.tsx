@@ -1,11 +1,12 @@
 import { Container, Grid, Paper } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { getSalesOrderDocument } from '../api/reporting';
 
 const SalesOrderDocument: React.FC = () => {
@@ -42,6 +43,10 @@ const SalesOrderDocument: React.FC = () => {
       };
     });
   };
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

@@ -1,9 +1,10 @@
 import { Container, Grid, Paper } from '@mui/material';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormButtons from '../../../components/ui/FormButtons';
 import GridField from '../../../components/ui/GridField';
 import TitleFragment from '../../../components/ui/TitleFragment';
+import { useStateContext } from '../../../context/StateContext';
 import { generateCreditMemo } from '../api/reporting';
 
 const CreditMemoReport: React.FC = () => {
@@ -19,6 +20,10 @@ const CreditMemoReport: React.FC = () => {
     const target = e.target as HTMLInputElement;
     setID(parseInt(target.value));
   };
+  const { setViewing } = useStateContext();
+  useEffect(() => {
+    setViewing(false);
+  }, [setViewing]);
 
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>

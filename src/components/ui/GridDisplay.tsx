@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import {
   DataGridPro,
+  GRID_CHECKBOX_SELECTION_COL_DEF,
   GridColumnOrderChangeParams,
   GridColumnResizeParams,
   GridColumnVisibilityModel,
@@ -22,7 +23,6 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
   GridToolbarQuickFilter,
-  GRID_CHECKBOX_SELECTION_COL_DEF,
 } from '@mui/x-data-grid-pro';
 import React, { useEffect, useState } from 'react';
 
