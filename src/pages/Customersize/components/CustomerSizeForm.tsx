@@ -41,7 +41,8 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
   const [isUpdate, setIsUpdate] = useState(false);
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<ICustomerSizeForm>('customersize');
-  const [customersize, setCustomerSize] = useState(default_size);
+  const [customersize, setCustomerSize] =
+    useState<ICustomerSizeForm>(default_size);
   const [customersizes, setCustomerSizes] = useState<string[]>([]);
   const [gradeError, setGradeError] = useState(false);
   const [priceError, setPriceError] = useState(false);
@@ -140,7 +141,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       max_weight: parseFloat(
         customersize.max_weight ? customersize.max_weight.toString() : '0'
       ),
-      grade_id: isUpdate ? prop_customer_size?.id : null,
+      grade_id: isUpdate ? customersize?.id : null,
     };
 
     if (isUpdate) {
@@ -191,6 +192,8 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
   };
 
   useEffect(() => {
+    setCustomerSize(default_size);
+    console.log(data, prop_customer_size);
     if (data) {
       setIsUpdate(true);
       setCustomerSize({
@@ -266,7 +269,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             });
             handleChangeWrapper(e);
           }}
-          value={customersize.tag_size}
+          value={customersize.tag_size ?? ''}
           inputProps={{ maxLength: 150 }}
         />
         <GridField
@@ -277,7 +280,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Special Instructions"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.special_instructions}
+          value={customersize.special_instructions ?? ''}
           inputProps={{ maxLength: 1000 }}
           multiline
           helperText="Press Enter to Add New Line"
@@ -290,7 +293,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Customer Grade Name"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.customer_grade_name}
+          value={customersize.customer_grade_name ?? ''}
           inputProps={{ maxLength: 1000 }}
           multiline
         />
@@ -302,7 +305,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Customer Part Number"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.customer_part_no}
+          value={customersize.customer_part_no ?? ''}
           inputProps={{ maxLength: 1000 }}
           multiline
         />
@@ -314,7 +317,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Stock"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.stock}
+          value={customersize.stock ?? 0}
           inputProps={{
             maxLength: 10,
             type: 'number',
@@ -329,7 +332,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Pieces Per Pack"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.pieces_per_pack}
+          value={customersize.pieces_per_pack ?? 0}
           inputProps={{
             maxLength: 6,
             type: 'number',
@@ -346,7 +349,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
           margin="normal"
           label="Pack Per Bundle"
           onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-          value={customersize.pack_per_bundle}
+          value={customersize.pack_per_bundle ?? 0}
           inputProps={{ maxLength: 6, type: 'number', step: '1', min: '0' }}
         />
         <TitleFragment
@@ -372,7 +375,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             label="Run Size"
             inputProps={{ maxLength: 50 }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.run_size}
+            value={customersize.run_size ?? ''}
           />
 
           <GridField
@@ -389,7 +392,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.length}
+            value={customersize.length ?? 0}
           />
 
           <GridField
@@ -406,7 +409,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.run_weight}
+            value={customersize.run_weight ?? 0}
           />
 
           <GridField
@@ -423,7 +426,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.pad_weight}
+            value={customersize.pad_weight ?? 0}
           />
           <GridField
             size={2}
@@ -439,7 +442,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.avg_bale_weight}
+            value={customersize.avg_bale_weight ?? 0}
           />
           <GridField
             size={2}
@@ -455,7 +458,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.min_weight}
+            value={customersize.min_weight ?? 0}
           />
 
           <GridField
@@ -472,7 +475,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.max_weight}
+            value={customersize.max_weight ?? 0}
           />
         </Grid>
 
@@ -503,7 +506,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               max: '2222-12-31',
             }}
             onChange={handleDateChange}
-            value={customersize.price_date.toISOString().split('T')[0]}
+            value={customersize.price_date.toISOString().split('T')[0] ?? ''}
           />
 
           <GridField
@@ -521,7 +524,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.price_per_pound}
+            value={customersize.price_per_pound ?? 0}
           />
           <GridField
             size={0}
@@ -538,7 +541,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.price_per_piece}
+            value={customersize.price_per_piece ?? 0}
           />
           <GridField
             size={0}
@@ -554,7 +557,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
               min: 0,
             }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.extra_cost}
+            value={customersize.extra_cost ?? 0}
           />
         </Grid>
         <TitleFragment
@@ -580,7 +583,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             label="Floor Apron"
             inputProps={{ maxLength: 50 }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.floor_apron}
+            value={customersize.floor_apron ?? ''}
           />
           <GridField
             size={5}
@@ -591,7 +594,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             label="Feed"
             inputProps={{ maxLength: 50 }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.feed}
+            value={customersize.feed ?? ''}
           />
           <GridField
             size={5}
@@ -602,7 +605,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
             label="Stitcher"
             inputProps={{ maxLength: 50 }}
             onChange={(e: React.SyntheticEvent) => handleChangeWrapper(e)}
-            value={customersize.stitcher}
+            value={customersize.stitcher ?? ''}
           />
         </Grid>
 
@@ -622,28 +625,6 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         />
       </Grid>
       <FormButtons
-        // before={
-        //   <>
-        //     <Button
-        //       variant="contained"
-        //       color="primary"
-        //       onClick={() => handleSizeChange(false)}
-        //       style={{ boxShadow: 'none' }}
-        //       disabled={queueIDs[0] === gradeID}
-        //     >
-        //       Prev Size
-        //     </Button>
-        //     <Button
-        //       variant="contained"
-        //       color="primary"
-        //       onClick={() => handleSizeChange(true)}
-        //       style={{ boxShadow: 'none' }}
-        //       disabled={queueIDs[queueIDs.length - 1] === gradeID}
-        //     >
-        //       Next Size
-        //     </Button>
-        //   </>
-        // }
         isUpdate={isUpdate}
         reducer={reducer}
         clear={ClearForm}
