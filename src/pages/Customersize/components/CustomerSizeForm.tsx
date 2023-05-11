@@ -193,7 +193,6 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
 
   useEffect(() => {
     setCustomerSize(default_size);
-    console.log(data, prop_customer_size);
     if (data) {
       setIsUpdate(true);
       setCustomerSize({
