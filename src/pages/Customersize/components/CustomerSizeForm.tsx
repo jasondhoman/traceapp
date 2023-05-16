@@ -20,6 +20,7 @@ import TitleFragment from '../../../components/ui/TitleFragment';
 import { StateContext } from '../../../context/StateContext';
 import useQueryMutation from '../../../hooks/useQueryMutation';
 import { default_size } from '../../../utils/constants';
+import { getNumber, getString } from '../../../utils/helpers';
 import { useCustomerSizeContext } from '../CustomerSizeContext';
 
 interface ICustomerSize {
@@ -124,23 +125,19 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
 
     const data = {
       ...customersize,
-      pack_per_bundle: parseInt(customersize.pack_per_bundle.toString()),
-      customer_id: parseInt(customersize.customer_id.toString()),
-      stock: parseFloat(customersize.stock.toString()),
-      pieces_per_pack: parseFloat(customersize.pieces_per_pack.toString()),
-      length: parseFloat(customersize.length.toString()),
-      run_weight: parseFloat(customersize.run_weight.toString()),
-      pad_weight: parseFloat(customersize.pad_weight.toString()),
-      price_per_pound: parseFloat(customersize.price_per_pound.toString()),
-      price_per_piece: parseFloat(customersize.price_per_piece.toString()),
-      extra_cost: parseFloat(customersize.extra_cost.toString()),
-      avg_bale_weight: parseFloat(customersize.avg_bale_weight.toString()),
-      min_weight: parseFloat(
-        customersize.min_weight ? customersize.min_weight.toString() : '0'
-      ),
-      max_weight: parseFloat(
-        customersize.max_weight ? customersize.max_weight.toString() : '0'
-      ),
+      pack_per_bundle: getNumber(getString(customersize.pack_per_bundle)),
+      customer_id: getNumber(getString(customersize.customer_id)),
+      stock: getNumber(getString(customersize.stock)),
+      pieces_per_pack: getNumber(getString(customersize.pieces_per_pack)),
+      length: getNumber(getString(customersize.length)),
+      run_weight: getNumber(getString(customersize.run_weight)),
+      pad_weight: getNumber(getString(customersize.pad_weight)),
+      price_per_pound: getNumber(getString(customersize.price_per_pound)),
+      price_per_piece: getNumber(getString(customersize.price_per_piece)),
+      extra_cost: getNumber(getString(customersize.extra_cost)),
+      avg_bale_weight: getNumber(getString(customersize.avg_bale_weight)),
+      min_weight: getNumber(getString(customersize.min_weight)),
+      max_weight: getNumber(getString(customersize.max_weight)),
       grade_id: isUpdate ? customersize?.id : null,
     };
 

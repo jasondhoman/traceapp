@@ -376,3 +376,19 @@ export const setDateStringToCST = (date: string) => {
 
   return `${m}-${d} ${hours % 12}:${min_sec} ${ampm}`;
 };
+
+export function getString(v: number) {
+  try {
+    return v.toString();
+  } catch (error) {
+    return '';
+  }
+}
+
+export function getNumber(v: string) {
+  try {
+    return Number(v);
+  } catch (error) {
+    return 0;
+  }
+}
