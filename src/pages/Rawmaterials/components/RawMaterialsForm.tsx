@@ -317,7 +317,7 @@ const RawMaterialForm: React.FC<IRawMaterialsForm> = ({
           label="Notes"
           inputProps={{ maxLength: 1000 }}
           onChange={handleChangeText}
-          value={rawmaterial.notes}
+          value={rawmaterial.notes ?? ''}
           helperText="Press Enter to Add New Line"
         />
       </Grid>
