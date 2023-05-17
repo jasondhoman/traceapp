@@ -60,9 +60,8 @@ const RawMaterialForm: React.FC<IRawMaterialsForm> = ({
   const handleChangeNum = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     try {
-      const value = Number(target.value);
       setRawMaterial((prev) => {
-        return { ...prev, [target.name]: value };
+        return { ...prev, [target.name]: target.value };
       });
     } catch (error) {
       enqueueSnackbar('Please enter a number', { variant: 'error' });
