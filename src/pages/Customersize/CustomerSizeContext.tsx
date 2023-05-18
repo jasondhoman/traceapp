@@ -80,37 +80,43 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
   const getGrade = useCallback(
     async (id: number) => {
       try {
-        await queryClient.fetchQuery('customersize', async () => {
-          const res: IResponse<ICustomerSize> = await getCustomerSize(id);
-          if (res.status === 200) {
-            if (res.data && res.data.customer_id) {
-              setSelectedCustomer(res.data.customer_id);
+        await queryClient.fetchQuery(
+          'customersize',
+          async () => {
+            const res: IResponse<ICustomerSize> = await getCustomerSize(id);
+            if (res.status === 200) {
+              if (res.data && res.data.customer_id) {
+                setSelectedCustomer(res.data.customer_id);
+              }
+              dispatch({
+                type: ReducerActionType.SET_DATA,
+                payload: {
+                  tab_id: 2,
+                  tablabel: 'Update',
+                  disabled: true,
+                  data: res.data,
+                },
+              });
+              return res.data;
+            } else {
+              enqueueSnackbar(`${res.message}`, { variant: 'error' });
+              dispatch({
+                type: ReducerActionType.SET_ERROR,
+                payload: {
+                  data: null,
+                  tab_id: 1,
+                  tablabel: 'Add New',
+                  disabled: false,
+                  id: null,
+                },
+              });
             }
-            dispatch({
-              type: ReducerActionType.SET_DATA,
-              payload: {
-                tab_id: 2,
-                tablabel: 'Update',
-                disabled: true,
-                data: res.data,
-              },
-            });
-            return res.data;
-          } else {
-            enqueueSnackbar(`${res.message}`, { variant: 'error' });
-            dispatch({
-              type: ReducerActionType.SET_ERROR,
-              payload: {
-                data: null,
-                tab_id: 1,
-                tablabel: 'Add New',
-                disabled: false,
-                id: null,
-              },
-            });
+            return null;
+          },
+          {
+            cacheTime: 900000,
           }
-          return null;
-        });
+        );
       } catch (err) {
         console.error(err);
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });

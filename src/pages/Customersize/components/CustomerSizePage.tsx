@@ -87,7 +87,7 @@ const CustomerSize: React.FC<IPage> = ({ name }) => {
             return null;
           },
           {
-            staleTime: 30000,
+            cacheTime: 900000,
           }
         );
       } catch (err) {
