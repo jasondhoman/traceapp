@@ -12,7 +12,8 @@ import React, {
   useState,
 } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { ICustomerSize, IResponse } from '../../@types/tracetypes';
+import { ICustomerSize, ICustomerSizeForm } from '../../@types/tracetypes';
+import { default_size } from '../../utils/constants';
 import {
   initial_page_state,
   IPageState,
@@ -38,6 +39,7 @@ export interface CustomeSizeContext {
   routeID: number | null;
   setRouteID: Dispatch<SetStateAction<number | null>>;
   grades: string[];
+  selectedGrade: ICustomerSizeForm;
 }
 
 const CustomerSizeContext = createContext<CustomeSizeContext | null>(null);
@@ -54,6 +56,9 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [gradeID, setGradeID] = useState<number | null>(null);
   const [routeID, setRouteID] = useState<number | null>(null);
+
+  const [selectedGrade, setSelectedGrade] =
+    useState<ICustomerSizeForm>(default_size);
 
   const [state, dispatch] = useReducer(pageReducer, {
     ...initial_page_state,
@@ -80,49 +85,50 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
   const getGrade = useCallback(
     async (id: number) => {
       try {
-        await queryClient.fetchQuery(
-          'customersize',
-          async () => {
-            const res: IResponse<ICustomerSize> = await getCustomerSize(id);
-            if (res.status === 200) {
-              if (res.data && res.data.customer_id) {
-                setSelectedCustomer(res.data.customer_id);
-              }
-              dispatch({
-                type: ReducerActionType.SET_DATA,
-                payload: {
-                  tab_id: 2,
-                  tablabel: 'Update',
-                  disabled: true,
-                  data: res.data,
-                },
-              });
-              return res.data;
-            } else {
-              enqueueSnackbar(`${res.message}`, { variant: 'error' });
-              dispatch({
-                type: ReducerActionType.SET_ERROR,
-                payload: {
-                  data: null,
-                  tab_id: 1,
-                  tablabel: 'Add New',
-                  disabled: false,
-                  id: null,
-                },
-              });
-            }
-            return null;
-          },
-          {
-            cacheTime: 900000,
+        // await queryClient.fetchQuery(
+        //   'customersize',
+        // async () => {
+        const res = await getCustomerSize(id);
+        if (res.status === 200) {
+          if (res.data && res.data.customer_id) {
+            setSelectedCustomer(res.data.customer_id);
           }
-        );
+          dispatch({
+            type: ReducerActionType.SET_DATA,
+            payload: {
+              tab_id: 2,
+              tablabel: 'Update',
+              disabled: true,
+              data: res.data,
+            },
+          });
+          setSelectedGrade(res.data as unknown as ICustomerSizeForm);
+        } else {
+          enqueueSnackbar(`${res.message}`, { variant: 'error' });
+          dispatch({
+            type: ReducerActionType.SET_ERROR,
+            payload: {
+              data: null,
+              tab_id: 1,
+              tablabel: 'Add New',
+              disabled: false,
+              id: null,
+            },
+          });
+        }
+        return null;
+
+        //   },
+        //   {
+        //     cacheTime: 900000,
+        //   }
+        // );
       } catch (err) {
         console.error(err);
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
       }
     },
-    [enqueueSnackbar, queryClient]
+    [enqueueSnackbar]
   );
 
   const handleSizeChange = useCallback(
@@ -165,15 +171,19 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [customersizes, selectedCustomer]);
 
   useEffect(() => {
+    if (gradeID === null) return;
+    console.log('gradeID', gradeID);
     async function fetchData() {
       if (gradeID) {
         await getGrade(gradeID);
       } else if (routeID) {
         await getGrade(routeID);
+      } else if (state.id) {
+        await getGrade(state.id);
       }
     }
     fetchData();
-  }, [gradeID, getGrade, routeID]);
+  }, [gradeID, getGrade, routeID, state.id]);
 
   return (
     <CustomerSizeContext.Provider
@@ -193,6 +203,7 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
         routeID,
         setRouteID,
         grades,
+        selectedGrade,
       }}
     >
       {children}

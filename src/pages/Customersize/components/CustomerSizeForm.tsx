@@ -1,5 +1,5 @@
 import { Button, Grid, Paper } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ReducerActionType, SetPageState } from '../../../utils/reducers';
 import {
   addCustomerSize,
@@ -24,24 +24,26 @@ import { getNumber, getString } from '../../../utils/helpers';
 import { useCustomerSizeContext } from '../CustomerSizeContext';
 
 interface ICustomerSize {
-  prop_customer_size?: ICustomerSizeForm;
   reducer: React.Dispatch<SetPageState>;
 }
 
-const CustomerSizeForm: React.FC<ICustomerSize> = ({
-  reducer,
-  prop_customer_size,
-}) => {
+const CustomerSizeForm: React.FC<ICustomerSize> = ({ reducer }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { handleSizeChange, queueIDs, gradeID, setSelectedCustomer } =
-    useCustomerSizeContext();
+  const {
+    handleSizeChange,
+    queueIDs,
+    gradeID,
+    setSelectedCustomer,
+    selectedGrade: data,
+    setGradeID,
+  } = useCustomerSizeContext();
   const { setStaticValue, setLoading, handleChange } = useContext(
     StateContext
   ) as StateContextType;
 
   const [isUpdate, setIsUpdate] = useState(false);
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<ICustomerSizeForm>('customersize');
+  // const data = queryClient.getQueryData<ICustomerSizeForm>('customersize');
   const [customersize, setCustomerSize] =
     useState<ICustomerSizeForm>(default_size);
   const [customersizes, setCustomerSizes] = useState<string[]>([]);
@@ -66,6 +68,10 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       }
     },
   });
+
+  const cancelEditCleanup = useCallback(() => {
+    setGradeID(null);
+  }, [setGradeID]);
 
   const handleChangeWrapper = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -198,7 +204,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       });
     }
     setLoading(false);
-  }, [data, setLoading]);
+  }, [data, gradeID, setLoading]);
 
   return (
     <Paper
@@ -208,6 +214,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
       onSubmit={submitForm}
       className="p-3 w-100"
     >
+      {'gradeid' + gradeID}
       <Grid
         container
         direction="row"
@@ -624,6 +631,7 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({
         isUpdate={isUpdate}
         reducer={reducer}
         clear={ClearForm}
+        cancelEditClean={cancelEditCleanup}
         after={
           isUpdate && (
             <>
