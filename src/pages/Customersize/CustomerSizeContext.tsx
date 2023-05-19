@@ -85,9 +85,6 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
   const getGrade = useCallback(
     async (id: number) => {
       try {
-        // await queryClient.fetchQuery(
-        //   'customersize',
-        // async () => {
         const res = await getCustomerSize(id);
         if (res.status === 200) {
           if (res.data && res.data.customer_id) {
@@ -117,12 +114,6 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
           });
         }
         return null;
-
-        //   },
-        //   {
-        //     cacheTime: 900000,
-        //   }
-        // );
       } catch (err) {
         console.error(err);
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
@@ -171,8 +162,6 @@ const CustomerSizeProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [customersizes, selectedCustomer]);
 
   useEffect(() => {
-    if (gradeID === null) return;
-    console.log('gradeID', gradeID);
     async function fetchData() {
       if (gradeID) {
         await getGrade(gradeID);

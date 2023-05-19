@@ -214,7 +214,6 @@ const CustomerSizeForm: React.FC<ICustomerSize> = ({ reducer }) => {
       onSubmit={submitForm}
       className="p-3 w-100"
     >
-      {'gradeid' + gradeID}
       <Grid
         container
         direction="row"
