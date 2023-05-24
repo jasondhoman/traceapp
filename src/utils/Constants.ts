@@ -473,4 +473,11 @@ export const navpoints = [
     text: 'Credit Memo',
     errorMessage: '',
   },
+  {
+    href: '/archivedisplay',
+    key: 'archive',
+    icon: 'receipticon',
+    text: 'Archived Orders',
+    errorMessage: '',
+  },
 ];

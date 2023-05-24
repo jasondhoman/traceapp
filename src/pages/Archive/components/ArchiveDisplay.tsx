@@ -28,7 +28,10 @@ const ArchiveDisplay: React.FC<IDisplay> = ({ reducer }) => {
   const { setViewing } = useContext(StateContext) as StateContextType;
   const { isLoading, data: orders } = useQuery<IOrder[]>(
     'archivedOrders',
-    getArchivedOrders
+    getArchivedOrders,
+    {
+      staleTime: Infinity,
+    }
   );
 
   const MatEdit = (index: any) => {
@@ -79,21 +82,21 @@ const ArchiveDisplay: React.FC<IDisplay> = ({ reducer }) => {
     );
   };
   const renderCells = {
-    // actions: (params: any) => {
-    //   return (
-    //     <Grid
-    //       container
-    //       direction="row"
-    //       wrap="nowrap"
-    //       justifyContent="center"
-    //       alignContent="center"
-    //       style={{ cursor: 'pointer' }}
-    //     >
-    //       <MatEdit index={params.row.id} />
-    //       <ViewItem index={params.row.id} />
-    //     </Grid>
-    //   );
-    // },
+    actions: (params: any) => {
+      return (
+        <Grid
+          container
+          direction="row"
+          wrap="nowrap"
+          justifyContent="center"
+          alignContent="center"
+          style={{ cursor: 'pointer' }}
+        >
+          {/* <MatEdit index={params.row.id} /> */}
+          <ViewItem index={params.row.id} />
+        </Grid>
+      );
+    },
     tracking: (params: any) => {
       return (
         <Grid container justifyContent="center">

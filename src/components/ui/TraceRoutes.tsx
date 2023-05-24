@@ -245,6 +245,20 @@ const TraceRoutes = () => {
           element={<PrivateRoute component={CreditMemo} name="Credit Memo" />}
         />
       </Route>
+      <Route path="/archivedorders">
+        <Route
+          index
+          element={
+            <PrivateRoute component={WeightsToShip} name="Weights to Ship" />
+          }
+        />
+        <Route
+          path=":route_id"
+          element={
+            <PrivateRoute component={WeightsToShip} name="Weights to Ship" />
+          }
+        />
+      </Route>
       <Route
         path="/archivedisplay"
         element={<PrivateRoute component={Archive} name="Archive" />}

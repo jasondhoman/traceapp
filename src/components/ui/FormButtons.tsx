@@ -22,6 +22,7 @@ interface IFormButtons {
   noFormDivider?: boolean;
   subButton?: string;
   cancelEditClean?: () => void;
+  hideEdit?: boolean;
 }
 
 const FormButtons: React.FC<IFormButtons> = ({
@@ -35,6 +36,7 @@ const FormButtons: React.FC<IFormButtons> = ({
   subButton,
   cancelEditClean,
   disableSubmit = false,
+  hideEdit = false,
 }) => {
   const { viewing, setViewing, isLoading } = useContext(
     StateContext
@@ -100,15 +102,17 @@ const FormButtons: React.FC<IFormButtons> = ({
       )}
 
       {viewing ? (
-        <Button
-          variant="contained"
-          className="mx-1"
-          onClick={EnableEdit}
-          startIcon={<EditIcon />}
-          style={{ boxShadow: 'none' }}
-        >
-          Edit
-        </Button>
+        !hideEdit && (
+          <Button
+            variant="contained"
+            className="mx-1"
+            onClick={EnableEdit}
+            startIcon={<EditIcon />}
+            style={{ boxShadow: 'none' }}
+          >
+            Edit
+          </Button>
+        )
       ) : (
         <LoadingButton
           className="mx-1"
