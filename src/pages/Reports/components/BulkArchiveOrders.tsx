@@ -50,9 +50,9 @@ const BulkArchiveOrders: React.FC = () => {
     setReportDates((prev) => ({ ...prev, ...newOrderDate }));
   };
 
-  useEffect(() => {
-    setViewing(false);
-  }, [setViewing]);
+  // useEffect(() => {
+  //   setViewing(false);
+  // }, [setViewing]);
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>
       <Grid
