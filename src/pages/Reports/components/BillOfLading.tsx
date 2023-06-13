@@ -57,12 +57,6 @@ const BillOfLading: React.FC = () => {
             elevation={0}
             className="p-3 w-100"
           >
-            <input
-              type="date"
-              onChange={(e) =>
-                console.log(typeof e.target.value, e.target.value)
-              }
-            />
             <Grid
               container
               direction="row"
