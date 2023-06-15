@@ -510,6 +510,7 @@ export interface IOrderFormData {
   invoice_number?: number;
   bill_ladening?: number;
   liner?: string;
+  shipped?: boolean;
 }
 
 export type OrdersType = {
@@ -702,6 +703,7 @@ export interface IWeightsToShipOut {
   weights: number[];
   min: number;
   max: number;
+  shipped?: boolean;
 }
 
 export type WeightsToShipOutsType = {
@@ -1222,6 +1224,7 @@ export interface IProductionFormData {
   total_weight: number;
   total_cost: number;
   use_weight_for_total: boolean;
+  shipped?: boolean;
 }
 
 export interface IProductionInformationForm {

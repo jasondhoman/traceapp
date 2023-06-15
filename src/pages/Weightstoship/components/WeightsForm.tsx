@@ -13,6 +13,7 @@ import {
 } from '../../Orders/api/order';
 import { addWeight, updateWeight } from '../api/weightstoship';
 
+import { useSnackbar } from 'notistack';
 import validator from 'validator';
 import { AuthContextType } from '../../../@types/authcontext';
 import { StateContextType } from '../../../@types/statecontext';
@@ -42,6 +43,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
   reducer,
   prop_ship,
 }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const { user } = useContext(AuthContext) as AuthContextType;
   const { setLoading } = useContext(StateContext) as StateContextType;
   const [weight_to_ship, setWeightToShip] = useState<IWeightsToShipOut>(
@@ -116,23 +118,34 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
   const submitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
+    try {
+      if (prop_ship?.shipped) {
+        throw new Error('Order is shipped and can not be updated');
+      }
 
-    const data = {
-      ...weight_to_ship,
-      total_weight: weight_to_ship.total_weight
-        ? parseFloat(weight_to_ship.total_weight?.toString())
-        : 0,
-      qty: weight_to_ship.qty ? parseFloat(weight_to_ship.qty?.toString()) : 0,
-      ship_date: ship_date.value,
-      ship_id: isUpdate ? weight_to_ship?.id : null,
-      user_id: user?.id,
-    };
+      const data = {
+        ...weight_to_ship,
+        total_weight: weight_to_ship.total_weight
+          ? parseFloat(weight_to_ship.total_weight?.toString())
+          : 0,
+        qty: weight_to_ship.qty
+          ? parseFloat(weight_to_ship.qty?.toString())
+          : 0,
+        ship_date: ship_date.value,
+        ship_id: isUpdate ? weight_to_ship?.id : null,
+        user_id: user?.id,
+      };
 
-    if (isUpdate) {
-      updateWeightMutation.mutate(data);
-    } else {
-      addWeightMutation.mutate(data);
-      setIsUpdate(true);
+      if (isUpdate) {
+        updateWeightMutation.mutate(data);
+      } else {
+        addWeightMutation.mutate(data);
+        setIsUpdate(true);
+      }
+    } catch (error) {
+      enqueueSnackbar(`${error}`, { variant: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -252,7 +265,7 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
         <Grid item xs={16}>
           <TitleFragment
             size="h3"
-            title="Weights to Ship"
+            title={`Weights to Ship${prop_ship?.shipped ? ' - Shipped' : ''}`}
             firstDivider={false}
           />
         </Grid>
@@ -409,7 +422,12 @@ const WeightsToShipForm: React.FC<IWeightsToShip> = ({
           </Grid>
         )}
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        disableSubmit={prop_ship?.shipped}
+      />
     </Paper>
   );
 };

@@ -1,9 +1,24 @@
-import { Button, Grid, Paper } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Grid,
+  Paper,
+} from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { IOrderFormData, IOrdersForm } from '../../../@types/tracetypes';
 import { default_line, default_order } from '../../../utils/constants';
 import { formatShortDate, maskDate } from '../../../utils/helpers';
-import { addOrder, getNextTrackingNumber, updateOrder } from '../api/order';
+import {
+  addOrder,
+  getNextTrackingNumber,
+  unshipOrder,
+  updateOrder,
+} from '../api/order';
 
 import { AxiosResponse } from 'axios';
 import { useSnackbar } from 'notistack';
@@ -66,6 +81,7 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
 
   const queryClient = useQueryClient();
   const [newOrder, setNewOrder] = useState(customer_id ? false : true);
+  const [confirmUnship, setConfirmUnship] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const addOrderMutation = useQueryMutation({
@@ -106,6 +122,9 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     e.preventDefault();
     setLoading(true);
     try {
+      if (prop_order?.shipped) {
+        throw new Error('Order is shipped and can not be updated');
+      }
       if (orderDates.order_date.error || orderDates.ship_date.error) {
         throw new Error('Please correct Date errors in the form');
       }
@@ -223,6 +242,29 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
     setOrderDates((prev) => ({ ...prev, ...newOrderDate }));
   };
 
+  const handleUnshipOrder = async () => {
+    try {
+      if (!prop_order?.id) {
+        return;
+      }
+      const res = await unshipOrder(prop_order?.id);
+      if (res.status === 200) {
+        enqueueSnackbar(`Order ${prop_order?.tracking} Unshipped`, {
+          variant: 'success',
+        });
+        queryClient.invalidateQueries('orders');
+        setConfirmUnship(false);
+      }
+      prop_order.shipped = false;
+    } catch (error) {
+      enqueueSnackbar(`Error Unshipping Order ${prop_order?.tracking}`, {
+        variant: 'error',
+      });
+    } finally {
+      setConfirmUnship(false);
+    }
+  };
+
   const setupLines = useCallback(() => {
     if (prop_order) {
       setLines([
@@ -321,7 +363,11 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
         columns={16}
       >
         <Grid item xs={16}>
-          <TitleFragment size="h3" title="Order Form" firstDivider={false} />
+          <TitleFragment
+            size="h3"
+            title={`Order Form${prop_order?.shipped ? ' - Shipped' : ''}`}
+            firstDivider={false}
+          />
         </Grid>
 
         <Grid
@@ -391,6 +437,35 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
                     disabled={customer_id === 0}
                   >
                     Duplicate Order
+                  </Button>
+                }
+              />
+            </Grid>
+          )}
+          {prop_order?.shipped && (
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              className="px-2 mx-1 my-1"
+              style={{ width: '65%' }}
+            >
+              <GridField
+                size="auto"
+                id="tracking"
+                name="tracking"
+                label="Tracking"
+                component={
+                  <Button
+                    variant="contained"
+                    type="button"
+                    className="mx-1"
+                    onClick={() => setConfirmUnship(true)}
+                    style={{ boxShadow: 'none' }}
+                    disabled={customer_id === 0}
+                  >
+                    Unship Order
                   </Button>
                 }
               />
@@ -525,8 +600,40 @@ const OrdersForm: React.FC<IOrdersForm> = ({ reducer, prop_order }) => {
           reducer={reducer}
           clear={clearForm}
           cancelEditClean={() => clearStates()}
+          disableSubmit={prop_order?.shipped ?? false}
         />
         <MultipleOrderForm />
+        <Dialog
+          open={confirmUnship}
+          onClose={() => setConfirmUnship(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {`Unship Select Order`}
+            <Divider className="bg-dark" />
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This action will clear the invoicing and bill of ladening for
+              tracking number {prop_order?.tracking}. After performing this you
+              will need to rerun invoicing to ship the order. Are you sure you
+              want?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmUnship(false)} variant="outlined">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => handleUnshipOrder()}
+              variant="contained"
+              style={{ boxShadow: 'none' }}
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     </Paper>
   );

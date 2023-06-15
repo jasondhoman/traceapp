@@ -106,6 +106,7 @@ const FormButtons: React.FC<IFormButtons> = ({
           onClick={EnableEdit}
           startIcon={<EditIcon />}
           style={{ boxShadow: 'none' }}
+          disabled={disableSubmit}
         >
           Edit
         </Button>

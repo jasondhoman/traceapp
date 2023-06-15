@@ -42,9 +42,8 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
 }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useContext(AuthContext) as AuthContextType;
-  const { viewing, setLoading, handleChange, setStaticValue } = useContext(
-    StateContext
-  ) as StateContextType;
+  const { viewing, setLoading, handleChange, setStaticValue, setViewing } =
+    useContext(StateContext) as StateContextType;
   const [productiondata, setProductionData] = useState(default_prod_info);
   const [isUpdate, setIsUpdate] = useState(true);
   const [orderDates, setOrderDates] = useState({
@@ -123,6 +122,9 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
     setLoading(true);
 
     try {
+      if (prop_order?.shipped) {
+        throw new Error('Order is shipped and can not be updated');
+      }
       if (orderDates.ship_date.error) {
         throw new Error('Please correct Date errors in the form');
       }
@@ -253,7 +255,9 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
         <Grid item xs={16}>
           <TitleFragment
             size="h3"
-            title="Production Data"
+            title={
+              `Production Data` + (prop_order?.shipped ? ' - Shipped' : '')
+            }
             firstDivider={false}
           />
         </Grid>
@@ -580,7 +584,12 @@ const ProductionInformationForm: React.FC<IProductionInformationForm> = ({
           />
         </Grid>
       </Grid>
-      <FormButtons isUpdate={isUpdate} reducer={reducer} clear={ClearForm} />
+      <FormButtons
+        isUpdate={isUpdate}
+        reducer={reducer}
+        clear={ClearForm}
+        disableSubmit={prop_order?.shipped}
+      />
     </Paper>
   );
 };

@@ -268,3 +268,14 @@ export const deleteOrderByTracking = async (beg: number, end: number) => {
     return error;
   }
 };
+
+// unship order
+export const unshipOrder = async (id: number) => {
+  try {
+    const response = await orderAPI.put(`/unship/${id}`);
+    return response;
+  } catch (err) {
+    const error = err as AxiosError;
+    return error;
+  }
+};
