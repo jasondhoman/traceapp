@@ -202,7 +202,7 @@ const ArchiveForm: React.FC<{
           name="Salesperson"
           label="Salesperson"
           inputProps={{ maxLength: 30 }}
-          value={order.salesperson}
+          value={order.salesperson ?? ''}
           fullWidth
         />
         <GridField
