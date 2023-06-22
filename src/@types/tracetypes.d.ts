@@ -512,6 +512,12 @@ export interface IOrderFormData {
   liner?: string;
 }
 
+export interface ArchivedOrderFormData extends IOrderFormData {
+  min_weight: number;
+  max_weight: number;
+  avg_weight: number;
+}
+
 export type OrdersType = {
   Orders: IOrder[];
 };

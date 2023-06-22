@@ -1,5 +1,4 @@
 import React, {
-  Suspense,
   lazy,
   useCallback,
   useContext,
@@ -13,13 +12,13 @@ import {
   pageReducer,
 } from '../../../utils/reducers';
 
-import { Container, Grid, Tab, Tabs } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useParams } from 'react-router-dom';
 import { StateContextType } from '../../../@types/statecontext';
-import GridLoading from '../../../components/ui/GridLoading';
+import LandingPage from '../../../components/ui/LandingPage';
 import { StateContext } from '../../../context/StateContext';
 import { getArchivedOrder } from '../api/archive';
+import ArchiveForm from './ArchiveForm';
 
 const ArchiveDisplay = lazy(() => import('./ArchiveDisplay'));
 
@@ -53,7 +52,7 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
       });
   };
 
-  const GetCertification = useCallback(
+  const getArchivedOrderData = useCallback(
     async (id: number) => {
       if (Number.isNaN(id)) {
         enqueueSnackbar('Error Retrieving Data', { variant: 'error' });
@@ -100,10 +99,10 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
       setModuleName(name);
     }
     if (state.id && state.id > 0) {
-      GetCertification(state.id);
+      getArchivedOrderData(state.id);
     } else if (route_id) {
       try {
-        GetCertification(parseInt(route_id));
+        getArchivedOrderData(parseInt(route_id));
         setViewing(true);
       } catch (err) {
         console.error(err);
@@ -123,7 +122,7 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
     }
     setLoading(false);
   }, [
-    GetCertification,
+    getArchivedOrderData,
     enqueueSnackbar,
     name,
     route_id,
@@ -134,29 +133,44 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
   ]);
 
   return (
-    <Container className="mt-2 mx-0 px-0" maxWidth={false}>
-      <Tabs
-        value={1}
-        textColor="primary"
-        indicatorColor="primary"
-        aria-label="primary tabs example"
-      >
-        <Tab value={1} label={`Display Archive`} />
-      </Tabs>
+    // <Container className="mt-2 mx-0 px-0" maxWidth={false}>
+    //   <Tabs
+    //     value={1}
+    //     textColor="primary"
+    //     indicatorColor="primary"
+    //     aria-label="primary tabs example"
+    //   >
+    //     <Tab value={1} label={`Display Archive`} />
+    //   </Tabs>
 
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Container className="mt-2 mx-0 px-0" maxWidth={'lg'}>
-          <Suspense fallback={<GridLoading />}>
-            <ArchiveDisplay reducer={dispatch} />
-          </Suspense>
-        </Container>
-      </Grid>
-    </Container>
+    //   <Grid
+    //     container
+    //     direction="row"
+    //     justifyContent="center"
+    //     alignItems="center"
+    //   >
+    //     <Container className="mt-2 mx-0 px-0" maxWidth={'lg'}>
+    //       <Suspense fallback={<GridLoading />}>
+    //         <ArchiveDisplay reducer={dispatch} />
+    //       </Suspense>
+    //     </Container>
+    //   </Grid>
+    // </Container>
+    <LandingPage
+      tab_id={state.tab_id ?? 1}
+      handleChange={handleChange}
+      disabled={false}
+      tablabel={'View'}
+      name="Archived Order"
+      formSize="xl"
+      tabTwoDisabled={true}
+    >
+      {state.tab_id === 1 ? (
+        <ArchiveDisplay reducer={dispatch} />
+      ) : (
+        <ArchiveForm prop_order={state.data} reducer={dispatch} />
+      )}
+    </LandingPage>
   );
 };
 export default CertificationPage;

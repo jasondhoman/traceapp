@@ -12,6 +12,7 @@ interface ILandingPage {
   children: ReactNode;
   name: string;
   formSize: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | undefined;
+  tabTwoDisabled?: boolean;
 }
 
 const LandingPage: FC<ILandingPage> = ({
@@ -22,6 +23,7 @@ const LandingPage: FC<ILandingPage> = ({
   children,
   name,
   formSize,
+  tabTwoDisabled,
 }) => {
   return (
     <Container className="mt-2 mx-0 px-0" maxWidth={false}>
@@ -33,7 +35,13 @@ const LandingPage: FC<ILandingPage> = ({
         aria-label="primary tabs example"
       >
         <Tab value={1} label={`Display ${name}`} disabled={disabled} />
-        <Tab value={2} label={`${tablabel} ${name}`} disabled={disabled} />
+        <Tab
+          value={2}
+          label={`${tablabel} ${name}`}
+          disabled={
+            tabTwoDisabled ? tabTwoDisabled : disabled ? disabled : false
+          }
+        />
       </Tabs>
 
       <Grid

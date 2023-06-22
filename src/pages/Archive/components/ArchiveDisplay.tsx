@@ -19,16 +19,22 @@ import PageviewIcon from '@mui/icons-material/Pageview';
 import { blue } from '@mui/material/colors';
 import { GridPinnedColumns } from '@mui/x-data-grid-pro';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { StateContextType } from '../../../@types/statecontext';
 import GridDisplay from '../../../components/ui/GridDisplay';
 import { StateContext } from '../../../context/StateContext';
 import { ReducerActionType } from '../../../utils/reducers';
 
 const ArchiveDisplay: React.FC<IDisplay> = ({ reducer }) => {
+  const navigate = useNavigate();
   const { setViewing } = useContext(StateContext) as StateContextType;
   const { isLoading, data: orders } = useQuery<IOrder[]>(
     'archivedOrders',
-    getArchivedOrders
+    getArchivedOrders,
+    {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
   );
 
   const MatEdit = (index: any) => {
@@ -79,21 +85,21 @@ const ArchiveDisplay: React.FC<IDisplay> = ({ reducer }) => {
     );
   };
   const renderCells = {
-    // actions: (params: any) => {
-    //   return (
-    //     <Grid
-    //       container
-    //       direction="row"
-    //       wrap="nowrap"
-    //       justifyContent="center"
-    //       alignContent="center"
-    //       style={{ cursor: 'pointer' }}
-    //     >
-    //       <MatEdit index={params.row.id} />
-    //       <ViewItem index={params.row.id} />
-    //     </Grid>
-    //   );
-    // },
+    actions: (params: any) => {
+      return (
+        <Grid
+          container
+          direction="row"
+          wrap="nowrap"
+          justifyContent="center"
+          alignContent="center"
+          style={{ cursor: 'pointer' }}
+        >
+          {/* <MatEdit index={params.row.id} /> */}
+          <ViewItem index={params.row.id} />
+        </Grid>
+      );
+    },
     tracking: (params: any) => {
       return (
         <Grid container justifyContent="center">

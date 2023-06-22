@@ -314,6 +314,13 @@ export const default_order = {
   tracking: 0,
 };
 
+export const default_archived_order = {
+  ...default_order,
+  min_weight: 0,
+  max_weight: 0,
+  avg_weight: 0,
+};
+
 export const default_prod_info = {
   tracking: 0,
   company_name: '',
@@ -471,6 +478,13 @@ export const navpoints = [
     key: 'creditmemo',
     icon: 'receipticon',
     text: 'Credit Memo',
+    errorMessage: '',
+  },
+  {
+    href: '/archivedisplay',
+    key: 'archivedisplay',
+    icon: 'storeicon',
+    text: 'Archive Display',
     errorMessage: '',
   },
 ];
