@@ -453,6 +453,21 @@ const ArchiveForm: React.FC<{
             }}
             value={order.max_weight ?? 0}
           />
+          <GridField
+            size={0}
+            className="px-1"
+            id="total_weight"
+            name="total_weight"
+            margin="normal"
+            label="Total Weight"
+            inputProps={{
+              maxLength: 10,
+              type: 'number',
+              step: '.01',
+              min: 0,
+            }}
+            value={order.total_weight ?? 0}
+          />
         </Grid>
 
         <Grid
@@ -513,6 +528,21 @@ const ArchiveForm: React.FC<{
               min: 0,
             }}
             value={order.extra_cost ?? 0}
+          />
+          <GridField
+            size={0}
+            className="px-1"
+            id="total_cost"
+            name="total_cost"
+            margin="normal"
+            label="Total Cost"
+            inputProps={{
+              maxLength: 10,
+              type: 'number',
+              step: '.01',
+              min: 0,
+            }}
+            value={order.total_cost ?? 0}
           />
         </Grid>
       </Grid>

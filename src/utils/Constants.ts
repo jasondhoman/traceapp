@@ -320,6 +320,8 @@ export const default_archived_order = {
   max_weight: 0,
   avg_weight: 0,
   salesperson: '',
+  total_cost: 0,
+  total_weight: 0,
 };
 
 export const default_prod_info = {
