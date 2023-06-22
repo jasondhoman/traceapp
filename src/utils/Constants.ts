@@ -319,6 +319,7 @@ export const default_archived_order = {
   min_weight: 0,
   max_weight: 0,
   avg_weight: 0,
+  salesperson: '',
 };
 
 export const default_prod_info = {

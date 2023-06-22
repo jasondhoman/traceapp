@@ -512,7 +512,53 @@ export interface IOrderFormData {
   liner?: string;
 }
 
-export interface ArchivedOrderFormData extends IOrderFormData {
+export interface ArchivedOrderFormData {
+  id?: number;
+  company_name?: string;
+  customer_id: number;
+  tracking: number;
+  purchase_order?: string;
+  name: string;
+  salesperson: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone?: string;
+  ext?: string;
+  fax?: string;
+  email?: string;
+  certification?: number;
+  transport?: string;
+  special_instructions?: string;
+  order_date: Date;
+  ship_date?: Date;
+  qty?: number;
+  grade_id: number;
+  grade?: string;
+  grade_mix_id?: number;
+  tag_size?: string;
+  run_size?: string;
+  weight?: number;
+  stock?: number;
+  pieces_per_pack?: number;
+  pack_per_bundle?: number;
+  length?: number;
+  pad_weight?: number;
+  avg_bale_weight?: number;
+  price_per_pound?: number;
+  price_per_piece?: number;
+  extra_cost?: number;
+  run_weight?: number;
+  line?: string;
+  total_cost?: number;
+  total_weight?: number;
+  fob?: number;
+  delivery?: number;
+  invoice_number?: number;
+  bill_ladening?: number;
+  liner?: string;
   min_weight: number;
   max_weight: number;
   avg_weight: number;
