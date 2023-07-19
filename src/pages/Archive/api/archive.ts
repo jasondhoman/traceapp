@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { IOrderFormData, IResponse } from '../../../@types/tracetypes';
+import { ArchivedOrderFormData, IResponse } from '../../../@types/tracetypes';
 
 import { config } from '../../../utils/config';
 import { GetAuthTokens } from '../../../utils/helpers';
@@ -24,8 +24,8 @@ export const getArchivedOrders = async () => {
 
 export const getArchivedOrder = async (
   id: number
-): Promise<IResponse<IOrderFormData>> => {
-  const res: IResponse<IOrderFormData> = {
+): Promise<IResponse<ArchivedOrderFormData>> => {
+  const res: IResponse<ArchivedOrderFormData> = {
     status: 0,
     message: null,
     data: null,
@@ -33,7 +33,7 @@ export const getArchivedOrder = async (
 
   if (id !== null && id !== undefined) {
     try {
-      const response = await archiveAPI.get(`${id}`);
+      const response = await archiveAPI.get<ArchivedOrderFormData>(`${id}`);
       res.status = response.status;
       res.data = response.data;
     } catch (err) {

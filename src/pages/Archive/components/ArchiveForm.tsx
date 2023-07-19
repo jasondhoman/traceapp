@@ -124,6 +124,18 @@ const ArchiveForm: React.FC<{
 
         <GridField
           size={4}
+          id="tracking"
+          name="tracking"
+          label="Tracking Number"
+          inputProps={{ maxLength: 50 }}
+          value={order.tracking}
+          fullWidth
+          disabled={true}
+          className="text-black"
+        />
+
+        <GridField
+          size={4}
           id="purchase_order"
           name="purchase_order"
           label="Purchase Order"
@@ -133,85 +145,29 @@ const ArchiveForm: React.FC<{
         />
         <GridField
           size={4}
+          id="bill_of_lading"
+          name="bill_of_lading"
+          label="Bill of Lading"
+          inputProps={{ maxLength: 50 }}
+          value={order.bill_ladening}
+          fullWidth
+        />
+        <GridField
+          size={4}
+          id="invoice_number"
+          name="invoice_number"
+          label="Invoice Number"
+          inputProps={{ maxLength: 50 }}
+          value={order.invoice_number}
+          fullWidth
+        />
+        <GridField
+          size={16}
           id="company_name"
           name="company_name"
           label="Company Name"
           inputProps={{ maxLength: 50 }}
           value={order.company_name}
-          fullWidth
-        />
-
-        <GridField
-          size={8}
-          id="name"
-          name="name"
-          label="Name"
-          inputProps={{ maxLength: 40 }}
-          value={order.name}
-          fullWidth
-        />
-        <GridField
-          size={8}
-          id="address1"
-          name="address1"
-          label="Address"
-          inputProps={{ maxLength: 40 }}
-          value={order.address1}
-          fullWidth
-        />
-        <GridField
-          size={8}
-          id="address2"
-          name="address2"
-          label="Address"
-          inputProps={{ maxLength: 40 }}
-          value={order.address2}
-          fullWidth
-        />
-        <GridField
-          size={3}
-          id="city"
-          name="city"
-          label="City"
-          inputProps={{ maxLength: 40 }}
-          value={order.city}
-          fullWidth
-        />
-        <GridField
-          size={2}
-          id="state"
-          name="state"
-          label="State"
-          inputProps={{ maxLength: 2, uppercase: 'true' }}
-          value={order.state}
-          fullWidth
-        />
-
-        <GridField
-          size={3}
-          id="zip"
-          name="zip"
-          label="Zip"
-          inputProps={{ maxLength: 10 }}
-          value={order.zip}
-          fullWidth
-        />
-        <GridField
-          size={8}
-          id="salesperson"
-          name="Salesperson"
-          label="Salesperson"
-          inputProps={{ maxLength: 30 }}
-          value={order.salesperson ?? ''}
-          fullWidth
-        />
-        <GridField
-          size={8}
-          id="transport"
-          name="transport"
-          label="Transportation"
-          inputProps={{ maxLength: 30 }}
-          value={order.transport}
           fullWidth
         />
         <Grid
@@ -225,9 +181,11 @@ const ArchiveForm: React.FC<{
           columns={16}
         >
           <Grid container>
-            <Grid item xs={16} className="ms-3 py-1 mb-1">
-              <Divider className="bg-dark" />
-            </Grid>
+            <TitleFragment
+              size="h3"
+              title="Size Information"
+              firstDivider={false}
+            />
             <Grid
               container
               direction="row"
@@ -238,18 +196,6 @@ const ArchiveForm: React.FC<{
               rowSpacing={1}
               columns={16}
             >
-              <GridField
-                size={2}
-                id="tracking"
-                name="tracking"
-                label="Tracking Number"
-                inputProps={{ maxLength: 50 }}
-                value={order.tracking}
-                fullWidth
-                disabled={true}
-                className="text-black"
-              />
-
               <GridField
                 size={3}
                 id="grade"
@@ -286,20 +232,6 @@ const ArchiveForm: React.FC<{
                   min: 0,
                 }}
               />
-              <GridField
-                fullWidth
-                size={2}
-                id="stock"
-                name="stock"
-                margin="normal"
-                label="Stock"
-                value={order.stock}
-                inputProps={{
-                  maxLength: 10,
-                  type: 'number',
-                  step: '.00001',
-                }}
-              />
 
               <GridField
                 size={2}
@@ -334,7 +266,39 @@ const ArchiveForm: React.FC<{
         </Grid>
 
         <Divider className="bg-dark" />
-
+        <GridField
+          size={8}
+          fullWidth
+          id="customer_grade_name"
+          name="customer_grade_name"
+          margin="normal"
+          label="Customer Grade Name"
+          value={order.customer_grade_name ?? ''}
+          inputProps={{ maxLength: 1000 }}
+          multiline
+        />
+        <GridField
+          size={8}
+          fullWidth
+          id="customer_part_no"
+          name="customer_part_no"
+          margin="normal"
+          label="Customer Part Number"
+          value={order.customer_part_no ?? ''}
+          inputProps={{ maxLength: 1000 }}
+          multiline
+        />
+        <GridField
+          size={16}
+          fullWidth
+          id="special_instructions"
+          name="special_instructions"
+          margin="normal"
+          label="Special Instructions"
+          value={order.special_size_instructions ?? ''}
+          inputProps={{ maxLength: 1000 }}
+          multiline
+        />
         <TitleFragment
           size="h3"
           title="Dimensions and Weights"
@@ -358,22 +322,6 @@ const ArchiveForm: React.FC<{
             label="Run Size"
             inputProps={{ maxLength: 50 }}
             value={order.run_size ?? ''}
-          />
-
-          <GridField
-            size={2}
-            className="px-1"
-            id="length"
-            name="length"
-            margin="normal"
-            label="Length"
-            inputProps={{
-              maxLength: 10,
-              type: 'number',
-              step: '.00001',
-              min: 0,
-            }}
-            value={order.length ?? 0}
           />
 
           <GridField
@@ -422,37 +370,7 @@ const ArchiveForm: React.FC<{
             }}
             value={order.avg_bale_weight ?? 0}
           />
-          <GridField
-            size={2}
-            className="px-1"
-            id="min_weight"
-            name="min_weight"
-            margin="normal"
-            label="Min Weight"
-            inputProps={{
-              maxLength: 10,
-              type: 'number',
-              step: '.00001',
-              min: 0,
-            }}
-            value={order.min_weight ?? 0}
-          />
 
-          <GridField
-            size={2}
-            className="px-1"
-            id="max_weight"
-            name="max_weight"
-            margin="normal"
-            label="Max Weight"
-            inputProps={{
-              maxLength: 10,
-              type: 'number',
-              step: '.00001',
-              min: 0,
-            }}
-            value={order.max_weight ?? 0}
-          />
           <GridField
             size={0}
             className="px-1"
@@ -483,7 +401,15 @@ const ArchiveForm: React.FC<{
             title="Pricing and Cost"
             firstDivider={false}
           />
-
+          <GridField
+            size={0}
+            className="px-1"
+            id="price_date"
+            name="price_date"
+            margin="normal"
+            label="Price Date"
+            value={order.price_date ? formatShortDate(order.price_date) : ''}
+          />
           <GridField
             size={0}
             className="px-1"
@@ -544,6 +470,24 @@ const ArchiveForm: React.FC<{
             }}
             value={order.total_cost ?? 0}
           />
+          {/* <GridField
+            size={0}
+            className="px-1"
+            id="invoice_total"
+            name="invoice_total"
+            margin="normal"
+            label="Invoice Total"
+            inputProps={{
+              maxLength: 10,
+              type: 'text',
+              step: '.01',
+              min: 0,
+            }}
+            style={{ textAlign: 'right' }}
+            value={formatAsCurrency(
+              order.order_total ? order.order_total.toString() : ''
+            )}
+          /> */}
         </Grid>
       </Grid>
     </Paper>

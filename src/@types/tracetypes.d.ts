@@ -562,6 +562,11 @@ export interface ArchivedOrderFormData {
   min_weight: number;
   max_weight: number;
   avg_weight: number;
+  customer_grade_name: string;
+  customer_part_no: string;
+  price_date: Date | null;
+  special_size_instructions: string;
+  order_total: number;
 }
 
 export type OrdersType = {

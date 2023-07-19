@@ -322,6 +322,11 @@ export const default_archived_order = {
   salesperson: '',
   total_cost: 0,
   total_weight: 0,
+  customer_grade_name: '',
+  customer_part_no: '',
+  price_date: null,
+  special_size_instructions: '',
+  order_total: 0,
 };
 
 export const default_prod_info = {

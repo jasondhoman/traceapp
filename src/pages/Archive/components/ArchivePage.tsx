@@ -26,7 +26,7 @@ interface ICertificationPage {
   name: string;
 }
 
-const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
+const ArchivePage: React.FC<ICertificationPage> = ({ name }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { route_id } = useParams();
   const { setLoading, setModuleName, setViewing } = useContext(
@@ -173,4 +173,4 @@ const CertificationPage: React.FC<ICertificationPage> = ({ name }) => {
     </LandingPage>
   );
 };
-export default CertificationPage;
+export default ArchivePage;
